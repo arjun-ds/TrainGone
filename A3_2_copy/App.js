@@ -22,7 +22,14 @@ export default function App() {
 
   let contentDisplayed = null;
   if (token) {
-    <View style={styles.login_screen}></View>;
+    contentDisplayed = (
+      <View style={styles.login_screen}>
+        <Image
+          source={require("./assets/login_image.png")}
+          resizeMode="cover"
+        />
+      </View>
+    );
   } else {
     contentDisplayed = (
       <ImageBackground
