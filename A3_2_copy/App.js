@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from "react";
 
 import {
   Button,
@@ -13,26 +14,51 @@ import {
   View,
 } from "react-native";
 import { Themes } from "./assets/Themes";
-import { router, Link } from "expo-router";
+// import { router, Link } from "expo-router";
+import { Video, ResizeMode } from "expo-av";
 
 export default function App() {
   const [token, setToken] = useState(null);
 
+  const video = React.useRef(null);
+  const [status, setStatus] = React.useState({});
+
   let contentDisplayed = null;
   if (token) {
     contentDisplayed = (
-      <ImageBackground
-        source={require("./assets/login_image.png")}
-        resizeMode="cover"
-        style={styles.login_image}
-      >
-        <View style={styles.login_txt_container}>
-          <Text style={styles.login_txt}>TrainGone</Text>
+      <View style={styles.container}>
+        <Video
+          ref={video}
+          style={styles.video}
+          source={require("../A3_2_copy/background.mp4")}
+          useNativeControls
+          resizeMode={ResizeMode.CONTAIN}
+          isLooping
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
+        <View style={styles.buttons}>
+          <Button
+            title={status.isPlaying ? "Pause" : "Play"}
+            onPress={() =>
+              status.isPlaying
+                ? video.current.pauseAsync()
+                : video.current.playAsync()
+            }
+          />
         </View>
-        <Pressable style={styles.login_pressable} onPress={() => setToken(1)}>
-          <Text style={styles.pressable_txt}>GO TO TASK 2</Text>
-        </Pressable>
-      </ImageBackground>
+      </View>
+      // <ImageBackground
+      //   source={require("./assets/login_image.png")}
+      //   resizeMode="cover"
+      //   style={styles.login_image}
+      // >
+      //   <View style={styles.login_txt_container}>
+      //     <Text style={styles.login_txt}>TrainGone</Text>
+      //   </View>
+      //   <Pressable style={styles.login_pressable} onPress={() => setToken(1)}>
+      //     <Text style={styles.pressable_txt}>GO TO TASK 2</Text>
+      //   </Pressable>
+      // </ImageBackground>
     );
   } else {
     contentDisplayed = (
@@ -54,6 +80,14 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  video: { flex: 1 },
+  // backgroundVideo: {
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  //   bottom: 0,
+  //   right: 0,
+  // },
   login_image: {
     flex: 1,
     alignItems: "center",
