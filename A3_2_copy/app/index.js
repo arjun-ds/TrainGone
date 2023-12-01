@@ -19,6 +19,13 @@ import "expo-router/entry";
 import { Stack } from "expo-router/stack";
 import { Link } from "expo-router";
 
+import videoInfiniteScroll from "./feed/videoInfiniteScroll";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+const Tab = createBottomTabNavigator();
+
 export default function Page() {
   const [token, setToken] = useState(null);
 
@@ -36,7 +43,7 @@ export default function Page() {
         <Link
           asChild
           href={{
-            pathname: "/videoInfiniteScroll",
+            pathname: "/feed/videoInfiniteScroll",
             params: {},
           }}
         >
