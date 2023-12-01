@@ -12,23 +12,27 @@ import {
   Text,
   View,
 } from "react-native";
-import { useSpotifyAuth, useSpotifyTracks } from "./utils";
 import { Themes } from "./assets/Themes";
-import Song from "./utils/Song";
+import { router, Link } from "expo-router";
 
 export default function App() {
   const [token, setToken] = useState(null);
-  let tracks = useSpotifyTracks(token);
 
   let contentDisplayed = null;
   if (token) {
     contentDisplayed = (
-      <View style={styles.login_screen}>
-        <Image
-          source={require("./assets/login_image.png")}
-          resizeMode="cover"
-        />
-      </View>
+      <ImageBackground
+        source={require("./assets/login_image.png")}
+        resizeMode="cover"
+        style={styles.login_image}
+      >
+        <View style={styles.login_txt_container}>
+          <Text style={styles.login_txt}>TrainGone</Text>
+        </View>
+        <Pressable style={styles.login_pressable} onPress={() => setToken(1)}>
+          <Text style={styles.pressable_txt}>GO TO TASK 2</Text>
+        </Pressable>
+      </ImageBackground>
     );
   } else {
     contentDisplayed = (
@@ -81,10 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 
-  login_screen: {
-    flex: 1,
-    color: Themes.colors.white,
-  },
+  login_screen: {},
 
   container: {
     backgroundColor: Themes.colors.background,
