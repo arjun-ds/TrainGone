@@ -10,7 +10,7 @@ import {
 import { colors } from "../../assets/Themes/colors";
 import { millisToMinutesAndSeconds } from "../../utils";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
 import { Themes } from "../../assets/Themes";
@@ -20,6 +20,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import HomeLayout from "../_layout";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function videoInfiniteScroll({}) {
   const video = React.useRef(null);
@@ -28,6 +30,7 @@ export default function videoInfiniteScroll({}) {
   const router = useRouter();
   const params = useLocalSearchParams();
 
+  windowHeight = Dimensions.get("window").height - useBottomTabBarHeight();
   // //CHANGE  THIS LINE
   // const videos = [
   //   {
@@ -89,11 +92,15 @@ export default function videoInfiniteScroll({}) {
           )}
           keyExtractor={(item) => item.id}
         /> */}
-        <ScrollView>
+        <ScrollView
+          disableIntervalMomentum={true}
+          snapToInterval={windowHeight}
+          decelerationRate={0}
+        >
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/hello.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -102,7 +109,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Hello</Text>
               <View style={styles.link}>
@@ -114,11 +121,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/good_to_see_you.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -127,7 +134,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Good To See You</Text>
               <View style={styles.link}>
@@ -139,11 +146,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/what's_up.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -152,7 +159,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>What's Up?</Text>
               <View style={styles.link}>
@@ -164,11 +171,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/milk.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -177,7 +184,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Milk</Text>
               <View style={styles.link}>
@@ -189,11 +196,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/water.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -202,7 +209,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Water</Text>
               <View style={styles.link}>
@@ -214,11 +221,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/baseball.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -227,7 +234,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Baseball</Text>
               <View style={styles.link}>
@@ -239,11 +246,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/football.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -252,7 +259,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Football</Text>
               <View style={styles.link}>
@@ -264,11 +271,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            resizeMode="cover"
             source={require("../../videos/coffee.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -277,7 +284,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Coffee</Text>
               <View style={styles.link}>
@@ -289,11 +296,11 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
           <Video
             ref={video}
             style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            resizeMode="cover"
             source={require("../../videos/soccer.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
@@ -302,7 +309,7 @@ export default function videoInfiniteScroll({}) {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          <View style={styles.overlay}>
+          {/* <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Soccer</Text>
               <View style={styles.link}>
@@ -314,7 +321,7 @@ export default function videoInfiniteScroll({}) {
             <Pressable onPress={adjustHeart}>
               <Ionicons name={id} size={30} color="black" />
             </Pressable>
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     </>
