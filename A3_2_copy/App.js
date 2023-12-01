@@ -26,7 +26,7 @@ export default function App() {
   } else {
     contentDisplayed = (
       <ImageBackground
-        source={require("./assets/login_image.png")}
+        source={require("./assets/trainGone_logo.png")}
         resizeMode="cover"
         style={styles.login_image}
       >
