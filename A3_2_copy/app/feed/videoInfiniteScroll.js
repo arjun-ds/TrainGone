@@ -299,7 +299,7 @@ export default function videoInfiniteScroll({}) {
           </View> */}
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={{ height: windowHeight }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="cover"
             source={require("../../videos/soccer.mov")}
             useNativeControls
