@@ -20,6 +20,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 export default function Greetings() {
   const video = React.useRef(null);
@@ -27,22 +29,10 @@ export default function Greetings() {
 
   const router = useRouter();
   const params = useLocalSearchParams();
-
-  // //CHANGE  THIS LINE
-  // const videos = [
-  //   {
-  //     videoName: "background",
-  //     file: require("../background.mp4"),
-  //   },
-  //   {
-  //     videoName: "background2",
-  //     file: require("../background2.mp4"),
-  //   },
-  //   {
-  //     videoName: "background3",
-  //     file: require("../background3.mp4"),
-  //   },
-  // ];
+  let WindowHeight =
+    Dimensions.get("window").height -
+    useBottomTabBarHeight() -
+    getStatusBarHeight();
 
   //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
   const defaultScreenRatio =
@@ -89,10 +79,14 @@ export default function Greetings() {
                 )}
                 keyExtractor={(item) => item.id}
               /> */}
-        <ScrollView>
+        <ScrollView
+          disableIntervalMomentum={true}
+          snapToInterval={WindowHeight}
+          decelerationRate={0.9}
+        >
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="contain"
             source={require("../../videos/milk.mov")}
             useNativeControls
@@ -115,7 +109,7 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="contain"
             source={require("../../videos/good_to_see_you.mov")}
             useNativeControls
@@ -138,7 +132,7 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={{ aspectRatio: videoRatio }} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="contain"
             source={require("../../videos/what's_up.mov")}
             useNativeControls
@@ -206,4 +200,10 @@ const styles = StyleSheet.create({
   },
 
   video: { flex: 1 },
+  videos: {
+    height: Dimensions.get("window").height - 230,
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+  },
 });
