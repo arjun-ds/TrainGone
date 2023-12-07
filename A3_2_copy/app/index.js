@@ -19,7 +19,7 @@ import { Themes } from "../assets/Themes";
 // import { router, Link } from "expo-router";
 import "expo-router/entry";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
+import { Link, Tabs } from "expo-router";
 
 import videoInfiniteScroll from "./feed/videoInfiniteScroll";
 import { NavigationContainer } from "@react-navigation/native";
@@ -41,6 +41,7 @@ export default function Page() {
   if (token) {
     contentDisplayed = (
       <>
+        <Tabs.Screen options={{ tabBarStyle: { display: "flex" } }} />
         <View style={styles.home_container}>
           <View style={styles.searchContainer}>
             <Ionicons
