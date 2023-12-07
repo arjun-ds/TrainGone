@@ -101,17 +101,7 @@ export default function videoInfiniteScroll() {
               <Text style={styles.overlayText}>What's up?</Text>
               <View style={styles.link}>
                 <Link href={{ pathname: "feed/Greetings" }}>
-                  <Text style={styles.category_txt}>greetings</Text>
-                </Link>
-              </View>
-              <View style={styles.link}>
-                <Link href={{ pathname: "feed/Greetings" }}>
-                  <Text style={styles.category_txt}>hello</Text>
-                </Link>
-              </View>
-              <View style={styles.link}>
-                <Link href={{ pathname: "feed/Greetings" }}>
-                  <Text style={styles.category_txt}>casual</Text>
+                  <Text style={styles.category_txt}>Greetings</Text>
                 </Link>
               </View>
             </View>
@@ -144,7 +134,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -172,7 +162,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -200,7 +190,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -228,7 +218,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -256,7 +246,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -284,7 +274,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -312,7 +302,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -340,7 +330,7 @@ export default function videoInfiniteScroll() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
         </ScrollView>
@@ -387,7 +377,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
-    backgroundColor: "#9ac2e0",
+    backgroundColor: Themes.colors.blue,
   },
   videos: {
     height: Dimensions.get("window").height - 140,
