@@ -151,19 +151,23 @@ export default function searchBySign() {
       isPressed: false,
       name: "arrow-right",
       color: "black",
+      backgroundColor: colors.extraLightGrey,
     },
     {
       isPressed: false,
       name: "arrow-left",
       color: "black",
+      backgroundColor: colors.extraLightGrey,
     },
     {
       isPressed: false,
       name: "arrow-switch",
       color: "black",
+      backgroundColor: colors.extraLightGrey,
     },
   ]);
 
+  // GPT asisted handle press.
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
@@ -186,14 +190,22 @@ export default function searchBySign() {
     if (newBodyPosStates[index].color) {
       newBodyPosStates[index].color = null;
     } else {
-      newBodyPosStates[index].color = "blue";
+      newBodyPosStates[index].color = colors.blue;
     }
     setBodyPosStates(newBodyPosStates);
   };
+
   const handlePalmMovementPress = (index) => {
-    const newPalmMovementStates = [...palmMovementStates];
+    const newPalmMovementStates = [...palmMovementStates]; // Change variable name here
     newPalmMovementStates[index].isPressed =
       !newPalmMovementStates[index].isPressed;
+    if (!newPalmMovementStates[index].isPressed) {
+      newPalmMovementStates[index].color = "black";
+      newPalmMovementStates[index].backgroundColor = colors.extraLightGrey;
+    } else {
+      newPalmMovementStates[index].color = "white";
+      newPalmMovementStates[index].backgroundColor = colors.blue;
+    }
     setPalmMovementStates(newPalmMovementStates);
   };
 
@@ -310,15 +322,27 @@ export default function searchBySign() {
                 onPress={() => handlePalmMovementPress(index)}
                 activeOpacity={1}
               >
-                <Octicons
-                  name={button.name}
-                  size={24}
-                  color={button.color}
-                  style={{ transform: [{ rotate: "315deg" }] }}
-                />
+                <View
+                  style={styles.iconBox}
+                  backgroundColor={button.backgroundColor}
+                >
+                  <Octicons
+                    name={button.name}
+                    size={64}
+                    color={button.color}
+                    style={{ transform: [{ rotate: "315deg" }] }}
+                  />
+                </View>
               </TouchableOpacity>
             ))}
           </View>
+        </View>
+        <View style={[styles.grouping_container, { paddingBottom: 0 }]}>
+          <TouchableOpacity>
+            <View style={styles.search_button}>
+              <Text style={styles.search_button_txt}>Search</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -436,14 +460,41 @@ const styles = StyleSheet.create({
   small_circle: {
     height: 15,
     width: 15,
-    borderRadius: "50%", // Set half of the width and height to make it a circle
-    borderWidth: 1.5, // Border width
-    borderColor: "black", // Border color
+    borderRadius: "50%",
+    borderWidth: 1.5,
+    borderColor: "black",
     position: "absolute",
   },
   palm_movement_container: {
     flexDirection: "row",
     justifyContent: "space-around",
-    // paddingTop:
+    paddingTop: 60,
+  },
+
+  iconBox: {
+    // backgroundColor: colors.extraLightGrey,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 60,
+    borderRadius: 10,
+  },
+  search_button: {
+    backgroundColor: Themes.colors.blue,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    alignSelf: "center",
+    width: "80%",
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: -1, height: 3 },
+  },
+  search_button_txt: {
+    color: Themes.colors.white,
+    fontWeight: "bold",
+    fontSize: 30,
+    textAlign: "center",
   },
 });
