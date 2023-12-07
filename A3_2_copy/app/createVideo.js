@@ -282,6 +282,7 @@ export default function createVideo() {
   let WindowWidth = Dimensions.get("window").width;
 
   const navigation = useNavigation();
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -355,68 +356,77 @@ export default function createVideo() {
       });
     };
 
+    let continueToUpload = () => {
+      if (isSaved) setIsSaved(false);
+      else setIsSaved(true);
+    };
+
     return (
       <SafeAreaView style={styles.container}>
-        <Video
-          style={styles.video}
-          source={{ uri: video.uri }}
-          useNativeControls
-          resizeMode="cover"
-          isLooping
-          shouldPlay
-        >
-          <View
-            style={{
-              position: "absolute",
-              top: 25,
-              left: 30,
-              zIndex: 2,
-            }}
-          >
-            <TouchableOpacity onPress={() => setVideo(undefined)}>
-              <AntDesign name="left" size={35} color="grey" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              position: "absolute",
-              top: 15,
-              left: WindowWidth - 75,
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignContent: "space-between",
-              zIndex: 2,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                setType(
-                  type === CameraType.back ? CameraType.front : CameraType.back
-                );
-              }}
+        {!isSaved ? (
+          <>
+            <Video
+              style={styles.video}
+              source={{ uri: video.uri }}
+              useNativeControls
+              resizeMode="cover"
+              isLooping
+              shouldPlay
             >
-              <FontAwesome
-                name="volume-up"
-                size={45}
-                color="grey"
-                style={{ paddingVertical: 10 }}
-              />
-            </TouchableOpacity>
-            <Ionicons
-              name="ios-text"
-              size={45}
-              color="grey"
-              style={{ paddingVertical: 10 }}
-            />
-            <FontAwesome
-              name="magic"
-              size={45}
-              color="grey"
-              style={{ paddingVertical: 10 }}
-            />
-            {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
-          </View>
-          {/* <View
+              <View
+                style={{
+                  position: "absolute",
+                  top: 25,
+                  left: 30,
+                  zIndex: 2,
+                }}
+              >
+                <TouchableOpacity onPress={() => setVideo(undefined)}>
+                  <AntDesign name="left" size={35} color="grey" />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 15,
+                  left: WindowWidth - 75,
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignContent: "space-between",
+                  zIndex: 2,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setType(
+                      type === CameraType.back
+                        ? CameraType.front
+                        : CameraType.back
+                    );
+                  }}
+                >
+                  <FontAwesome
+                    name="volume-up"
+                    size={45}
+                    color="grey"
+                    style={{ paddingVertical: 10 }}
+                  />
+                </TouchableOpacity>
+                <Ionicons
+                  name="ios-text"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
+                />
+                <FontAwesome
+                  name="magic"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
+                />
+                {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
+              </View>
+              {/* <View
             style={{
               position: "absolute",
               top: WindowHeight - 180,
@@ -434,12 +444,32 @@ export default function createVideo() {
               />
             </TouchableOpacity>
           </View> */}
-        </Video>
-        {/* <Button title="Share" onPress={shareVideo} /> */}
-        {hasMediaLibraryPermission ? (
-          <Button title="Save" onPress={saveVideo} />
-        ) : undefined}
-        <Button title="Discard" onPress={() => setVideo(undefined)} />
+            </Video>
+            {/* <Button title="Share" onPress={shareVideo} /> */}
+            {hasMediaLibraryPermission ? (
+              <Button
+                title="Continue to Upload"
+                onPress={() => continueToUpload()}
+              />
+            ) : (
+              // <Button title="Save" onPress={navigation.navigate("editVideo")} />
+              <></>
+            )}
+            <Button title="Discard" onPress={() => setVideo(undefined)} />
+          </>
+        ) : (
+          <View
+            style={{
+              position: "absolute",
+              top: 70,
+              left: 30,
+            }}
+          >
+            <TouchableOpacity onPress={() => continueToUpload()}>
+              <AntDesign name="left" size={35} color="grey" />
+            </TouchableOpacity>
+          </View>
+        )}
       </SafeAreaView>
     );
   }

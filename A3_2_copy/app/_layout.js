@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { BottomTabBar } from "@react-navigation/bottom-tabs";
 
 export default function HomeLayout() {
   return (
@@ -8,6 +9,12 @@ export default function HomeLayout() {
         headerShown: false,
       }}
       backBehavior="history"
+      // tabBar={(props) => (
+      //   <BottomTabBar
+      //     {...props}
+      //     state={{ ...props.state, routes: props.state.routes.slice(0, 6) }}
+      //   ></BottomTabBar>
+      // )}
     >
       <Tabs.Screen
         name="index"
@@ -58,6 +65,11 @@ export default function HomeLayout() {
           href: null,
         }}
       />
+      {/* <Tabs.Screen
+        // Name of the route to hide.
+        name="editVideo"
+        options={{ tabBarStyle: { display: "none" } }}
+      /> */}
     </Tabs>
   );
 }
