@@ -1,5 +1,4 @@
 import { Tabs } from "expo-router";
-
 import { Feather, Ionicons } from "@expo/vector-icons";
 
 export default function HomeLayout() {
@@ -18,6 +17,7 @@ export default function HomeLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="feed"
         options={{
