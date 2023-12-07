@@ -46,10 +46,9 @@ export default function HomeLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         // Name of the route to hide.
-        name="flow/searchBySign"
+        name="service"
         options={{
           // This tab will no longer show up in the tab bar.
           href: null,

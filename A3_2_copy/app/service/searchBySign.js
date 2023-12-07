@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   home_container: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 70, // Adjusted top padding for better alignment
+    paddingTop: 10, // Adjusted top padding for better alignment
   },
 
   category_txt: {

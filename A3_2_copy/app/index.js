@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as React from "react";
-
+import { useRouter } from "expo-router";
 import {
   Button,
   FlatList,
@@ -28,6 +28,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import CategoryList from "../assets/Images/Components/categoryList";
 
 export default function Page() {
+  const navigation = useRouter();
   const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
 
@@ -56,12 +57,11 @@ export default function Page() {
               value={searchText}
             />
           </View>
-
-          <View style={styles.sign_search_container}>
-            <Link href={{ pathname: "flow/searchBySign" }}>
+          <Pressable onPress={() => navigation.push("/service/searchBySign")}>
+            <View style={styles.sign_search_container}>
               <Text style={styles.sign_search_txt}>Search by Sign</Text>
-            </Link>
-          </View>
+            </View>
+          </Pressable>
           <View style={styles.category_container}>
             <Text style={styles.category_txt}>Search by Category</Text>
             <CategoryList />
