@@ -27,20 +27,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CategoryList from "../assets/Images/Components/categoryList";
 
-const Tab = createBottomTabNavigator();
-import { useNavigation } from "@react-navigation/native";
 export default function Page() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
-
-  const navigation = useNavigation();
 
   const setTokenAndNavigate = () => {
     // Set your token logic here
     setToken(1);
-
-    // Navigate to the specified screen
-    navigation.navigate("VideoInfiniteScroll");
   };
 
   let contentDisplayed = null;
@@ -66,7 +59,7 @@ export default function Page() {
           </View>
 
           <View style={styles.sign_search_container}>
-            <Link href={{ pathname: "feed/videoInfiniteScroll" }}>
+            <Link href={{ pathname: "flow/searchBySign" }}>
               <Text style={styles.sign_search_txt}>Search by Sign</Text>
             </Link>
           </View>
@@ -95,24 +88,18 @@ export default function Page() {
     );
   } else {
     contentDisplayed = (
-      <>
-        <Tabs.Screen options={{ tabBarStyle: { display: "none" } }} />
-        <ImageBackground
-          source={require("../assets/trainGone_logo.png")}
-          resizeMode="cover"
-          style={styles.home_container}
-        >
-          <View style={styles.login_txt_container}>
-            <Text style={styles.login_txt}>TrainGone</Text>
-          </View>
-          <Pressable
-            style={styles.login_pressable}
-            onPress={setTokenAndNavigate}
-          >
-            <Text style={styles.pressable_txt}>GET STARTED</Text>
-          </Pressable>
-        </ImageBackground>
-      </>
+      <ImageBackground
+        source={require("../assets/trainGone_logo.png")}
+        resizeMode="cover"
+        style={styles.home_container}
+      >
+        <View style={styles.login_txt_container}>
+          <Text style={styles.login_txt}>TrainGone</Text>
+        </View>
+        {/* <Pressable style={styles.login_pressable} onPress={setTokenAndNavigate}>
+          <Text style={styles.pressable_txt}>GET STARTED</Text>
+        </Pressable> */}
+      </ImageBackground>
     );
   }
   return contentDisplayed;

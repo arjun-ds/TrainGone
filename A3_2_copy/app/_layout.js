@@ -26,6 +26,7 @@ export default function HomeLayout() {
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="flash-sharp" size={size} color={color} />
           ),
+          href: "feed/videoInfiniteScroll",
         }}
       />
       <Tabs.Screen
@@ -47,6 +48,15 @@ export default function HomeLayout() {
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="person" size={size} color={color} />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        // Name of the route to hide.
+        name="flow/searchBySign"
+        options={{
+          // This tab will no longer show up in the tab bar.
+          href: null,
         }}
       />
     </Tabs>
