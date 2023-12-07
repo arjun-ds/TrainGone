@@ -458,7 +458,9 @@ export default function createVideo() {
               left: 30,
             }}
           >
-            <Ionicons name="ios-close" size={35} color="grey" />
+            <Link href={{ pathname: "feed/videoInfiniteScroll" }}>
+              <Ionicons name="ios-close" size={35} color="grey" />
+            </Link>
             {/* <Button
               title=""
               icon="retweet"
