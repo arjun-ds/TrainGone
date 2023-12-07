@@ -98,15 +98,25 @@ export default function videoInfiniteScroll() {
           </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
-              <Text style={styles.overlayText}>Hello</Text>
+              <Text style={styles.overlayText}>What's up?</Text>
               <View style={styles.link}>
                 <Link href={{ pathname: "feed/Greetings" }}>
-                  <Text style={styles.category_txt}>Greetings</Text>
+                  <Text style={styles.category_txt}>greetings</Text>
+                </Link>
+              </View>
+              <View style={styles.link}>
+                <Link href={{ pathname: "feed/Greetings" }}>
+                  <Text style={styles.category_txt}>hello</Text>
+                </Link>
+              </View>
+              <View style={styles.link}>
+                <Link href={{ pathname: "feed/Greetings" }}>
+                  <Text style={styles.category_txt}>casual</Text>
                 </Link>
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -363,7 +373,7 @@ const styles = StyleSheet.create({
   overlayText: {
     color: "black",
     fontSize: 20,
-    paddingRight: 20,
+    paddingRight: 10,
     fontWeight: "bold",
   },
 
@@ -377,6 +387,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
+    backgroundColor: "#9ac2e0",
   },
   videos: {
     height: Dimensions.get("window").height - 140,

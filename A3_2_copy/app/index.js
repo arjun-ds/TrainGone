@@ -89,7 +89,7 @@ export default function Page() {
   } else {
     contentDisplayed = (
       <ImageBackground
-        source={require("../assets/trainGone_logo.png")}
+        source={{ uri: jenImage1 }}
         resizeMode="cover"
         style={styles.home_container}
       >

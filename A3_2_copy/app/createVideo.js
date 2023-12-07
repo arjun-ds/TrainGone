@@ -260,6 +260,8 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Link, Tabs } from "expo-router";
 
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -355,11 +357,81 @@ export default function createVideo() {
           style={styles.video}
           source={{ uri: video.uri }}
           useNativeControls
-          resizeMode="contain"
+          resizeMode="cover"
           isLooping
           shouldPlay
-        />
-        <Button title="Share" onPress={shareVideo} />
+        >
+          <View
+            style={{
+              position: "absolute",
+              top: 25,
+              left: 30,
+              zIndex: 2,
+            }}
+          >
+            <TouchableOpacity onPress={() => setVideo(undefined)}>
+              <AntDesign name="left" size={35} color="grey" />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              position: "absolute",
+              top: 15,
+              left: WindowWidth - 75,
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignContent: "space-between",
+              zIndex: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setType(
+                  type === CameraType.back ? CameraType.front : CameraType.back
+                );
+              }}
+            >
+              <FontAwesome
+                name="volume-up"
+                size={45}
+                color="grey"
+                style={{ paddingVertical: 10 }}
+              />
+            </TouchableOpacity>
+            <Ionicons
+              name="ios-text"
+              size={45}
+              color="grey"
+              style={{ paddingVertical: 10 }}
+            />
+            <FontAwesome
+              name="magic"
+              size={45}
+              color="grey"
+              style={{ paddingVertical: 10 }}
+            />
+            {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
+          </View>
+          {/* <View
+            style={{
+              position: "absolute",
+              top: WindowHeight - 180,
+              left: WindowWidth / 2 - 40,
+              zIndex: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={isRecording ? stopRecording : recordVideo}
+            >
+              <Ionicons
+                name="ios-checkmark-circle-sharp"
+                size={80}
+                color="grey"
+              />
+            </TouchableOpacity>
+          </View> */}
+        </Video>
+        {/* <Button title="Share" onPress={shareVideo} /> */}
         {hasMediaLibraryPermission ? (
           <Button title="Save" onPress={saveVideo} />
         ) : undefined}
@@ -384,11 +456,6 @@ export default function createVideo() {
               position: "absolute",
               top: 70,
               left: 30,
-              // flexDirection: "row",
-              // justifyContent: "space-between",
-              // paddingHorizontal: 30,
-              // paddingTop: 60,
-              // paddingVertical: 30
             }}
           >
             <Ionicons name="ios-close" size={35} color="grey" />
@@ -425,12 +492,20 @@ export default function createVideo() {
               // backgroundColor: "white",
             }}
           >
-            <MaterialIcons
-              name="flip-camera-android"
-              size={45}
-              color="grey"
-              style={{ paddingVertical: 10 }}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                setType(
+                  type === CameraType.back ? CameraType.front : CameraType.back
+                );
+              }}
+            >
+              <MaterialIcons
+                name="flip-camera-android"
+                size={45}
+                color="grey"
+                style={{ paddingVertical: 10 }}
+              />
+            </TouchableOpacity>
             <Ionicons
               name="ios-flash-off"
               size={45}
@@ -466,6 +541,7 @@ export default function createVideo() {
                 <Fontisto name="record" size={80} color="white" />
               )}
             </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => pickVideo()}
               style={{
@@ -480,7 +556,11 @@ export default function createVideo() {
                 color="white"
               />
               <Text
-                style={{ color: "white", fontSize: 12, textAlign: "center" }}
+                style={{
+                  color: "white",
+                  fontSize: 12,
+                  textAlign: "center",
+                }}
               >
                 Upload
               </Text>
@@ -489,7 +569,7 @@ export default function createVideo() {
         </Camera>
       ) : (
         <>
-          <Image source={{ uri: image }} style={styles.camera} />
+          {/* <Image source={{ uri: image }} style={styles.camera} />
           <View style={styles.controls}>
             {image ? (
               <View
@@ -509,7 +589,7 @@ export default function createVideo() {
             ) : (
               <View></View>
             )}
-          </View>
+          </View> */}
         </>
       )}
     </View>
@@ -523,6 +603,7 @@ const styles = StyleSheet.create({
     // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#000",
     // padding: 8,
+    height: Dimensions.get("window").height,
   },
   controls: {
     flex: 0.5,
@@ -537,6 +618,8 @@ const styles = StyleSheet.create({
   video: {
     flex: 1,
     alignSelf: "stretch",
+    zIndex: 2,
+    height: Dimensions.get("window").height,
   },
   text: {
     fontWeight: "bold",
