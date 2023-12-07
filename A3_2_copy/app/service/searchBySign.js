@@ -94,55 +94,55 @@ export default function searchBySign() {
       isPressed: false,
       color: null,
       x: 25,
-      y: 300,
+      y: 135,
     },
     {
       isPressed: false,
       color: null,
       x: 70,
-      y: 295,
+      y: 130,
     },
     {
       isPressed: false,
       color: null,
       x: 125,
-      y: 286,
+      y: 121,
     },
     {
       isPressed: false,
       color: null,
       x: 230,
-      y: 260,
+      y: 95,
     },
     {
       isPressed: false,
       color: null,
       x: 270,
-      y: 220,
+      y: 55,
     },
     {
       isPressed: false,
       color: null,
       x: 270,
-      y: 300,
+      y: 125,
     },
     {
       isPressed: false,
       color: null,
       x: 230,
-      y: 320,
+      y: 155,
     },
     {
       isPressed: false,
       color: null,
       x: 235,
-      y: 420,
+      y: 255,
     },
     {
       isPressed: false,
       color: null,
       x: 260,
-      y: 375,
+      y: 210,
     },
   ]);
 
@@ -282,7 +282,7 @@ export default function searchBySign() {
           <Text style={styles.grouping_txt}>Select Body Location</Text>
           <Image
             style={styles.full_body_img}
-            source={require("../../assets/Images/body-outline-2.png")}
+            source={require("../../assets/Images/body-outline-3.png")}
           />
           <View style={styles.bodyPos_container}>
             {bodyPosStates.map((button, index) => (
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "contain",
     width: "100%",
-    backgroundColor: "pink",
+    height: 300,
   },
   small_circle: {
     height: 15,
