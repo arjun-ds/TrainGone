@@ -263,6 +263,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Link, Tabs } from "expo-router";
 
+import { useNavigation } from "expo-router";
+
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -278,6 +280,8 @@ export default function createVideo() {
 
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -458,9 +462,9 @@ export default function createVideo() {
               left: 30,
             }}
           >
-            <Link href={{ pathname: "feed/videoInfiniteScroll" }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons name="ios-close" size={35} color="grey" />
-            </Link>
+            </TouchableOpacity>
             {/* <Button
               title=""
               icon="retweet"
