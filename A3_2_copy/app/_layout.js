@@ -7,6 +7,7 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: false,
       }}
+      backBehavior="history"
     >
       <Tabs.Screen
         name="index"
@@ -30,6 +31,8 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="createVideo"
         options={{
+          tabBarStyle: { display: "none" },
+          unmountOnBlur: true,
           tabBarLabel: "Create Video",
           tabBarIcon: ({ size, color }) => (
             <Feather name="plus-square" size={size} color={color} />
@@ -38,6 +41,7 @@ export default function HomeLayout() {
       />
       <Tabs.Screen
         name="profile"
+        // component={CameraScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ size, color }) => (

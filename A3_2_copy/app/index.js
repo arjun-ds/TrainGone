@@ -19,7 +19,7 @@ import { Themes } from "../assets/Themes";
 // import { router, Link } from "expo-router";
 import "expo-router/entry";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
+import { Link, Tabs } from "expo-router";
 
 import videoInfiniteScroll from "./feed/videoInfiniteScroll";
 import { NavigationContainer } from "@react-navigation/native";
@@ -47,6 +47,7 @@ export default function Page() {
   if (token) {
     contentDisplayed = (
       <>
+        <Tabs.Screen options={{ tabBarStyle: { display: "flex" } }} />
         <View style={styles.home_container}>
           <View style={styles.searchContainer}>
             <Ionicons
@@ -94,18 +95,24 @@ export default function Page() {
     );
   } else {
     contentDisplayed = (
-      <ImageBackground
-        source={require("../assets/trainGone_logo.png")}
-        resizeMode="cover"
-        style={styles.home_container}
-      >
-        <View style={styles.login_txt_container}>
-          <Text style={styles.login_txt}>TrainGone</Text>
-        </View>
-        <Pressable style={styles.login_pressable} onPress={setTokenAndNavigate}>
-          <Text style={styles.pressable_txt}>GET STARTED</Text>
-        </Pressable>
-      </ImageBackground>
+      <>
+        <Tabs.Screen options={{ tabBarStyle: { display: "none" } }} />
+        <ImageBackground
+          source={require("../assets/trainGone_logo.png")}
+          resizeMode="cover"
+          style={styles.home_container}
+        >
+          <View style={styles.login_txt_container}>
+            <Text style={styles.login_txt}>TrainGone</Text>
+          </View>
+          <Pressable
+            style={styles.login_pressable}
+            onPress={setTokenAndNavigate}
+          >
+            <Text style={styles.pressable_txt}>GET STARTED</Text>
+          </Pressable>
+        </ImageBackground>
+      </>
     );
   }
   return contentDisplayed;
