@@ -486,46 +486,52 @@ export default function createVideo() {
               color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
             /> */}
           </View>
-          <View
-            style={{
-              position: "absolute",
-              top: 60,
-              left: WindowWidth - 75,
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignContent: "space-between",
-              // flex: 1,
-              // backgroundColor: "white",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                setType(
-                  type === CameraType.back ? CameraType.front : CameraType.back
-                );
+          {!isRecording ? (
+            <View
+              style={{
+                position: "absolute",
+                top: 60,
+                left: WindowWidth - 75,
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignContent: "space-between",
+                // flex: 1,
+                // backgroundColor: "white",
               }}
             >
-              <MaterialIcons
-                name="flip-camera-android"
+              <TouchableOpacity
+                onPress={() => {
+                  setType(
+                    type === CameraType.front
+                      ? CameraType.back
+                      : CameraType.front
+                  );
+                }}
+              >
+                <MaterialIcons
+                  name="flip-camera-android"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
+                />
+              </TouchableOpacity>
+              <Ionicons
+                name="ios-flash-off"
                 size={45}
                 color="grey"
                 style={{ paddingVertical: 10 }}
               />
-            </TouchableOpacity>
-            <Ionicons
-              name="ios-flash-off"
-              size={45}
-              color="grey"
-              style={{ paddingVertical: 10 }}
-            />
-            <FontAwesome
-              name="magic"
-              size={45}
-              color="grey"
-              style={{ paddingVertical: 10 }}
-            />
-            {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
-          </View>
+              <FontAwesome
+                name="magic"
+                size={45}
+                color="grey"
+                style={{ paddingVertical: 10 }}
+              />
+              {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
+            </View>
+          ) : (
+            <></>
+          )}
           <View
             style={{
               // flexDirection: "row",
@@ -547,30 +553,33 @@ export default function createVideo() {
                 <Fontisto name="record" size={80} color="white" />
               )}
             </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => pickVideo()}
-              style={{
-                position: "absolute",
-                top: WindowHeight - 175,
-                left: WindowWidth - 95,
-              }}
-            >
-              <MaterialIcons
-                name="photo-size-select-actual"
-                size={60}
-                color="white"
-              />
-              <Text
+            {!isRecording ? (
+              <TouchableOpacity
+                onPress={() => pickVideo()}
                 style={{
-                  color: "white",
-                  fontSize: 12,
-                  textAlign: "center",
+                  position: "absolute",
+                  top: WindowHeight - 175,
+                  left: WindowWidth - 95,
                 }}
               >
-                Upload
-              </Text>
-            </TouchableOpacity>
+                <MaterialIcons
+                  name="photo-size-select-actual"
+                  size={60}
+                  color="white"
+                />
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 12,
+                    textAlign: "center",
+                  }}
+                >
+                  Upload
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
         </Camera>
       ) : (
