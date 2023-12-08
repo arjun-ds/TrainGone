@@ -24,7 +24,7 @@ import { Octicons } from "@expo/vector-icons";
 
 export default function searchBySign() {
   const navigation = useRouter();
-
+  const [indexes, setIndexes] = useState(0);
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -169,7 +169,6 @@ export default function searchBySign() {
       backgroundColor: colors.extraLightGrey,
     },
   ]);
-
   // GPT asisted handle press.
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
@@ -197,9 +196,11 @@ export default function searchBySign() {
     }
     setBodyPosStates(newBodyPosStates);
   };
+  () => navigation.push("service/searchResults");
 
   const handlePalmMovementPress = (index) => {
-    const newPalmMovementStates = [...palmMovementStates]; // Change variable name here
+    const newPalmMovementStates = [...palmMovementStates];
+    setIndexes(index);
     newPalmMovementStates[index].isPressed =
       !newPalmMovementStates[index].isPressed;
     if (!newPalmMovementStates[index].isPressed) {
@@ -210,6 +211,16 @@ export default function searchBySign() {
       newPalmMovementStates[index].backgroundColor = colors.blue;
     }
     setPalmMovementStates(newPalmMovementStates);
+  };
+
+  const handleSearch = () => {
+    if (indexes === 0) {
+      navigation.push("/service/searchResults");
+    } else if (indexes === 1) {
+      navigation.push("/service/searchResults2");
+    } else if (indexes === 2) {
+      navigation.push("/service/searchResults3");
+    }
   };
 
   return (
@@ -341,9 +352,7 @@ export default function searchBySign() {
           </View>
         </View>
         <View style={[styles.grouping_container, { paddingBottom: 0 }]}>
-          <TouchableOpacity
-            onPress={() => navigation.push("service/searchResults")}
-          >
+          <TouchableOpacity onPress={handleSearch}>
             <View style={styles.search_button}>
               <Text style={styles.search_button_txt}>Search</Text>
             </View>
