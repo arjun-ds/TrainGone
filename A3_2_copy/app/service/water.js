@@ -61,7 +61,7 @@ export default function searchBySign() {
       <Video
         style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
         resizeMode="cover"
-        source={require("../../videos/milk.mov")}
+        source={require("../../videos/water.mov")}
         useNativeControls
         // resizeMode={ResizeMode.CONTAIN}
         isLooping
@@ -82,6 +82,15 @@ export default function searchBySign() {
         <Pressable onPress={adjustHeart}>
           <Ionicons name={id} size={30} color="red" />
         </Pressable>
+      </View>
+      <View style={styles.definition_container}>
+        <Text style={styles.definition_header}>DEFINITION</Text>
+        <Text style={styles.part_speech}>noun</Text>
+        <Text style={styles.definition_txt}>
+          The substance (most commonly encountered as a liquid) which is the
+          principal constituent of seas, lakes, and rivers, and which falls as
+          rain and other forms of precipitation.
+        </Text>
       </View>
     </ScrollView>
   );
@@ -132,5 +141,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     color: "white",
+  },
+  definition_container: {
+    flex: 1,
+    padding: 15,
+  },
+
+  definition_header: {
+    fontWeight: "bold",
+    fontSize: 15,
+  },
+  part_speech: {
+    padding: 10,
+  },
+  definition_txt: {
+    padding: 10,
   },
 });

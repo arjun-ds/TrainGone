@@ -248,10 +248,10 @@ export default function searchBySign() {
 
   const handleSearch = () => {
     if (
-      handshapeButtonStates[2] &&
-      handshape2ButtonStates[0] &&
-      po2ButtonStates[0] &&
-      palmMovementStates[2]
+      handshapeButtonStates[2].isPressed &&
+      handshape2ButtonStates[0].isPressed &&
+      po2ButtonStates[0].isPressed &&
+      palmMovementStates[2].isPressed
     ) {
       navigation.push("/service/milk");
     } else if (

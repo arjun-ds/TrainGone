@@ -83,6 +83,16 @@ export default function searchBySign() {
           <Ionicons name={id} size={30} color="red" />
         </Pressable>
       </View>
+      <View style={styles.definition_container}>
+        <Text style={styles.definition_header}>DEFINITION</Text>
+        <Text style={styles.part_speech}>noun</Text>
+        <Text style={styles.definition_txt}>
+          A whitish fluid, rich in fat and protein, secreted by the mammary
+          glands of female mammals (including humans) for the nourishment of
+          their young, and taken from cows, sheep, etc., as an article of the
+          human diet
+        </Text>
+      </View>
     </ScrollView>
   );
 }
@@ -132,5 +142,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     color: "white",
+  },
+  definition_container: {
+    flex: 1,
+    padding: 15,
+  },
+
+  definition_header: {
+    fontWeight: "bold",
+    fontSize: 15,
+  },
+  part_speech: {
+    padding: 10,
+  },
+  definition_txt: {
+    padding: 10,
   },
 });

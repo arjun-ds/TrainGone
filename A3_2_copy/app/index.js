@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Keyboard,
   Pressable,
+  ScrollView,
   StyleSheet,
   SafeAreaView,
   StatusBar,
@@ -27,6 +28,7 @@ import videoInfiniteScroll from "./feed/videoInfiniteScroll";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Feather } from "@expo/vector-icons";
 import CategoryList from "../assets/Images/Components/categoryList";
 
 export default function Page() {
@@ -34,10 +36,20 @@ export default function Page() {
   const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
 
+  const searchWord = (value) => {
+    if (value == "Coffee" || value === "coffee") {
+      navigation.push("service/coffee");
+    } else if (value === "Water" || value === "water") {
+      navigation.push("service/water");
+    } else if (value === "Milk" || value === "milk") {
+      navigation.push("service/milk");
+    }
+  };
+
   let contentDisplayed = null;
   if (token) {
     contentDisplayed = (
-      <>
+      <ScrollView>
         <Tabs.Screen options={{ tabBarStyle: { display: "flex" } }} />
 
         <View style={styles.home_container}>
@@ -59,7 +71,8 @@ export default function Page() {
                   style={styles.searchBar}
                   onChangeText={(text) => setSearchText(text)}
                   value={searchText}
-                  onSubmitEditing={() => navigation.push("feed/Greetings")}
+                  //onSubmitEditing={() => navigation.push("service/coffee")}
+                  onSubmitEditing={() => searchWord(searchText)}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -74,23 +87,47 @@ export default function Page() {
             <CategoryList />
           </View>
           <View style={styles.popular_container}>
-            <Text style={styles.category_txt}>Popular Now</Text>
+            <View style={styles.top}>
+              <Text style={styles.category_txt}>Popular Now</Text>
+              <Feather name="arrow-right-circle" size={30} color="black" />
+            </View>
             <View style={styles.videos_container}>
-              <View style={styles.video_individual}></View>
-              <View style={styles.video_individual}></View>
-              <View style={styles.video_individual}></View>
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/popular-video1.png")}
+              />
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/popular-video2.png")}
+              />
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/popular-video3.png")}
+              />
             </View>
           </View>
           <View style={styles.popular_container}>
-            <Text style={styles.category_txt}>Recently Watched</Text>
+            <View style={styles.top}>
+              <Text style={styles.category_txt}>Recently Watched</Text>
+              <Feather name="arrow-right-circle" size={30} color="black" />
+            </View>
             <View style={styles.videos_container}>
-              <View style={styles.video_individual}></View>
-              <View style={styles.video_individual}></View>
-              <View style={styles.video_individual}></View>
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/liked-video3.png")}
+              />
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/liked-video2.png")}
+              />
+              <Image
+                style={styles.video_individual}
+                source={require("../assets/Images/liked-video1.png")}
+              />
             </View>
           </View>
         </View>
-      </>
+      </ScrollView>
     );
   } else {
     contentDisplayed = (
@@ -180,15 +217,16 @@ const styles = StyleSheet.create({
   videos_container: {
     flexDirection: "row",
     width: "100%",
+    padding: 10,
   },
 
   video_individual: {
     flex: 1,
     // flexDirection: "row",
     backgroundColor: Themes.colors.lightGrey,
-    height: 130,
+    height: 200,
     marginTop: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 1,
     borderRadius: 10,
   },
 
@@ -284,5 +322,11 @@ const styles = StyleSheet.create({
   },
   image_containter: {
     backgroundColor: Themes.colors.spotify,
+  },
+
+  top: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingRight: 10,
   },
 });
