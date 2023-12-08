@@ -244,6 +244,7 @@ import {
   Image,
   SafeAreaView,
   Dimensions,
+  TextInput,
 } from "react-native";
 import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
@@ -262,6 +263,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Link, Tabs } from "expo-router";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 import { useNavigation } from "expo-router";
 
@@ -272,11 +274,15 @@ export default function createVideo() {
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.torch);
   const cameraRef = useRef(null);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
+  const [wordValue, onChangeWordText] = React.useState("Word");
+  const [definitionValue, onChangeDefinitionText] =
+    React.useState("Definition");
 
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
@@ -330,10 +336,15 @@ export default function createVideo() {
       aspect: [1, 1],
       quality: 1,
     });
-    // console.log("pick video result" + result.assets[0].uri);
+    console.log("pick video result" + result.assets[0].uri);
     if (!result.canceled) {
       stopRecording();
       setVideo(result.assets[0]);
+      const { uri } = await VideoThumbnails.getThumbnailAsync(
+        decodeURI(result.assets[0].uri)
+      );
+      setThumbnail(thumbURI);
+      console.log("thumb: " + thumbnail + " thumb : " + thumbURI);
       // setIsRecording(false);
     }
   };
@@ -361,10 +372,26 @@ export default function createVideo() {
       else setIsSaved(true);
     };
 
+    const generateThumbnail = async (source) => {
+      try {
+        const { uri } = await VideoThumbnails.getThumbnailAsync(source, {
+          time: 15000,
+        });
+        setThumbnail(uri);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+
     return (
       <SafeAreaView style={styles.container}>
         {!isSaved ? (
           <>
+            <Tabs.Screen
+              options={{
+                headerShown: false,
+              }}
+            />
             <Video
               style={styles.video}
               source={{ uri: video.uri }}
@@ -458,16 +485,67 @@ export default function createVideo() {
             <Button title="Discard" onPress={() => setVideo(undefined)} />
           </>
         ) : (
-          <View
-            style={{
-              position: "absolute",
-              top: 70,
-              left: 30,
-            }}
-          >
-            <TouchableOpacity onPress={() => continueToUpload()}>
-              <AntDesign name="left" size={35} color="grey" />
-            </TouchableOpacity>
+          <View style={styles.editVideoContainer}>
+            <Tabs.Screen
+              options={{
+                headerShown: true,
+                title: "New Definition",
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => continueToUpload()}>
+                    <AntDesign
+                      name="left"
+                      size={35}
+                      color="black"
+                      style={{ paddingLeft: 20 }}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerRight: () => (
+                  <TouchableOpacity onPress={() => continueToUpload()}>
+                    <Text
+                      style={{ color: "blue", paddingRight: 20, fontSize: 20 }}
+                    >
+                      Share
+                    </Text>
+                  </TouchableOpacity>
+                ),
+              }}
+            />
+            <View style={styles.thumbnailRow}>
+              <View style={styles.thumbnailPlaceholder} />
+              <View
+                style={{
+                  flexDirection: "column",
+                  backgroundColor: "white",
+                  flex: 1,
+                }}
+              >
+                <View style={{ marginLeft: 15, flex: 1 }}>
+                  <TextInput
+                    editable
+                    multiline
+                    numberOfLines={4}
+                    maxLength={40}
+                    onChangeText={(text) => onChangeWordText(text)}
+                    value={wordValue}
+                    style={{ padding: 10 }}
+                  />
+                </View>
+                <View
+                  style={{ marginLeft: 15, flex: 1, backgroundColor: "grey" }}
+                >
+                  <TextInput
+                    editable
+                    multiline
+                    numberOfLines={4}
+                    maxLength={40}
+                    onChangeText={(text) => onChangeDefinitionText(text)}
+                    value={definitionValue}
+                    style={{ padding: 10 }}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
         )}
       </SafeAreaView>
@@ -475,27 +553,29 @@ export default function createVideo() {
   }
 
   return (
-    <View style={styles.container}>
-      {!image ? (
-        <Camera
-          style={styles.camera}
-          type={type}
-          ref={cameraRef}
-          flashMode={Camera.Constants.FlashMode.auto}
-          // resolution={VideoQuality["720p"]}
-          // maxFileSize={}
-        >
-          <View
-            style={{
-              position: "absolute",
-              top: 70,
-              left: 30,
-            }}
+    <>
+      <Tabs.Screen options={{ headerShown: false }} />
+      <View style={styles.container}>
+        {!image ? (
+          <Camera
+            style={styles.camera}
+            type={type}
+            ref={cameraRef}
+            flashMode={Camera.Constants.FlashMode.auto}
+            // resolution={VideoQuality["720p"]}
+            // maxFileSize={}
           >
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name="ios-close" size={35} color="grey" />
-            </TouchableOpacity>
-            {/* <Button
+            <View
+              style={{
+                position: "absolute",
+                top: 70,
+                left: 30,
+              }}
+            >
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="ios-close" size={35} color="grey" />
+              </TouchableOpacity>
+              {/* <Button
               title=""
               icon="retweet"
               onPress={() => {
@@ -515,106 +595,106 @@ export default function createVideo() {
               icon="flash"
               color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
             /> */}
-          </View>
-          {!isRecording ? (
-            <View
-              style={{
-                position: "absolute",
-                top: 60,
-                left: WindowWidth - 75,
-                flexDirection: "column",
-                justifyContent: "space-between",
-                alignContent: "space-between",
-                // flex: 1,
-                // backgroundColor: "white",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  setType(
-                    type === CameraType.front
-                      ? CameraType.back
-                      : CameraType.front
-                  );
+            </View>
+            {!isRecording ? (
+              <View
+                style={{
+                  position: "absolute",
+                  top: 60,
+                  left: WindowWidth - 75,
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignContent: "space-between",
+                  // flex: 1,
+                  // backgroundColor: "white",
                 }}
               >
-                <MaterialIcons
-                  name="flip-camera-android"
+                <TouchableOpacity
+                  onPress={() => {
+                    setType(
+                      type === CameraType.front
+                        ? CameraType.back
+                        : CameraType.front
+                    );
+                  }}
+                >
+                  <MaterialIcons
+                    name="flip-camera-android"
+                    size={45}
+                    color="grey"
+                    style={{ paddingVertical: 10 }}
+                  />
+                </TouchableOpacity>
+                <Ionicons
+                  name="ios-flash-off"
                   size={45}
                   color="grey"
                   style={{ paddingVertical: 10 }}
                 />
-              </TouchableOpacity>
-              <Ionicons
-                name="ios-flash-off"
-                size={45}
-                color="grey"
-                style={{ paddingVertical: 10 }}
-              />
-              <FontAwesome
-                name="magic"
-                size={45}
-                color="grey"
-                style={{ paddingVertical: 10 }}
-              />
-              {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
-            </View>
-          ) : (
-            <></>
-          )}
-          <View
-            style={{
-              // flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 30,
-            }}
-          >
-            <TouchableOpacity
-              onPress={isRecording ? stopRecording : recordVideo}
-              style={{
-                position: "absolute",
-                top: WindowHeight - 180,
-                left: WindowWidth / 2 - 40,
-              }}
-            >
-              {isRecording ? (
-                <Ionicons name="stop-circle-outline" size={80} color="red" />
-              ) : (
-                <Fontisto name="record" size={80} color="white" />
-              )}
-            </TouchableOpacity>
-            {!isRecording ? (
-              <TouchableOpacity
-                onPress={() => pickVideo()}
-                style={{
-                  position: "absolute",
-                  top: WindowHeight - 175,
-                  left: WindowWidth - 95,
-                }}
-              >
-                <MaterialIcons
-                  name="photo-size-select-actual"
-                  size={60}
-                  color="white"
+                <FontAwesome
+                  name="magic"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
                 />
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 12,
-                    textAlign: "center",
-                  }}
-                >
-                  Upload
-                </Text>
-              </TouchableOpacity>
+                {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
+              </View>
             ) : (
               <></>
             )}
-          </View>
-        </Camera>
-      ) : (
-        <>
-          {/* <Image source={{ uri: image }} style={styles.camera} />
+            <View
+              style={{
+                // flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 30,
+              }}
+            >
+              <TouchableOpacity
+                onPress={isRecording ? stopRecording : recordVideo}
+                style={{
+                  position: "absolute",
+                  top: WindowHeight - 180,
+                  left: WindowWidth / 2 - 40,
+                }}
+              >
+                {isRecording ? (
+                  <Ionicons name="stop-circle-outline" size={80} color="red" />
+                ) : (
+                  <Fontisto name="record" size={80} color="white" />
+                )}
+              </TouchableOpacity>
+              {!isRecording ? (
+                <TouchableOpacity
+                  onPress={() => pickVideo()}
+                  style={{
+                    position: "absolute",
+                    top: WindowHeight - 175,
+                    left: WindowWidth - 95,
+                  }}
+                >
+                  <MaterialIcons
+                    name="photo-size-select-actual"
+                    size={60}
+                    color="white"
+                  />
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 12,
+                      textAlign: "center",
+                    }}
+                  >
+                    Upload
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <></>
+              )}
+            </View>
+          </Camera>
+        ) : (
+          <>
+            {/* <Image source={{ uri: image }} style={styles.camera} />
           <View style={styles.controls}>
             {image ? (
               <View
@@ -635,9 +715,10 @@ export default function createVideo() {
               <View></View>
             )}
           </View> */}
-        </>
-      )}
-    </View>
+          </>
+        )}
+      </View>
+    </>
   );
 }
 
@@ -647,6 +728,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#000",
+    // padding: 8,
+    height: Dimensions.get("window").height,
+  },
+  editVideoContainer: {
+    flex: 1,
+    // justifyContent: "center",
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "white",
     // padding: 8,
     height: Dimensions.get("window").height,
   },
@@ -682,6 +771,13 @@ const styles = StyleSheet.create({
   },
   topControls: {
     flex: 1,
+  },
+  thumbnailRow: { flexDirection: "row", height: 200, backgroundColor: "grey" },
+  thumbnailPlaceholder: {
+    width: 120,
+    marginVertical: 15,
+    marginLeft: 30,
+    backgroundColor: "black",
   },
 });
 
