@@ -246,6 +246,7 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
+  Pressable,
 } from "react-native";
 import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
@@ -288,12 +289,20 @@ export default function createVideo() {
   const [video, setVideo] = useState();
   const [wordValue, onChangeWordText] = React.useState();
   const [definitionValue, onChangeDefinitionText] = React.useState();
+  const [isPressedC1, setIsPressedC1] = useState(false);
+  const [isPressedC2, setIsPressedC2] = useState(false);
+  const [isPressedC3, setIsPressedC3] = useState(false);
+  const [isPressedC4, setIsPressedC4] = useState(false);
+  const [isPressedC5, setIsPressedC5] = useState(false);
+  const [isPressedC6, setIsPressedC6] = useState(false);
+  const [isPressedC7, setIsPressedC7] = useState(false);
 
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
 
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
+
   const generateThumbnail = async (source) => {
     try {
       const { uri } = await VideoThumbnails.getThumbnailAsync(source, {
@@ -840,7 +849,126 @@ export default function createVideo() {
             </View>
             <View style={styles.category_container}>
               <Text style={styles.category_txt}>Add Categories</Text>
-              <CategoryList />
+              <ScrollView
+                style={[
+                  {
+                    flexDirection: "row",
+                    marginTop: 5,
+                    paddingHorizontal: 20,
+                    paddingVertical: 10,
+                    // borderWidth: 1,
+                    // borderColor: "black",
+                    borderRadius: 10,
+                  },
+                  { maxHeight: 100 },
+                ]}
+                horizontal={true}
+              >
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC1 ? setIsPressedC1(false) : setIsPressedC1(true)
+                  }
+                >
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      marginRight: 20,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Ionicons
+                      name="ios-videocam"
+                      size={40}
+                      color={isPressedC1 ? colors.trainGoneBlue : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Movies</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC2 ? setIsPressedC2(false) : setIsPressedC2(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialIcons
+                      name="explore"
+                      size={44}
+                      color={isPressedC2 ? colors.spotify : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Adventure</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC3 ? setIsPressedC3(false) : setIsPressedC3(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialIcons
+                      name="sports-basketball"
+                      size={44}
+                      color={isPressedC3 ? colors.orange : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Sports</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC4 ? setIsPressedC4(false) : setIsPressedC4(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialCommunityIcons
+                      name="apple-icloud"
+                      size={44}
+                      color={isPressedC4 ? colors.lightGrey : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Weather</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC5 ? setIsPressedC5(false) : setIsPressedC5(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialCommunityIcons
+                      name="food-apple"
+                      size={44}
+                      color={isPressedC5 ? colors.spotify : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Food</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC6 ? setIsPressedC6(false) : setIsPressedC6(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialCommunityIcons
+                      name="cup"
+                      size={44}
+                      color={isPressedC6 ? colors.blue : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Drinks</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    isPressedC7 ? setIsPressedC7(false) : setIsPressedC7(true)
+                  }
+                >
+                  <View style={styles.item}>
+                    <MaterialCommunityIcons
+                      name="human-greeting"
+                      size={44}
+                      color={isPressedC7 ? colors.lightGrey : colors.grey}
+                    />
+                    <Text style={styles.item.txt}>Greetings</Text>
+                  </View>
+                </TouchableOpacity>
+              </ScrollView>
             </View>
             <ScrollView>
               <View style={styles.grouping_container}>
@@ -1384,6 +1512,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     textAlign: "center",
+  },
+  item: {
+    flexDirection: "column",
+    marginRight: 20,
+    alignItems: "center",
+  },
+  itemText: {
+    marginTop: 0,
+    fontSize: 16,
+  },
+
+  linkContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  itemText: {
+    marginTop: 0,
+    fontSize: 16,
   },
 });
 
