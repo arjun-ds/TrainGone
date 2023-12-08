@@ -1157,7 +1157,7 @@ const styles = StyleSheet.create({
   },
   category_container: {
     marginVertical: 10,
-    paddingHorizontal: 35,
+    paddingHorizontal: 15,
   },
 
   category_txt: {
@@ -1167,7 +1167,8 @@ const styles = StyleSheet.create({
   },
   grouping_container: {
     width: "100%",
-    paddingBottom: 120,
+    paddingBottom: 75,
+    paddingHorizontal: 15,
   },
 
   grouping_txt: {
