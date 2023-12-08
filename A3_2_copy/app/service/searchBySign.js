@@ -21,6 +21,7 @@ import { Themes } from "../../assets/Themes";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 export default function searchBySign() {
   const navigation = useRouter();
@@ -45,6 +46,24 @@ export default function searchBySign() {
       isPressed: false,
       image: require("../../assets/Images/D-2.png"),
       label: "D",
+    },
+  ]);
+
+  const [handshape2ButtonStates, setHandshape2ButtonStates] = useState([
+    {
+      isPressed: false,
+      image: require("../../assets/Images/S.png"),
+      label: "S",
+    },
+    {
+      isPressed: false,
+      image: require("../../assets/Images/open-5.png"),
+      label: "Open-5",
+    },
+    {
+      isPressed: false,
+      image: require("../../assets/Images/6-W.png"),
+      label: "6/W",
     },
   ]);
 
@@ -168,12 +187,26 @@ export default function searchBySign() {
       color: "black",
       backgroundColor: colors.extraLightGrey,
     },
+    {
+      isPressed: false,
+      name: "cycle",
+      color: "black",
+      backgroundColor: colors.extraLightGrey,
+    },
   ]);
+
   // GPT asisted handle press.
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
     setHandshapeButtonStates(newButtonStates);
+  };
+
+  const handleHandshape2Press = (index) => {
+    const newHandshape2ButtonStates = [...handshape2ButtonStates];
+    newHandshape2ButtonStates[index].isPressed =
+      !newHandshape2ButtonStates[index].isPressed;
+    setHandshape2ButtonStates(newHandshape2ButtonStates);
   };
 
   const handlePO1Press = (index) => {
@@ -214,12 +247,26 @@ export default function searchBySign() {
   };
 
   const handleSearch = () => {
-    if (indexes === 0) {
-      navigation.push("/service/searchResults");
-    } else if (indexes === 1) {
-      navigation.push("/service/searchResults2");
-    } else if (indexes === 2) {
-      navigation.push("/service/searchResults3");
+    if (
+      handshapeButtonStates[2] &&
+      handshape2ButtonStates[0] &&
+      po2ButtonStates[0] &&
+      palmMovementStates[2]
+    ) {
+      navigation.push("/service/milk");
+    } else if (
+      palmMovementStates[2].isPressed &&
+      po2ButtonStates[0].isPressed &&
+      handshape2ButtonStates[2].isPressed
+    ) {
+      navigation.push("/service/water");
+    } else if (
+      palmMovementStates[3].isPressed &&
+      handshape2ButtonStates[0].isPressed &&
+      po2ButtonStates[2].isPressed &&
+      palmMovementStates[2].isPressed
+    ) {
+      navigation.push("/service/coffee");
     }
   };
 
@@ -250,6 +297,34 @@ export default function searchBySign() {
                 </View>
               </TouchableOpacity>
             ))}
+          </View>
+          <View style={styles.handshape_container}>
+            <View style={styles.gap}>
+              {handshape2ButtonStates.map((button, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleHandshape2Press(index)}
+                  activeOpacity={1}
+                >
+                  <View style={styles.handshape}>
+                    <Image
+                      style={styles.handshape_image}
+                      source={button.image}
+                    />
+                    <View
+                      style={[
+                        styles.captionContainer,
+                        button.isPressed
+                          ? { backgroundColor: colors.grey }
+                          : null,
+                      ]}
+                    >
+                      <Text style={styles.captionText}>{button.label}</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </View>
         <View style={styles.grouping_container}>
@@ -340,12 +415,16 @@ export default function searchBySign() {
                   style={styles.iconBox}
                   backgroundColor={button.backgroundColor}
                 >
-                  <Octicons
-                    name={button.name}
-                    size={64}
-                    color={button.color}
-                    style={{ transform: [{ rotate: "315deg" }] }}
-                  />
+                  {button.name === "cycle" ? (
+                    <Entypo name={button.name} size={64} color={button.color} />
+                  ) : (
+                    <Octicons
+                      name={button.name}
+                      size={64}
+                      color={button.color}
+                      style={{ transform: [{ rotate: "315deg" }] }}
+                    />
+                  )}
                 </View>
               </TouchableOpacity>
             ))}
@@ -395,6 +474,13 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
 
+  gap: {
+    flex: 1,
+    flexDirection: "row",
+    paddingTop: 25,
+    justifyContent: "space-around",
+  },
+
   po_container: {
     flexDirection: "row",
     width: "100%",
@@ -416,7 +502,7 @@ const styles = StyleSheet.create({
   handshape_image: {
     flex: 1,
     // flexDirection: "row",
-    backgroundColor: Themes.colors.lightGrey,
+    //backgroundColor: Themes.colors.lightGrey,
     height: 140,
     // width: 80,
     //marginTop: 5,
@@ -486,7 +572,7 @@ const styles = StyleSheet.create({
   },
 
   iconBox: {
-    // backgroundColor: colors.extraLightGrey,
+    backgroundColor: colors.extraLightGrey,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
