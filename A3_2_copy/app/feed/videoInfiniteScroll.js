@@ -93,9 +93,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>What's up?</Text>
@@ -121,9 +118,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Good To See You</Text>
@@ -149,9 +143,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>What's Up?</Text>
@@ -177,9 +168,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Milk</Text>
@@ -205,9 +193,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Water</Text>
@@ -233,9 +218,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Baseball</Text>
@@ -261,9 +243,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Football</Text>
@@ -288,10 +267,6 @@ export default function videoInfiniteScroll() {
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
-          {/* 
-          <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Coffee</Text>
@@ -317,9 +292,6 @@ export default function videoInfiniteScroll() {
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
 
-          {/* <View style={styles.videos}>
-            <Text>This is a pink view in your app!</Text>
-          </View> */}
           <View style={styles.overlay}>
             <View style={styles.description}>
               <Text style={styles.overlayText}>Soccer</Text>

@@ -32,11 +32,6 @@ export default function Page() {
   const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
 
-  const setTokenAndNavigate = () => {
-    // Set your token logic here
-    setToken(1);
-  };
-
   let contentDisplayed = null;
   if (token) {
     contentDisplayed = (
@@ -56,6 +51,7 @@ export default function Page() {
               style={styles.searchBar}
               onChangeText={(text) => setSearchText(text)}
               value={searchText}
+              onSubmitEditing={() => navigation.push("feed/Greetings")}
             />
           </View>
           <Pressable onPress={() => navigation.push("/service/searchBySign")}>

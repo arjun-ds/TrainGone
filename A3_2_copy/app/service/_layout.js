@@ -5,7 +5,19 @@ export default function Layout() {
     <Stack>
       <Stack.Screen
         name="searchBySign"
-        options={{ headerShown: true, title: "Search by Sign" }}
+        options={{
+          headerShown: true,
+          title: "Search by Sign",
+          headerBackTitle: "Back",
+        }}
+      />
+      <Stack.Screen
+        name="searchResults"
+        options={{
+          headerShown: true,
+          title: "Search Results",
+          headerBackTitle: "Back",
+        }}
       />
     </Stack>
   );
