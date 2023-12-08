@@ -2,6 +2,10 @@ import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { BottomTabBar } from "@react-navigation/bottom-tabs";
 
+export const unstable_settings = {
+  initialRouteName: "index",
+};
+
 export default function HomeLayout() {
   return (
     <Tabs
