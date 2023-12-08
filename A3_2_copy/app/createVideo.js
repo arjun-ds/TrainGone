@@ -286,9 +286,8 @@ export default function createVideo() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
-  const [wordValue, onChangeWordText] = React.useState("Word");
-  const [definitionValue, onChangeDefinitionText] =
-    React.useState("Definition");
+  const [wordValue, onChangeWordText] = React.useState();
+  const [definitionValue, onChangeDefinitionText] = React.useState();
 
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
@@ -763,10 +762,11 @@ export default function createVideo() {
                     editable
                     multiline
                     numberOfLines={4}
-                    maxLength={40}
+                    // maxLength={40}
                     onChangeText={(text) => onChangeWordText(text)}
                     value={wordValue}
-                    style={{ padding: 10 }}
+                    placeholder="Word"
+                    style={{ padding: 10, width: "100%", height: "100%" }}
                   />
                 </View>
                 <View
@@ -783,10 +783,11 @@ export default function createVideo() {
                     editable
                     multiline
                     numberOfLines={4}
-                    maxLength={40}
+                    // maxLength={40}
                     onChangeText={(text) => onChangeDefinitionText(text)}
                     value={definitionValue}
-                    style={{ padding: 10 }}
+                    placeholder="Definition"
+                    style={{ padding: 10, width: "100%", height: "100%" }}
                   />
                 </View>
               </View>
