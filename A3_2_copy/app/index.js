@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 
   category_container: {
     marginVertical: 10,
-    paddingHorizontal: 35,
+    // paddingHorizontal: 25,
   },
 
   category_txt: {

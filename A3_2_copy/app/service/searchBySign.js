@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as React from "react";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 import {
   Button,
@@ -22,10 +22,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function searchBySign() {
   const navigation = useRouter();
   const [indexes, setIndexes] = useState(0);
+  const backNavigation = useNavigation();
+
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -272,6 +276,22 @@ export default function searchBySign() {
 
   return (
     <ScrollView>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: "New Definition",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => backNavigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={35}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <View style={styles.container}>
         <View style={styles.grouping_container}>
           <Text style={styles.grouping_txt}> Handshape</Text>

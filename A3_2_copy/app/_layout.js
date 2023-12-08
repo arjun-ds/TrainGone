@@ -11,6 +11,7 @@ export default function HomeLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarStyle: {},
       }}
       backBehavior="history"
       // tabBar={(props) => (

@@ -40,53 +40,53 @@ const CategoryList = () => {
         <Link style={styles.linkContainer} href={{ pathname: "feed/Drinks" }}>
           <Ionicons
             name="ios-videocam"
-            size={40}
+            size={50}
             color={colors.trainGoneBlue}
           />
         </Link>
-        <Text style={styles.item.txt}>Movies</Text>
+        <Text style={styles.itemText}>Movies</Text>
       </View>
       <View style={styles.item}>
         <Link style={styles.linkContainer} href={{ pathname: "feed/Drinks" }}>
-          <MaterialIcons name="explore" size={44} color={colors.spotify} />
+          <MaterialIcons name="explore" size={54} color={colors.spotify} />
         </Link>
-        <Text style={styles.item.txt}>Adventure</Text>
+        <Text style={styles.itemText}>Adventure</Text>
       </View>
       <View style={styles.item}>
         <Link style={styles.linkContainer} href={{ pathname: "feed/Sports" }}>
           <MaterialIcons
             name="sports-basketball"
-            size={44}
+            size={54}
             color={colors.orange}
           />
         </Link>
-        <Text style={styles.item.txt}>Sports</Text>
+        <Text style={styles.itemText}>Sports</Text>
       </View>
       <View style={styles.item}>
         <Link style={styles.linkContainer} href={{ pathname: "feed/Drinks" }}>
           <MaterialCommunityIcons
             name="apple-icloud"
-            size={44}
+            size={54}
             color={colors.lightGrey}
           />
         </Link>
-        <Text style={styles.item.txt}>Weather</Text>
+        <Text style={styles.itemText}>Weather</Text>
       </View>
       <View style={styles.item}>
         <Link style={styles.linkContainer} href={{ pathname: "feed/Drinks" }}>
           <MaterialCommunityIcons
             name="food-apple"
-            size={44}
+            size={54}
             color={colors.spotify}
           />
         </Link>
-        <Text style={styles.item.txt}>Food</Text>
+        <Text style={styles.itemText}>Food</Text>
       </View>
       <View style={styles.item}>
         <Link style={styles.linkContainer} href={{ pathname: "feed/Drinks" }}>
-          <MaterialCommunityIcons name="cup" size={44} color={colors.blue} />
+          <MaterialCommunityIcons name="cup" size={54} color={colors.blue} />
         </Link>
-        <Text style={styles.item.txt}>Drinks</Text>
+        <Text style={styles.itemText}>Drinks</Text>
       </View>
       <View style={styles.item}>
         <Link
@@ -95,11 +95,11 @@ const CategoryList = () => {
         >
           <MaterialCommunityIcons
             name="human-greeting"
-            size={44}
+            size={54}
             color={colors.lightGrey}
           />
         </Link>
-        <Text style={styles.item.txt}>Greetings</Text>
+        <Text style={styles.itemText}>Greetings</Text>
       </View>
     </ScrollView>
   );
