@@ -105,7 +105,7 @@ export default function Greetings() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -128,7 +128,7 @@ export default function Greetings() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
           <Video
@@ -151,7 +151,7 @@ export default function Greetings() {
               </View>
             </View>
             <Pressable onPress={adjustHeart}>
-              <Ionicons name={id} size={30} color="black" />
+              <Ionicons name={id} size={30} color="red" />
             </Pressable>
           </View>
         </ScrollView>
@@ -185,7 +185,8 @@ const styles = StyleSheet.create({
   overlayText: {
     color: "black",
     fontSize: 20,
-    paddingRight: 20,
+    paddingRight: 10,
+    fontWeight: "bold",
   },
 
   category_txt: {
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
+    backgroundColor: Themes.colors.blue,
   },
 
   video: { flex: 1 },
