@@ -371,6 +371,24 @@ export default function createVideo() {
     },
   ]);
 
+  const [nounAVButtonStates, setNounAVButtonStates] = useState([
+    {
+      isPressed: false,
+      label: "Noun",
+      // pos: -85,
+    },
+    {
+      isPressed: false,
+      label: "Adjective",
+      // pos: -85,
+    },
+    {
+      isPressed: false,
+      label: "Verb",
+      // pos: -75,
+    },
+  ]);
+
   const [bodyPosStates, setBodyPosStates] = useState([
     {
       isPressed: false,
@@ -464,6 +482,12 @@ export default function createVideo() {
     const newPO2ButtonStates = [...po2ButtonStates];
     newPO2ButtonStates[index].isPressed = !newPO2ButtonStates[index].isPressed;
     setPO2ButtonStates(newPO2ButtonStates);
+  };
+  const handleNounAVButtonPress = (index) => {
+    const newNounAVButtonStates = [...nounAVButtonStates];
+    newNounAVButtonStates[index].isPressed =
+      !newNounAVButtonStates[index].isPressed;
+    setNounAVButtonStates(newNounAVButtonStates);
   };
   const handleBodyPosPress = (index) => {
     const newBodyPosStates = [...bodyPosStates];
@@ -748,30 +772,50 @@ export default function createVideo() {
               </View>
             </View>
             <View style={styles.nounAVrow}>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                {nounAVButtonStates.map((button, index, image) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleNounAVButtonPress(index)}
+                    activeOpacity={1}
+                  >
+                    <View style={styles.handshape}>
+                      <View
+                        style={[
+                          styles.nounAV_captionContainer,
+                          button.isPressed
+                            ? { backgroundColor: "#91f0aa" }
+                            : null,
+                        ]}
+                        bottom={button.pos}
+                      >
+                        <Text
+                          adjustsFontSizeToFit
+                          style={styles.nounAV_captionText}
+                          numberOfLines={3}
+                        >
+                          {button.label}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {/* <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Noun</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
+              <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Adjective</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
-              </TouchableOpacity>
+              <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Word</Text>
+              </TouchableOpacity> */}
             </View>
             <View style={styles.category_container}>
               <Text style={styles.category_txt}>Add Categories</Text>
@@ -851,7 +895,7 @@ export default function createVideo() {
                           style={[
                             styles.po2_captionContainer,
                             button.isPressed
-                              ? { backgroundColor: colors.grey }
+                              ? { backgroundColor: "colors.grey" }
                               : null,
                           ]}
                           bottom={button.pos}
@@ -1142,17 +1186,20 @@ const styles = StyleSheet.create({
   topControls: {
     flex: 1,
   },
-  thumbnailRow: { flexDirection: "row", height: 200, backgroundColor: "grey" },
+  thumbnailRow: { flexDirection: "row", height: 200 },
   thumbnailPlaceholder: {
     width: 120,
     marginVertical: 15,
     marginLeft: 30,
     backgroundColor: "black",
+    borderRadius: 15,
   },
   nounAVrow: {
     height: 100,
-    backgroundColor: "green",
+    // backgroundColor: "green",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     // flex: 1,
   },
   category_container: {
@@ -1245,6 +1292,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
+  nounAV_captionContainer: {
+    //width: "100%",
+    // position: "absolute",
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+  },
   captionText: {
     color: colors.black,
     fontSize: 16,
@@ -1254,6 +1309,12 @@ const styles = StyleSheet.create({
   po2_captionText: {
     color: colors.black,
     fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  nounAV_captionText: {
+    color: colors.black,
+    adjustsFontSizeToFit: true,
     fontWeight: "bold",
     textAlign: "center",
   },
