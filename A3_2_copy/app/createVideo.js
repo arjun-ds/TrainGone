@@ -271,6 +271,7 @@ import { useNavigation } from "expo-router";
 import { Themes } from "../assets/Themes";
 import { colors } from "../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -304,6 +305,9 @@ export default function createVideo() {
       console.warn(e);
     }
   };
+
+  const [indexes, setIndexes] = useState(0);
+
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -745,7 +749,16 @@ export default function createVideo() {
                   flex: 1,
                 }}
               >
-                <View style={{ marginLeft: 15, flex: 1 }}>
+                <View
+                  style={{
+                    marginLeft: 15,
+                    marginTop: 15,
+                    marginBottom: 7,
+                    flex: 1,
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 15,
+                  }}
+                >
                   <TextInput
                     editable
                     multiline
@@ -757,7 +770,14 @@ export default function createVideo() {
                   />
                 </View>
                 <View
-                  style={{ marginLeft: 15, flex: 1, backgroundColor: "grey" }}
+                  style={{
+                    marginLeft: 15,
+                    marginBottom: 15,
+                    marginTop: 7,
+                    flex: 1,
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 15,
+                  }}
                 >
                   <TextInput
                     editable
@@ -790,15 +810,15 @@ export default function createVideo() {
                         style={[
                           styles.nounAV_captionContainer,
                           button.isPressed
-                            ? { backgroundColor: "#91f0aa" }
+                            ? { backgroundColor: "#6ba4ff" }
                             : null,
                         ]}
                         bottom={button.pos}
                       >
                         <Text
-                          adjustsFontSizeToFit
+                          // adjustsFontSizeToFit
                           style={styles.nounAV_captionText}
-                          numberOfLines={3}
+                          numberOfLines={1}
                         >
                           {button.label}
                         </Text>
@@ -1297,7 +1317,7 @@ const styles = StyleSheet.create({
     // position: "absolute",
     backgroundColor: colors.extraLightGrey,
     borderRadius: 50,
-    paddingHorizontal: 25,
+    width: 100,
     paddingVertical: 15,
   },
   captionText: {
