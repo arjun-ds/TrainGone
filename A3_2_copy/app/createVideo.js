@@ -474,15 +474,16 @@ export default function createVideo() {
           </View> */}
             </Video>
             {/* <Button title="Share" onPress={shareVideo} /> */}
-            {hasMediaLibraryPermission ? (
-              <Button
-                title="Continue to Upload"
-                onPress={() => continueToUpload()}
-              />
-            ) : (
-              // <Button title="Save" onPress={navigation.navigate("editVideo")} />
-              <></>
-            )}
+            {/* {hasMediaLibraryPermission ? ( */}
+            <Button
+              title="Continue to Upload"
+              onPress={() => continueToUpload()}
+            />
+            {/* ) : ( */}
+
+            {/* <Button title="Save" onPress={navigation.navigate("editVideo")} /> */}
+            <></>
+            {/* )} */}
             <Button title="Discard" onPress={() => setVideo(undefined)} />
           </>
         ) : (
