@@ -264,6 +264,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Link, Tabs } from "expo-router";
 import * as VideoThumbnails from "expo-video-thumbnails";
+import CategoryList from "../assets/Images/Components/categoryList";
 
 import { useNavigation } from "expo-router";
 
@@ -546,6 +547,36 @@ export default function createVideo() {
                 </View>
               </View>
             </View>
+            <View style={styles.nounAVrow}>
+              <TouchableOpacity>
+                <AntDesign
+                  name="left"
+                  size={35}
+                  color="black"
+                  style={{ paddingLeft: 20 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <AntDesign
+                  name="left"
+                  size={35}
+                  color="black"
+                  style={{ paddingLeft: 20 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <AntDesign
+                  name="left"
+                  size={35}
+                  color="black"
+                  style={{ paddingLeft: 20 }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.category_container}>
+              <Text style={styles.category_txt}>Add Categories</Text>
+              <CategoryList />
+            </View>
           </View>
         )}
       </SafeAreaView>
@@ -778,6 +809,22 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginLeft: 30,
     backgroundColor: "black",
+  },
+  nounAVrow: {
+    height: 100,
+    backgroundColor: "green",
+    flexDirection: "row",
+    // flex: 1,
+  },
+  category_container: {
+    marginVertical: 10,
+    paddingHorizontal: 35,
+  },
+
+  category_txt: {
+    paddingLeft: 10,
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 
