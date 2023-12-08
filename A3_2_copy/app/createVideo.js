@@ -245,6 +245,7 @@ import {
   SafeAreaView,
   Dimensions,
   TextInput,
+  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
@@ -267,6 +268,10 @@ import * as VideoThumbnails from "expo-video-thumbnails";
 import CategoryList from "../assets/Images/Components/categoryList";
 
 import { useNavigation } from "expo-router";
+import { Themes } from "../assets/Themes";
+import { colors } from "../assets/Themes/colors";
+import { Octicons } from "@expo/vector-icons";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -281,16 +286,248 @@ export default function createVideo() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [isRecording, setIsRecording] = useState(false);
   const [video, setVideo] = useState();
-  const [wordValue, onChangeWordText] = React.useState("Word");
-  const [definitionValue, onChangeDefinitionText] =
-    React.useState("Definition");
+  const [wordValue, onChangeWordText] = React.useState();
+  const [definitionValue, onChangeDefinitionText] = React.useState();
 
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
 
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
+  const generateThumbnail = async (source) => {
+    try {
+      const { uri } = await VideoThumbnails.getThumbnailAsync(source, {
+        time: 15000,
+      });
+      setThumbnail(uri);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
+  const [indexes, setIndexes] = useState(0);
+
+  const [handshapeButtonStates, setHandshapeButtonStates] = useState([
+    {
+      isPressed: false,
+      image: require("../assets/Images/A-3.png"),
+      label: "A",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/B-3.png"),
+      label: "B",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/C-2.png"),
+      label: "C",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/D-2.png"),
+      label: "D",
+    },
+  ]);
+
+  const [po1ButtonStates, setPO1ButtonStates] = useState([
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-out.png"),
+      label: "Out",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-in.png"),
+      label: "In",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-down.png"),
+      label: "Down",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-up.png"),
+      label: "Up",
+    },
+  ]);
+
+  const [po2ButtonStates, setPO2ButtonStates] = useState([
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-nondominant.png"),
+      label: "Facing\nnon-dominant\nside",
+      pos: -85,
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/palm-dominant.png"),
+      label: "Facing\ndominant\nside",
+      pos: -85,
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/palms-facing-eachother.png"),
+      label: "Facing\neach other",
+      pos: -75,
+    },
+  ]);
+
+  const [nounAVButtonStates, setNounAVButtonStates] = useState([
+    {
+      isPressed: false,
+      label: "Noun",
+      // pos: -85,
+    },
+    {
+      isPressed: false,
+      label: "Adjective",
+      // pos: -85,
+    },
+    {
+      isPressed: false,
+      label: "Verb",
+      // pos: -75,
+    },
+  ]);
+
+  const [bodyPosStates, setBodyPosStates] = useState([
+    {
+      isPressed: false,
+      color: null,
+      x: 25,
+      y: 135,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 70,
+      y: 130,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 125,
+      y: 121,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 230,
+      y: 95,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 270,
+      y: 55,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 270,
+      y: 125,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 230,
+      y: 155,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 235,
+      y: 255,
+    },
+    {
+      isPressed: false,
+      color: null,
+      x: 260,
+      y: 210,
+    },
+  ]);
+
+  const [palmMovementStates, setPalmMovementStates] = useState([
+    {
+      isPressed: false,
+      name: "arrow-right",
+      color: "black",
+      backgroundColor: colors.extraLightGrey,
+    },
+    {
+      isPressed: false,
+      name: "arrow-left",
+      color: "black",
+      backgroundColor: colors.extraLightGrey,
+    },
+    {
+      isPressed: false,
+      name: "arrow-switch",
+      color: "black",
+      backgroundColor: colors.extraLightGrey,
+    },
+  ]);
+  // GPT asisted handle press.
+  const handlePress = (index) => {
+    const newButtonStates = [...handshapeButtonStates];
+    newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
+    setHandshapeButtonStates(newButtonStates);
+  };
+
+  const handlePO1Press = (index) => {
+    const newPO1ButtonStates = [...po1ButtonStates];
+    newPO1ButtonStates[index].isPressed = !newPO1ButtonStates[index].isPressed;
+    setPO1ButtonStates(newPO1ButtonStates);
+  };
+  const handlePO2Press = (index) => {
+    const newPO2ButtonStates = [...po2ButtonStates];
+    newPO2ButtonStates[index].isPressed = !newPO2ButtonStates[index].isPressed;
+    setPO2ButtonStates(newPO2ButtonStates);
+  };
+  const handleNounAVButtonPress = (index) => {
+    const newNounAVButtonStates = [...nounAVButtonStates];
+    newNounAVButtonStates[index].isPressed =
+      !newNounAVButtonStates[index].isPressed;
+    setNounAVButtonStates(newNounAVButtonStates);
+  };
+  const handleBodyPosPress = (index) => {
+    const newBodyPosStates = [...bodyPosStates];
+    newBodyPosStates[index].isPressed = !newBodyPosStates[index].isPressed;
+    if (newBodyPosStates[index].color) {
+      newBodyPosStates[index].color = null;
+    } else {
+      newBodyPosStates[index].color = colors.blue;
+    }
+    setBodyPosStates(newBodyPosStates);
+  };
+  () => navigation.push("service/searchResults");
+
+  const handlePalmMovementPress = (index) => {
+    const newPalmMovementStates = [...palmMovementStates];
+    setIndexes(index);
+    newPalmMovementStates[index].isPressed =
+      !newPalmMovementStates[index].isPressed;
+    if (!newPalmMovementStates[index].isPressed) {
+      newPalmMovementStates[index].color = "black";
+      newPalmMovementStates[index].backgroundColor = colors.extraLightGrey;
+    } else {
+      newPalmMovementStates[index].color = "white";
+      newPalmMovementStates[index].backgroundColor = colors.blue;
+    }
+    setPalmMovementStates(newPalmMovementStates);
+  };
+
+  const handleSearch = () => {
+    if (indexes === 0) {
+      navigation.push("/service/searchResults");
+    } else if (indexes === 1) {
+      navigation.push("/service/searchResults2");
+    } else if (indexes === 2) {
+      navigation.push("/service/searchResults3");
+    }
+  };
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -371,17 +608,6 @@ export default function createVideo() {
     let continueToUpload = () => {
       if (isSaved) setIsSaved(false);
       else setIsSaved(true);
-    };
-
-    const generateThumbnail = async (source) => {
-      try {
-        const { uri } = await VideoThumbnails.getThumbnailAsync(source, {
-          time: 15000,
-        });
-        setThumbnail(uri);
-      } catch (e) {
-        console.warn(e);
-      }
     };
 
     return (
@@ -503,7 +729,7 @@ export default function createVideo() {
                   </TouchableOpacity>
                 ),
                 headerRight: () => (
-                  <TouchableOpacity onPress={() => continueToUpload()}>
+                  <TouchableOpacity onPress={() => saveVideo()}>
                     <Text
                       style={{ color: "blue", paddingRight: 20, fontSize: 20 }}
                     >
@@ -522,62 +748,239 @@ export default function createVideo() {
                   flex: 1,
                 }}
               >
-                <View style={{ marginLeft: 15, flex: 1 }}>
-                  <TextInput
-                    editable
-                    multiline
-                    numberOfLines={4}
-                    maxLength={40}
-                    onChangeText={(text) => onChangeWordText(text)}
-                    value={wordValue}
-                    style={{ padding: 10 }}
-                  />
-                </View>
                 <View
-                  style={{ marginLeft: 15, flex: 1, backgroundColor: "grey" }}
+                  style={{
+                    marginLeft: 15,
+                    marginTop: 15,
+                    marginBottom: 7,
+                    flex: 1,
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 15,
+                  }}
                 >
                   <TextInput
                     editable
                     multiline
                     numberOfLines={4}
-                    maxLength={40}
+                    // maxLength={40}
+                    onChangeText={(text) => onChangeWordText(text)}
+                    value={wordValue}
+                    placeholder="Word"
+                    style={{ padding: 10, width: "100%", height: "100%" }}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: 15,
+                    marginBottom: 15,
+                    marginTop: 7,
+                    flex: 1,
+                    backgroundColor: "#f4f4f4",
+                    borderRadius: 15,
+                  }}
+                >
+                  <TextInput
+                    editable
+                    multiline
+                    numberOfLines={4}
+                    // maxLength={40}
                     onChangeText={(text) => onChangeDefinitionText(text)}
                     value={definitionValue}
-                    style={{ padding: 10 }}
+                    placeholder="Definition"
+                    style={{ padding: 10, width: "100%", height: "100%" }}
                   />
                 </View>
               </View>
             </View>
             <View style={styles.nounAVrow}>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                {nounAVButtonStates.map((button, index, image) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleNounAVButtonPress(index)}
+                    activeOpacity={1}
+                  >
+                    <View style={styles.handshape}>
+                      <View
+                        style={[
+                          styles.nounAV_captionContainer,
+                          button.isPressed
+                            ? { backgroundColor: "#6ba4ff" }
+                            : null,
+                        ]}
+                        bottom={button.pos}
+                      >
+                        <Text
+                          // adjustsFontSizeToFit
+                          style={styles.nounAV_captionText}
+                          numberOfLines={1}
+                        >
+                          {button.label}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {/* <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Noun</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
+              <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Adjective</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <AntDesign
-                  name="left"
-                  size={35}
-                  color="black"
-                  style={{ paddingLeft: 20 }}
-                />
-              </TouchableOpacity>
+              <TouchableOpacity style={styles.nounAVButton}>
+                <Text style={styles.nounAVText}>Word</Text>
+              </TouchableOpacity> */}
             </View>
             <View style={styles.category_container}>
               <Text style={styles.category_txt}>Add Categories</Text>
               <CategoryList />
             </View>
+            <ScrollView>
+              <View style={styles.grouping_container}>
+                <Text style={styles.grouping_txt}> Handshape</Text>
+                <View style={styles.handshape_container}>
+                  {handshapeButtonStates.map((button, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handlePress(index)}
+                      activeOpacity={1}
+                    >
+                      <View style={styles.handshape}>
+                        <Image
+                          style={styles.handshape_image}
+                          source={button.image}
+                        />
+                        <View
+                          style={[
+                            styles.captionContainer,
+                            button.isPressed
+                              ? { backgroundColor: colors.grey }
+                              : null,
+                          ]}
+                        >
+                          <Text style={styles.captionText}>{button.label}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.grouping_container}>
+                <Text style={styles.grouping_txt}> Palm Orientation</Text>
+                <View style={styles.po_container}>
+                  {po1ButtonStates.map((button, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handlePO1Press(index)}
+                      activeOpacity={1}
+                    >
+                      <View style={styles.handshape}>
+                        <Image
+                          style={styles.handshape_image}
+                          source={button.image}
+                        />
+                        <View
+                          style={[
+                            styles.captionContainer,
+                            button.isPressed
+                              ? { backgroundColor: colors.grey }
+                              : null,
+                          ]}
+                        >
+                          <Text style={styles.captionText}>{button.label}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <View style={styles.po2_container}>
+                  {po2ButtonStates.map((button, index, image) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handlePO2Press(index)}
+                      activeOpacity={1}
+                    >
+                      <View style={styles.handshape}>
+                        <Image
+                          style={styles.handshape_image}
+                          source={button.image}
+                        />
+                        <View
+                          style={[
+                            styles.po2_captionContainer,
+                            button.isPressed
+                              ? { backgroundColor: "colors.grey" }
+                              : null,
+                          ]}
+                          bottom={button.pos}
+                        >
+                          <Text
+                            style={styles.po2_captionText}
+                            numberOfLines={3}
+                          >
+                            {button.label}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.grouping_container}>
+                <Text style={styles.grouping_txt}>Select Body Location</Text>
+                <Image
+                  style={styles.full_body_img}
+                  source={require("../assets/Images/body-outline-3.png")}
+                />
+                <View style={styles.bodyPos_container}>
+                  {bodyPosStates.map((button, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handleBodyPosPress(index)}
+                      activeOpacity={1}
+                    >
+                      <View
+                        style={styles.small_circle}
+                        backgroundColor={button.color}
+                        bottom={button.y}
+                        left={button.x}
+                      ></View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.grouping_container}>
+                <Text style={styles.grouping_txt}>Palm Movement</Text>
+                <View style={styles.palm_movement_container}>
+                  {palmMovementStates.map((button, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handlePalmMovementPress(index)}
+                      activeOpacity={1}
+                    >
+                      <View
+                        style={styles.iconBox}
+                        backgroundColor={button.backgroundColor}
+                      >
+                        <Octicons
+                          name={button.name}
+                          size={64}
+                          color={button.color}
+                          style={{ transform: [{ rotate: "315deg" }] }}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            </ScrollView>
           </View>
         )}
       </SafeAreaView>
@@ -804,28 +1207,183 @@ const styles = StyleSheet.create({
   topControls: {
     flex: 1,
   },
-  thumbnailRow: { flexDirection: "row", height: 200, backgroundColor: "grey" },
+  thumbnailRow: { flexDirection: "row", height: 200 },
   thumbnailPlaceholder: {
     width: 120,
     marginVertical: 15,
     marginLeft: 30,
     backgroundColor: "black",
+    borderRadius: 15,
   },
   nounAVrow: {
     height: 100,
-    backgroundColor: "green",
+    // backgroundColor: "green",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     // flex: 1,
   },
   category_container: {
     marginVertical: 10,
-    paddingHorizontal: 35,
+    paddingHorizontal: 15,
   },
 
   category_txt: {
     paddingLeft: 10,
     fontSize: 20,
     fontWeight: "bold",
+  },
+  grouping_container: {
+    width: "100%",
+    paddingBottom: 75,
+    paddingHorizontal: 15,
+  },
+
+  grouping_txt: {
+    //paddingLeft: 10,
+    //marginLeft: 10,
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "black",
+  },
+
+  handshape_container: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 15,
+  },
+
+  po_container: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 15,
+    paddingBottom: 35,
+  },
+
+  po2_container: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingTop: 15,
+    paddingBottom: 35,
+  },
+
+  handshape_image: {
+    flex: 1,
+    // flexDirection: "row",
+    backgroundColor: Themes.colors.lightGrey,
+    height: 140,
+    // width: 80,
+    //marginTop: 5,
+    //marginHorizontal: 5,
+    borderRadius: 10,
+    //marginLeft: 5,
+  },
+
+  handshape: {
+    // flex: 1,
+    flexDirection: "row",
+    // backgroundColor: Themes.colors.orange,
+    // height: 140,
+    width: 90,
+    //marginHorizontal: 5,
+    //padding: 0,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    // borderRadius: 10,
+  },
+  captionContainer: {
+    position: "absolute",
+    bottom: -27,
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  po2_captionContainer: {
+    //width: "100%",
+    position: "absolute",
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  nounAV_captionContainer: {
+    //width: "100%",
+    // position: "absolute",
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    width: 100,
+    paddingVertical: 15,
+  },
+  captionText: {
+    color: colors.black,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  po2_captionText: {
+    color: colors.black,
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  nounAV_captionText: {
+    color: colors.black,
+    adjustsFontSizeToFit: true,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  full_body_img: {
+    flex: 1,
+    resizeMode: "contain",
+    width: "100%",
+    height: 300,
+  },
+  small_circle: {
+    height: 15,
+    width: 15,
+    borderRadius: "50%",
+    borderWidth: 1.5,
+    borderColor: "black",
+    position: "absolute",
+  },
+  palm_movement_container: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingTop: 60,
+  },
+
+  iconBox: {
+    // backgroundColor: colors.extraLightGrey,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 60,
+    borderRadius: 10,
+  },
+  search_button: {
+    backgroundColor: Themes.colors.blue,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    alignSelf: "center",
+    width: "80%",
+    borderRadius: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    shadowOffset: { width: -1, height: 3 },
+  },
+  search_button_txt: {
+    color: Themes.colors.white,
+    fontWeight: "bold",
+    fontSize: 30,
+    textAlign: "center",
   },
 });
 
