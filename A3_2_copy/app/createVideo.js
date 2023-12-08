@@ -247,6 +247,8 @@ import {
   TextInput,
   ScrollView,
   Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
@@ -740,7 +742,11 @@ export default function createVideo() {
                 headerRight: () => (
                   <TouchableOpacity onPress={() => saveVideo()}>
                     <Text
-                      style={{ color: "blue", paddingRight: 20, fontSize: 20 }}
+                      style={{
+                        color: "blue",
+                        paddingRight: 20,
+                        fontSize: 20,
+                      }}
                     >
                       Share
                     </Text>
@@ -748,96 +754,105 @@ export default function createVideo() {
                 ),
               }}
             />
-            <View style={styles.thumbnailRow}>
-              <View style={styles.thumbnailPlaceholder} />
-              <View
-                style={{
-                  flexDirection: "column",
-                  backgroundColor: "white",
-                  flex: 1,
-                }}
-              >
+            <TouchableWithoutFeedback
+              onPress={Keyboard.dismiss}
+              accessible={false}
+            >
+              <View style={styles.thumbnailRow}>
+                <View style={styles.thumbnailPlaceholder} />
                 <View
                   style={{
-                    marginLeft: 15,
-                    marginTop: 15,
-                    marginBottom: 7,
+                    flexDirection: "column",
+                    backgroundColor: "white",
                     flex: 1,
-                    backgroundColor: "#f4f4f4",
-                    borderRadius: 15,
                   }}
                 >
-                  <TextInput
-                    editable
-                    multiline
-                    numberOfLines={4}
-                    // maxLength={40}
-                    onChangeText={(text) => onChangeWordText(text)}
-                    value={wordValue}
-                    placeholder="Word"
-                    style={{ padding: 10, width: "100%", height: "100%" }}
-                  />
-                </View>
-                <View
-                  style={{
-                    marginLeft: 15,
-                    marginBottom: 15,
-                    marginTop: 7,
-                    flex: 1,
-                    backgroundColor: "#f4f4f4",
-                    borderRadius: 15,
-                  }}
-                >
-                  <TextInput
-                    editable
-                    multiline
-                    numberOfLines={4}
-                    // maxLength={40}
-                    onChangeText={(text) => onChangeDefinitionText(text)}
-                    value={definitionValue}
-                    placeholder="Definition"
-                    style={{ padding: 10, width: "100%", height: "100%" }}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={styles.nounAVrow}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                {nounAVButtonStates.map((button, index, image) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => handleNounAVButtonPress(index)}
-                    activeOpacity={1}
+                  <View
+                    style={{
+                      marginLeft: 15,
+                      marginTop: 15,
+                      marginBottom: 7,
+                      flex: 1,
+                      backgroundColor: "#f4f4f4",
+                      borderRadius: 15,
+                    }}
                   >
-                    <View style={styles.handshape}>
-                      <View
-                        style={[
-                          styles.nounAV_captionContainer,
-                          button.isPressed
-                            ? { backgroundColor: "#6ba4ff" }
-                            : null,
-                        ]}
-                        bottom={button.pos}
-                      >
-                        <Text
-                          // adjustsFontSizeToFit
-                          style={styles.nounAV_captionText}
-                          numberOfLines={1}
-                        >
-                          {button.label}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                ))}
+                    <TextInput
+                      editable
+                      multiline
+                      numberOfLines={4}
+                      // maxLength={40}
+                      onChangeText={(text) => onChangeWordText(text)}
+                      value={wordValue}
+                      placeholder="Word"
+                      style={{ padding: 10, width: "100%", height: "100%" }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginLeft: 15,
+                      marginBottom: 15,
+                      marginTop: 7,
+                      flex: 1,
+                      backgroundColor: "#f4f4f4",
+                      borderRadius: 15,
+                    }}
+                  >
+                    <TextInput
+                      editable
+                      multiline
+                      numberOfLines={4}
+                      // maxLength={40}
+                      onChangeText={(text) => onChangeDefinitionText(text)}
+                      value={definitionValue}
+                      placeholder="Definition"
+                      style={{ padding: 10, width: "100%", height: "100%" }}
+                    />
+                  </View>
+                </View>
               </View>
-              {/* <TouchableOpacity style={styles.nounAVButton}>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={Keyboard.dismiss}
+              accessible={false}
+            >
+              <View style={styles.nounAVrow}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    width: "100%",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  {nounAVButtonStates.map((button, index, image) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handleNounAVButtonPress(index)}
+                      activeOpacity={1}
+                    >
+                      <View style={styles.handshape}>
+                        <View
+                          style={[
+                            styles.nounAV_captionContainer,
+                            button.isPressed
+                              ? { backgroundColor: "#6ba4ff" }
+                              : null,
+                          ]}
+                          bottom={button.pos}
+                        >
+                          <Text
+                            // adjustsFontSizeToFit
+                            style={styles.nounAV_captionText}
+                            numberOfLines={1}
+                          >
+                            {button.label}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                {/* <TouchableOpacity style={styles.nounAVButton}>
                 <Text style={styles.nounAVText}>Noun</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.nounAVButton}>
@@ -846,7 +861,9 @@ export default function createVideo() {
               <TouchableOpacity style={styles.nounAVButton}>
                 <Text style={styles.nounAVText}>Word</Text>
               </TouchableOpacity> */}
-            </View>
+              </View>
+            </TouchableWithoutFeedback>
+
             <View style={styles.category_container}>
               <Text style={styles.category_txt}>Add Categories</Text>
               <ScrollView
@@ -863,6 +880,7 @@ export default function createVideo() {
                   { maxHeight: 100 },
                 ]}
                 horizontal={true}
+                keyboardShouldPersistTaps="handled"
               >
                 <TouchableOpacity
                   onPress={() =>
@@ -970,7 +988,7 @@ export default function createVideo() {
                 </TouchableOpacity>
               </ScrollView>
             </View>
-            <ScrollView>
+            <ScrollView keyboardShouldPersistTaps="handled">
               <View style={styles.grouping_container}>
                 <Text style={styles.grouping_txt}> Handshape</Text>
                 <View style={styles.handshape_container}>
