@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  Keyboard,
   Pressable,
   StyleSheet,
   SafeAreaView,
@@ -13,6 +14,7 @@ import {
   Text,
   View,
   TextInput,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Themes } from "../assets/Themes";
 
@@ -37,6 +39,7 @@ export default function Page() {
     contentDisplayed = (
       <>
         <Tabs.Screen options={{ tabBarStyle: { display: "flex" } }} />
+
         <View style={styles.home_container}>
           <View style={styles.searchContainer}>
             <Ionicons
@@ -45,14 +48,21 @@ export default function Page() {
               color="black"
               style={styles.searchIcon}
             />
-            <TextInput
-              placeholder="Search by Word"
-              placeholderTextColor={Themes.colors.grey}
-              style={styles.searchBar}
-              onChangeText={(text) => setSearchText(text)}
-              value={searchText}
-              onSubmitEditing={() => navigation.push("feed/Greetings")}
-            />
+            <TouchableWithoutFeedback
+              onPress={() => Keyboard.dismiss()}
+              accessible={false}
+            >
+              <View style={{ flex: 1 }}>
+                <TextInput
+                  placeholder="Search by Word"
+                  placeholderTextColor={Themes.colors.grey}
+                  style={styles.searchBar}
+                  onChangeText={(text) => setSearchText(text)}
+                  value={searchText}
+                  onSubmitEditing={() => navigation.push("feed/Greetings")}
+                />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
           <Pressable onPress={() => navigation.push("/service/searchBySign")}>
             <View style={styles.sign_search_container}>
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexDirection: "row",
     backgroundColor: Themes.colors.lightGrey,
-    height: 190,
+    height: 130,
     marginTop: 10,
     marginHorizontal: 10,
     borderRadius: 10,
@@ -191,7 +201,6 @@ const styles = StyleSheet.create({
   login_txt_container: {
     top: "20%",
   },
-
   login_txt: {
     color: Themes.colors.trainGoneBlue,
     fontSize: 55,
