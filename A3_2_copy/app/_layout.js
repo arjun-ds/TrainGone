@@ -12,6 +12,7 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {},
+        unmountOnBlur: true,
       }}
       backBehavior="history"
       // tabBar={(props) => (

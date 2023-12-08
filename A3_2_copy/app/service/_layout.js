@@ -12,7 +12,7 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
-        name="searchResults"
+        name="searchResults" //comment this screen out?
         options={{
           headerShown: true,
           title: "Search Results",
