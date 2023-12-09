@@ -29,6 +29,9 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function profile() {
   const [page, setPage] = useState(0);
+  const [bgcolor, setBgcolor] = useState("#3498db");
+  const [bgcolor2, setBgcolor2] = useState(Themes.colors.lightGrey);
+
   let contentDisplayed = null;
   if (page == 0) {
     contentDisplayed = (
@@ -124,6 +127,7 @@ export default function profile() {
           <View style={styles.buttons}>
             <TouchableOpacity
               style={styles.followButton}
+              backgroundColor={bgcolor}
               onPress={() => {
                 setPage(0);
               }}
@@ -132,6 +136,7 @@ export default function profile() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.followButton}
+              backgroundColor={bgcolor2}
               onPress={() => {
                 setPage(1);
               }}
