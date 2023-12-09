@@ -26,6 +26,7 @@ export default function HomeLayout() {
         name="index"
         options={{
           tabBarLabel: "Home",
+          unmountOnBlur: true,
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
@@ -36,6 +37,7 @@ export default function HomeLayout() {
         name="feed"
         options={{
           tabBarLabel: "Feed",
+          unmountOnBlur: true,
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="flash-sharp" size={size} color={color} />
           ),

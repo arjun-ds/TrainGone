@@ -65,7 +65,7 @@ export default function searchBySign() {
         useNativeControls
         // resizeMode={ResizeMode.CONTAIN}
         isLooping
-        // shouldPlay
+        shouldPlay="false"
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
       />

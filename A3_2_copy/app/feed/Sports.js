@@ -88,12 +88,12 @@ export default function Greetings() {
           <Video
             ref={video}
             style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            resizeMode="cover"
             source={require("../../videos/baseball.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
+            shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
@@ -111,12 +111,12 @@ export default function Greetings() {
           <Video
             ref={video}
             style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            resizeMode="cover"
             source={require("../../videos/football.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
+            shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />
@@ -134,12 +134,12 @@ export default function Greetings() {
           <Video
             ref={video}
             style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="contain"
+            resizeMode="cover"
             source={require("../../videos/soccer.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
+            shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
             onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           />

@@ -22,13 +22,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function searchBySign() {
   const navigation = useRouter();
   const [indexes, setIndexes] = useState(0);
-  const backNavigation = useNavigation();
 
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
@@ -276,22 +274,6 @@ export default function searchBySign() {
 
   return (
     <ScrollView>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: "New Definition",
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => backNavigation.goBack()}>
-              <AntDesign
-                name="left"
-                size={35}
-                color="black"
-                style={{ paddingLeft: 20 }}
-              />
-            </TouchableOpacity>
-          ),
-        }}
-      />
       <View style={styles.container}>
         <View style={styles.grouping_container}>
           <Text style={styles.grouping_txt}> Handshape</Text>
@@ -399,7 +381,7 @@ export default function searchBySign() {
             ))}
           </View>
         </View>
-        <View style={styles.grouping_container}>
+        <View style={[styles.grouping_container, { paddingBottom: 60 }]}>
           <Text style={styles.grouping_txt}>Select Body Location</Text>
           <Image
             style={styles.full_body_img}
@@ -422,7 +404,7 @@ export default function searchBySign() {
             ))}
           </View>
         </View>
-        <View style={styles.grouping_container}>
+        <View style={[styles.grouping_container, { paddingBottom: 60 }]}>
           <Text style={styles.grouping_txt}>Palm Movement</Text>
           <View style={styles.palm_movement_container}>
             {palmMovementStates.map((button, index) => (
@@ -529,6 +511,7 @@ const styles = StyleSheet.create({
     //marginHorizontal: 5,
     borderRadius: 10,
     //marginLeft: 5,
+    marginBottom: 10,
   },
 
   handshape: {
@@ -588,7 +571,7 @@ const styles = StyleSheet.create({
   palm_movement_container: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingTop: 60,
+    paddingTop: 30,
   },
 
   iconBox: {
