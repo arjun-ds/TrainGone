@@ -341,6 +341,24 @@ export default function createVideo() {
     },
   ]);
 
+  const [handshape2ButtonStates, setHandshape2ButtonStates] = useState([
+    {
+      isPressed: false,
+      image: require("../assets/Images/S.png"),
+      label: "S",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/open-5.png"),
+      label: "Open-5",
+    },
+    {
+      isPressed: false,
+      image: require("../assets/Images/6-W.png"),
+      label: "6/W",
+    },
+  ]);
+
   const [po1ButtonStates, setPO1ButtonStates] = useState([
     {
       isPressed: false,
@@ -485,6 +503,13 @@ export default function createVideo() {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
     setHandshapeButtonStates(newButtonStates);
+  };
+
+  const handleHandshape2Press = (index) => {
+    const newHandshape2ButtonStates = [...handshape2ButtonStates];
+    newHandshape2ButtonStates[index].isPressed =
+      !newHandshape2ButtonStates[index].isPressed;
+    setHandshape2ButtonStates(newHandshape2ButtonStates);
   };
 
   const handlePO1Press = (index) => {
@@ -755,7 +780,7 @@ export default function createVideo() {
               }}
             />
             <TouchableWithoutFeedback
-              onPress={Keyboard.dismiss}
+              onPress={() => Keyboard.dismiss()}
               accessible={false}
             >
               <View style={styles.thumbnailRow}>
