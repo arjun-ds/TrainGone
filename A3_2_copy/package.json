@@ -35,7 +35,8 @@
     "react-native-video": "^5.2.1",
     "react-navigation": "^5.0.0",
     "slider": "^1.0.4",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "expo-updates": "~0.18.17"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
