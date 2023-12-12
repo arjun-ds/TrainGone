@@ -11,15 +11,15 @@ export default function WebView({ videoName, file }) {
   const [status, setStatus] = React.useState({});
   console.log(videoName);
 
-  const videos = [
-    {
-      background: require("../../background.mp4"),
-      background2: require("../../background2.mp4"),
-      background3: require("../../background3.mp4"),
-    },
-  ];
+  // const videos = [
+  //   {
+  //     background: require("../../background.mp4"),
+  //     background2: require("../../background2.mp4"),
+  //     background3: require("../../background3.mp4"),
+  //   },
+  // ];
 
-  console.log("test: " + videos.background);
+  // console.log("test: " + videos.background);
   // const videoData = [
   //   { id: 1, videoID: "background" },
   //   { id: 2, videoID: "background2" },

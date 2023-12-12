@@ -8,7 +8,6 @@ import {
   Pressable,
 } from "react-native";
 import { colors } from "../../assets/Themes/colors";
-import { millisToMinutesAndSeconds } from "../../utils";
 import { Stack } from "expo-router/stack";
 import { Link } from "expo-router";
 import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
