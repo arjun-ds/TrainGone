@@ -1,239 +1,4 @@
-//https://gist.github.com/anette1983/c9238bc10be7349700f50a503362ddcc
-// import React, { useState, useRef, useEffect } from "react";
-// import {
-//   StyleSheet,
-//   Dimensions,
-//   View,
-//   Text,
-//   TouchableOpacity,
-//   SafeAreaView,
-// } from "react-native";
-// import { Camera } from "expo-camera";
-// import { Video } from "expo-av";
-
-// const WINDOW_HEIGHT = Dimensions.get("window").height;
-
-// const closeButtonSize = Math.floor(WINDOW_HEIGHT * 0.032);
-// const captureSize = Math.floor(WINDOW_HEIGHT * 0.09);
-
-// export default function App() {
-//   const [hasPermission, setHasPermission] = useState(null);
-//   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-//   const [isPreview, setIsPreview] = useState(false);
-//   const [isCameraReady, setIsCameraReady] = useState(false);
-//   const [isVideoRecording, setIsVideoRecording] = useState(false);
-//   const [videoSource, setVideoSource] = useState(null);
-//   const cameraRef = useRef();
-
-//   useEffect(() => {
-//     (async () => {
-//       const { status } = await Camera.requestPermissionsAsync();
-//       setHasPermission(status === "granted");
-//     })();
-//   }, []);
-
-//   const onCameraReady = () => {
-//     setIsCameraReady(true);
-//   };
-
-//   const takePicture = async () => {
-//     if (cameraRef.current) {
-//       const options = { quality: 0.5, base64: true, skipProcessing: true };
-//       const data = await cameraRef.current.takePictureAsync(options);
-//       const source = data.uri;
-//       if (source) {
-//         await cameraRef.current.pausePreview();
-//         setIsPreview(true);
-//         console.log("picture source", source);
-//       }
-//     }
-//   };
-
-//   const recordVideo = async () => {
-//     if (cameraRef.current) {
-//       try {
-//         const videoRecordPromise = cameraRef.current.recordAsync();
-
-//         if (videoRecordPromise) {
-//           setIsVideoRecording(true);
-//           const data = await videoRecordPromise;
-//           const source = data.uri;
-//           if (source) {
-//             setIsPreview(true);
-//             console.log("video source", source);
-//             setVideoSource(source);
-//           }
-//         }
-//       } catch (error) {
-//         console.warn(error);
-//       }
-//     }
-//   };
-
-//   const stopVideoRecording = () => {
-//     if (cameraRef.current) {
-//       setIsPreview(false);
-//       setIsVideoRecording(false);
-//       cameraRef.current.stopRecording();
-//     }
-//   };
-
-//   const switchCamera = () => {
-//     if (isPreview) {
-//       return;
-//     }
-//     setCameraType((prevCameraType) =>
-//       prevCameraType === Camera.Constants.Type.back
-//         ? Camera.Constants.Type.front
-//         : Camera.Constants.Type.back
-//     );
-//   };
-
-//   const cancelPreview = async () => {
-//     await cameraRef.current.resumePreview();
-//     setIsPreview(false);
-//     setVideoSource(null);
-//   };
-
-//   const renderCancelPreviewButton = () => (
-//     <TouchableOpacity onPress={cancelPreview} style={styles.closeButton}>
-//       <View style={[styles.closeCross, { transform: [{ rotate: "45deg" }] }]} />
-//       <View
-//         style={[styles.closeCross, { transform: [{ rotate: "-45deg" }] }]}
-//       />
-//     </TouchableOpacity>
-//   );
-
-//   const renderVideoPlayer = () => (
-//     <Video
-//       source={{ uri: videoSource }}
-//       shouldPlay={true}
-//       style={styles.media}
-//     />
-//   );
-
-//   const renderVideoRecordIndicator = () => (
-//     <View style={styles.recordIndicatorContainer}>
-//       <View style={styles.recordDot} />
-//       <Text style={styles.recordTitle}>{"Recording..."}</Text>
-//     </View>
-//   );
-
-//   const renderCaptureControl = () => (
-//     <View style={styles.control}>
-//       <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
-//         <Text style={styles.text}>{"Flip"}</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity
-//         activeOpacity={0.7}
-//         disabled={!isCameraReady}
-//         onLongPress={recordVideo}
-//         onPressOut={stopVideoRecording}
-//         onPress={takePicture}
-//         style={styles.capture}
-//       />
-//     </View>
-//   );
-
-//   if (hasPermission === null) {
-//     return <View />;
-//   }
-
-//   if (hasPermission === false) {
-//     return <Text style={styles.text}>No access to camera</Text>;
-//   }
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <Camera
-//         ref={cameraRef}
-//         style={styles.container}
-//         type={cameraType}
-//         flashMode={Camera.Constants.FlashMode.on}
-//         onCameraReady={onCameraReady}
-//         onMountError={(error) => {
-//           console.log("cammera error", error);
-//         }}
-//       />
-//       <View style={styles.container}>
-//         {isVideoRecording && renderVideoRecordIndicator()}
-//         {videoSource && renderVideoPlayer()}
-//         {isPreview && renderCancelPreviewButton()}
-//         {!videoSource && !isPreview && renderCaptureControl()}
-//       </View>
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     ...StyleSheet.absoluteFillObject,
-//   },
-//   closeButton: {
-//     position: "absolute",
-//     top: 35,
-//     left: 15,
-//     height: closeButtonSize,
-//     width: closeButtonSize,
-//     borderRadius: Math.floor(closeButtonSize / 2),
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "#c4c5c4",
-//     opacity: 0.7,
-//     zIndex: 2,
-//   },
-//   media: {
-//     ...StyleSheet.absoluteFillObject,
-//   },
-//   closeCross: {
-//     width: "68%",
-//     height: 1,
-//     backgroundColor: "black",
-//   },
-//   control: {
-//     position: "absolute",
-//     flexDirection: "row",
-//     bottom: 38,
-//     width: "100%",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   capture: {
-//     backgroundColor: "#f5f6f5",
-//     borderRadius: 5,
-//     height: captureSize,
-//     width: captureSize,
-//     borderRadius: Math.floor(captureSize / 2),
-//     marginHorizontal: 31,
-//   },
-//   recordIndicatorContainer: {
-//     flexDirection: "row",
-//     position: "absolute",
-//     top: 25,
-//     alignSelf: "center",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "transparent",
-//     opacity: 0.7,
-//   },
-//   recordTitle: {
-//     fontSize: 14,
-//     color: "#ffffff",
-//     textAlign: "center",
-//   },
-//   recordDot: {
-//     borderRadius: 3,
-//     height: 6,
-//     width: 6,
-//     backgroundColor: "#ff0000",
-//     marginHorizontal: 5,
-//   },
-//   text: {
-//     color: "#fff",
-//   },
-// });
-
-//mix of https://github.com/chelseafarley/ExpoVideoRecordingTutorials/blob/main/App.js
+//utilizing code from https://github.com/chelseafarley/ExpoVideoRecordingTutorials/blob/main/App.js
 // and https://www.youtube.com/watch?v=9EoKurp6V0I
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -249,6 +14,8 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  Linking,
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
@@ -275,6 +42,9 @@ import { Themes } from "../assets/Themes";
 import { colors } from "../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+
+import { Button as RNEButton, Overlay } from "react-native-elements";
+import { FAB } from "react-native-paper";
 
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -538,7 +308,7 @@ export default function createVideo() {
     }
     setBodyPosStates(newBodyPosStates);
   };
-  () => navigation.push("service/searchResults");
+  // () => navigation.push("service/searchResults");
 
   const handlePalmMovementPress = (index) => {
     const newPalmMovementStates = [...palmMovementStates];
@@ -555,22 +325,21 @@ export default function createVideo() {
     setPalmMovementStates(newPalmMovementStates);
   };
 
-  const handleSearch = () => {
-    if (indexes === 0) {
-      navigation.push("/service/searchResults");
-    } else if (indexes === 1) {
-      navigation.push("/service/searchResults2");
-    } else if (indexes === 2) {
-      navigation.push("/service/searchResults3");
-    }
-  };
+  // const handleSearch = () => {
+  //   if (indexes === 0) {
+  //     navigation.push("/service/searchResults");
+  //   } else if (indexes === 1) {
+  //     navigation.push("/service/searchResults2");
+  //   } else if (indexes === 2) {
+  //     navigation.push("/service/searchResults3");
+  //   }
+  // };
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
       const microphonePermission =
         await Camera.requestMicrophonePermissionsAsync();
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.usePermissions();
       const galleryStatus =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -581,14 +350,14 @@ export default function createVideo() {
     })();
   }, []);
 
-  if (
-    hasCameraPermission === undefined ||
-    hasMicrophonePermission === undefined
-  ) {
-    return <Text>Requestion permissions...</Text>;
-  } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted.</Text>;
-  }
+  // if (
+  //   hasCameraPermission === undefined ||
+  //   hasMicrophonePermission === undefined
+  // ) {
+  //   return <Text>Requestion permissions...</Text>;
+  // } else if (!hasCameraPermission) {
+  //   return <Text>Permission for camera not granted.</Text>;
+  // }
   let recordVideo = () => {
     setIsRecording(true);
     let options = {
@@ -635,7 +404,50 @@ export default function createVideo() {
       });
     };
 
-    let saveVideo = () => {
+    let saveVideo = async () => {
+      const status = (await MediaLibrary.getPermissionsAsync())
+        .accessPrivileges;
+      if (status !== "all") {
+        Alert.alert(
+          "Missing Permissions",
+          "Access To All Photos Required To Upload A Video",
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            {
+              text: "Go To Settings",
+              onPress: () => {
+                console.log("Settings Pressed");
+                Linking.openSettings();
+              },
+            },
+          ]
+        );
+      } else {
+        const cachedAsset = await MediaLibrary.createAssetAsync(video.uri);
+
+        const albumName = "TrainGone";
+        const album = await MediaLibrary.getAlbumAsync(albumName);
+
+        if (album) {
+          await MediaLibrary.addAssetsToAlbumAsync(
+            [cachedAsset],
+            album,
+            false
+          ).then(() => {
+            navigation.navigate("profile");
+          });
+        } else {
+          const asset = await MediaLibrary.createAssetAsync(video.uri);
+          await MediaLibrary.createAlbumAsync(albumName, asset).then(() => {
+            navigation.navigate("profile");
+          });
+        }
+      }
+      // }
       MediaLibrary.saveToLibraryAsync(video.uri).then(() => {
         setVideo(undefined);
       });
@@ -655,6 +467,33 @@ export default function createVideo() {
                 headerShown: false,
               }}
             />
+            {/* <FAB
+              icon="plus"
+              style={{ position: "absolute", top: 50, left: 30, zIndex: 2 }}
+              onPress={() => console.log("Pressed")}
+            /> */}
+            {/* <Overlay
+              isVisible={true}
+              onBackdropPress={null}
+              backdropStyle={{
+                height: 15,
+                width: 15,
+                backgroundColor: "black",
+                // position: "absolute",
+                // top: 25,
+                // left: 30,
+                // zIndex: 2,
+              }}
+              overlayStyle={{
+                position: "absolute",
+                top: 50,
+                left: 30,
+                backgroundColor: "black",
+                // zIndex: 2,`
+              }}
+            >
+              <Text> HELLO </Text>
+            </Overlay> */}
             <Video
               style={styles.video}
               source={{ uri: video.uri }}
@@ -662,6 +501,7 @@ export default function createVideo() {
               resizeMode="cover"
               isLooping
               shouldPlay
+              zIndex={3}
             >
               <View
                 style={{
@@ -737,6 +577,7 @@ export default function createVideo() {
             </Video>
             {/* <Button title="Share" onPress={shareVideo} /> */}
             {/* {hasMediaLibraryPermission ? ( */}
+
             <Button
               title="Continue to Upload"
               onPress={() => continueToUpload()}
@@ -1575,234 +1416,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-// import React, { useState, useEffect } from "react";
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   TouchableOpacity,
-//   Button,
-//   Image,
-// } from "react-native";
-// import { Camera } from "expo-camera";
-// import * as ImagePicker from "expo-image-picker";
-// export default function App() {
-//   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-//   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-//   const [camera, setCamera] = useState(null);
-//   const [image, setImage] = useState(null);
-//   const [type, setType] = useState(Camera.Constants.Type.back);
-//   useEffect(() => {
-//     (async () => {
-//       const cameraStatus = await Camera.requestPermissionsAsync();
-//       setHasCameraPermission(cameraStatus.status === "granted");
-//       const galleryStatus =
-//         await ImagePicker.requestMediaLibraryPermissionsAsync();
-//       setHasGalleryPermission(galleryStatus.status === "granted");
-//     })();
-//   }, []);
-//   const takePicture = async () => {
-//     if (camera) {
-//       const data = await camera.takePictureAsync(null);
-//       //console.log(data.uri)
-//       setImage(data.uri);
-//     }
-//   };
-//   const pickImage = async () => {
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.Image,
-//       allowsEditing: true,
-//       aspect: [1, 1],
-//       quality: 1,
-//     });
-//     console.log(result);
-//     if (!result.cancelled) {
-//       setImage(result.uri);
-//     }
-//   };
-//   if (hasCameraPermission === null || hasGalleryPermission === false) {
-//     return <View />;
-//   }
-//   if (hasCameraPermission === false || hasGalleryPermission === false) {
-//     return <Text>No access to camera</Text>;
-//   }
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.cameraContainer}>
-//         <Camera
-//           ref={(ref) => setCamera(ref)}
-//           style={styles.camera}
-//           type={type}
-//           ratio={"1:1"}
-//         />
-//       </View>
-
-//       <Button
-//         style={styles.button}
-//         title="Flip Image"
-//         onPress={() => {
-//           setType(
-//             type === Camera.Constants.Type.back
-//               ? Camera.Constants.Type.front
-//               : Camera.Constants.Type.back
-//           );
-//         }}
-//       ></Button>
-
-//       <Button title="Take Picture" onPress={() => takePicture()} />
-//       <Button title="Pick an Image From Gallery" onPress={() => pickImage()} />
-//       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-//     </View>
-//   );
-// }
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignContent: "center",
-//   },
-//   camera: {
-//     flex: 1,
-//     aspectRatio: 1,
-//   },
-//   cameraContainer: {
-//     flex: 1,
-//     flexDirection: "column",
-//   },
-//   button: {
-//     flex: 1,
-//   },
-// });
-
-//https://javascript.plainenglish.io/make-a-camera-app-using-react-native-expo-android-ios-75b3567f5a47
-// import React, { useState, useEffect } from "react";
-// import { StyleSheet, Text, View, Button, Image } from "react-native";
-// import { Camera } from "expo-camera";
-
-// export default function App() {
-//   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-//   const [camera, setCamera] = useState(null);
-//   const [image, setImage] = useState(null);
-//   const [type, setType] = useState(Camera.Constants.Type.back);
-//   useEffect(() => {
-//     (async () => {
-//       const cameraStatus = await Camera.requestPermissionsAsync();
-//       setHasCameraPermission(cameraStatus.status === "granted");
-//     })();
-//   }, []);
-//   const takePicture = async () => {
-//     if (camera) {
-//       const data = await camera.takePictureAsync(null);
-//       setImage(data.uri);
-//     }
-//   };
-
-//   if (hasCameraPermission === false) {
-//     return <Text>No access to camera</Text>;
-//   }
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <View style={styles.cameraContainer}>
-//         <Camera
-//           ref={(ref) => setCamera(ref)}
-//           style={styles.fixedRatio}
-//           type={type}
-//           ratio={"1:1"}
-//         />
-//       </View>
-//       <Button
-//         title="Flip Image"
-//         onPress={() => {
-//           setType(
-//             type === Camera.Constants.Type.back
-//               ? Camera.Constants.Type.front
-//               : Camera.Constants.Type.back
-//           );
-//         }}
-//       ></Button>
-//       <Button title="Take Picture" onPress={() => takePicture()} />
-//       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-//     </View>
-//   );
-// }
-// const styles = StyleSheet.create({
-//   cameraContainer: {
-//     flex: 1,
-//     flexDirection: "row",
-//   },
-//   fixedRatio: {
-//     flex: 1,
-//     aspectRatio: 1,
-//   },
-// });
-
-// import { useState } from "react";
-// import * as React from "react";
-// import { Camera, CameraType } from "expo-camera";
-
-// import {
-//   Button,
-//   FlatList,
-//   Image,
-//   ImageBackground,
-//   Pressable,
-//   StyleSheet,
-//   SafeAreaView,
-//   StatusBar,
-//   Text,
-//   View,
-// } from "react-native";
-// import { Themes } from "../assets/Themes";
-// // import { router, Link } from "expo-router";
-// import "expo-router/entry";
-// import { Stack } from "expo-router/stack";
-// import { Link } from "expo-router";
-
-// import videoInfiniteScroll from "./feed/videoInfiniteScroll";
-
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// export default function createVideo() {
-//   const [type, setType] = useState(CameraType.back);
-//   const [cameraPermission, requestCameraPermission] =
-//     Camera.useCameraPermissions();
-//   const [microphonePermission, requestMicrophonePermission] =
-//     Camera.useMicrophonePermissions();
-
-//   // if (!cameraPermission) Camera.reques
-
-//   // if (!permission.granted) ...
-
-//   function toggleCameraType() {
-//     setType((current) =>
-//       current === CameraType.back ? CameraType.front : CameraType.back
-//     );
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <Camera style={styles.camera} type={type}>
-//         <View style={styles.buttonContainer}>
-//           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-//             <Text style={styles.text}>Flip Camera</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </Camera>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "white",
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   text: {
-//     fontSize: 20,
-//     color: "black",
-//     textAlign: "center",
-//   },
-// });

@@ -7,10 +7,12 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@babel/core": "^7.23.6",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
-    "depcheck": "^1.4.7",
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.8",
     "expo-auth-session": "^5.2.0",
     "expo-av": "~13.4.1",
     "expo-camera": "~13.4.4",
@@ -25,14 +27,13 @@
     "expo-video-thumbnails": "~7.4.0",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-navigation": "^7.37.2",
+    "react-native-paper": "^5.11.4",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-status-bar-height": "^2.6.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0"
   },
   "private": true
 }
