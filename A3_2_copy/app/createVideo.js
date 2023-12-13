@@ -398,11 +398,11 @@ export default function createVideo() {
   };
 
   if (video) {
-    let shareVideo = () => {
-      shareAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
-    };
+    // let shareVideo = () => {
+    //   shareAsync(video.uri).then(() => {
+    //     setVideo(undefined);
+    //   });
+    // };
 
     let saveVideo = async () => {
       const status = (await MediaLibrary.getPermissionsAsync())
@@ -427,7 +427,7 @@ export default function createVideo() {
           ]
         );
       } else {
-        const cachedAsset = await MediaLibrary.createAssetAsync(video.uri);
+        const cachedAsset = await MediaLibrary.createAssetAsync(video.uri); // https://stackoverflow.com/questions/61132921/expo-medialibrary-createalbumasync-is-creating-multiple-album-with-same-name
 
         const albumName = "TrainGone";
         const album = await MediaLibrary.getAlbumAsync(albumName);
@@ -447,10 +447,6 @@ export default function createVideo() {
           });
         }
       }
-      // }
-      MediaLibrary.saveToLibraryAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
     };
 
     let continueToUpload = () => {
@@ -501,7 +497,7 @@ export default function createVideo() {
               resizeMode="cover"
               isLooping
               shouldPlay
-              zIndex={3}
+              // zIndex={3}
             >
               <View
                 style={{
