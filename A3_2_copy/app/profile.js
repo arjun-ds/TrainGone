@@ -239,6 +239,7 @@ export default function profile() {
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
               </View>
+              <View style={styles.video_individual} />
             </View>
           );
           i++;
@@ -260,6 +261,8 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
+                <View style={styles.video_individual} />
+                <View style={styles.video_individual} />
               </View>
             </View>
           );
@@ -508,9 +511,9 @@ const styles = StyleSheet.create({
   video_individual: {
     flex: 1,
     // flexDirection: "row",
-    backgroundColor: Themes.colors.lightGrey,
+    // backgroundColor: Themes.colors.lightGrey,
     height: 175,
-    //width: 208,
+    // width: 125,
 
     marginTop: 10,
     marginHorizontal: 5,
