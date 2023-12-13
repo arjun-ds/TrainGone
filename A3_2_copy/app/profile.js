@@ -160,21 +160,47 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video1.png")}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video2.png")}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i + 1].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video3.png")}
-                />
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video3.png")}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i + 2].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
               </View>
             </View>
@@ -184,13 +210,33 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video1.png")}
-                />
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video2.png")}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                />{" "}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i + 1].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
               </View>
             </View>
@@ -200,9 +246,19 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Image
-                  style={styles.video_individual}
-                  source={require("../assets/Images/created-video1.png")}
+                <Video
+                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                  resizeMode="cover"
+                  source={{
+                    // uri: null,
+                    uri: generateAssetURI(assets.assets[i].uri),
+                  }}
+                  useNativeControls
+                  // resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  // shouldPlay
+                  onPlaybackStatusUpdate={null}
+                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 />
               </View>
             </View>
@@ -457,7 +513,7 @@ const styles = StyleSheet.create({
     //width: 208,
 
     marginTop: 10,
-    //marginHorizontal: 10,
+    marginHorizontal: 5,
     borderRadius: 10,
   },
 });
