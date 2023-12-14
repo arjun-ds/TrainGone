@@ -2,8 +2,6 @@ import { useState } from "react";
 import * as React from "react";
 import { useRouter } from "expo-router";
 import {
-  Button,
-  FlatList,
   Image,
   ImageBackground,
   Keyboard,
@@ -17,15 +15,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Themes } from "../assets/Themes";
-
-// import { router, Link } from "expo-router";
 import "expo-router/entry";
-import { Stack } from "expo-router/stack";
-import { Link, Tabs } from "expo-router";
-
-import videoInfiniteScroll from "./feed/videoInfiniteScroll";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Feather } from "@expo/vector-icons";
 import CategoryList from "../assets/Images/Components/categoryList";
@@ -35,21 +26,13 @@ export default function Page() {
   const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
 
+  // takes the inputText, makes it alphanumerical and lowercase, and appends it to an
+  // existing string to create a specialized pathname
   const searchWord = (value) => {
     let lowerCase = value.toLowerCase();
     let query = lowerCase.replace(/[^a-zA-Z0-9]/g, "");
     const url = "service/" + query;
     navigation.push(url);
-    {
-      /*if (value == "Coffee" || value === "coffee") {
-      navigation.push("service/coffee");
-    } else if (value === "Water" || value === "water") {
-      navigation.push("service/water");
-    } else if (value === "Milk" || value === "milk") {
-      navigation.push("service/milk");
-    }
-  */
-    }
   };
 
   let contentDisplayed = null;
@@ -77,7 +60,6 @@ export default function Page() {
                   style={styles.searchBar}
                   onChangeText={(text) => setSearchText(text)}
                   value={searchText}
-                  //onSubmitEditing={() => navigation.push("service/coffee")}
                   onSubmitEditing={() => searchWord(searchText)}
                 />
               </View>
@@ -154,9 +136,6 @@ export default function Page() {
         <View style={styles.login_txt_container}>
           <Text style={styles.login_txt}>TrainGone</Text>
         </View>
-        {/* <Pressable style={styles.login_pressable} onPress={setTokenAndNavigate}>
-          <Text style={styles.pressable_txt}>GET STARTED</Text>
-        </Pressable> */}
       </ImageBackground>
     );
   }
@@ -165,17 +144,10 @@ export default function Page() {
 
 const styles = StyleSheet.create({
   video: { flex: 1 },
-  // backgroundVideo: {
-  //   position: "absolute",
-  //   top: 0,
-  //   left: 0,
-  //   bottom: 0,
-  //   right: 0,
-  // },
   home_container: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 70, // Adjusted top padding for better alignment
+    paddingTop: 70,
   },
 
   searchContainer: {
@@ -183,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     marginHorizontal: 30,
-    marginBottom: 10, // Added marginBottom for spacing
+    marginBottom: 10,
     backgroundColor: Themes.colors.extraLightGrey,
     borderRadius: 50,
     paddingHorizontal: 10,
@@ -205,7 +177,7 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     marginBottom: 15,
     borderRadius: 10,
-    marginTop: 10, // Adjusted marginTop for spacing
+    marginTop: 10,
     shadowColor: "black",
     shadowOpacity: 0.4,
     shadowRadius: 5,
@@ -214,7 +186,6 @@ const styles = StyleSheet.create({
 
   category_container: {
     marginVertical: 10,
-    // paddingHorizontal: 25,
   },
 
   category_txt: {
@@ -238,7 +209,6 @@ const styles = StyleSheet.create({
 
   video_individual: {
     flex: 1,
-    // flexDirection: "row",
     backgroundColor: Themes.colors.lightGrey,
     height: 200,
     marginTop: 10,
@@ -279,12 +249,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 
-  login_screen: {},
-
   container: {
     backgroundColor: Themes.colors.background,
     flex: 1,
   },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -293,20 +262,24 @@ const styles = StyleSheet.create({
     backgroundColor: Themes.colors.background,
     paddingBottom: 10,
   },
+
   header_txt: {
     color: Themes.colors.white,
     fontWeight: "bold",
     fontSize: 20,
   },
+
   auth_button: {
     backgroundColor: Themes.colors.spotify,
     borderRadius: 24,
   },
+
   button: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+
   auth_container: {
     flexDirection: "row",
     alignItems: "center",
@@ -315,6 +288,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     gap: 10,
   },
+
   spotify_logo: {
     width: 30,
     height: 30,
@@ -323,19 +297,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Themes.colors.black,
   },
+
   auth_text: {
     color: Themes.colors.white,
     fontWeight: "bold",
   },
+
   item: {
     backgroundColor: Themes.colors.trainGoneBlue,
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
   },
+
   title: {
     fontSize: 32,
   },
+
   image_containter: {
     backgroundColor: Themes.colors.spotify,
   },

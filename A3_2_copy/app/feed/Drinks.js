@@ -1,20 +1,10 @@
-import {
-  FlatList,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import { colors } from "../../assets/Themes/colors";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
-import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
-import { Video, ResizeMode } from "expo-av";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Video } from "expo-av";
 import { Themes } from "../../assets/Themes";
 import * as React from "react";
-import VideoView from "./VideoView";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
@@ -25,10 +15,10 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 export default function Greetings() {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
+  const [id, setId] = useState("ios-heart-outline");
 
   const router = useRouter();
   const params = useLocalSearchParams();
-
   let WindowHeight =
     Dimensions.get("window").height -
     useBottomTabBarHeight() -
@@ -50,9 +40,7 @@ export default function Greetings() {
   };
   //END CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
 
-  // const video = React.useRef(null);
-  // const [status, setStatus] = React.useState({});
-  const [id, setId] = useState("ios-heart-outline");
+  // when the heart button is clicked, it fills up or becomes an outline
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
       setId("ios-heart");
@@ -72,13 +60,6 @@ export default function Greetings() {
         }}
       />
       <View style={styles.container}>
-        {/* <FlatList
-                  data={videos}
-                  renderItem={({ item, index }) => (
-                    <VideoView videoName={item.videoName} />
-                  )}
-                  keyExtractor={(item) => item.id}
-                /> */}
         <ScrollView
           disableIntervalMomentum={true}
           snapToInterval={WindowHeight}
@@ -113,7 +94,6 @@ export default function Greetings() {
             resizeMode="cover"
             source={require("../../videos/water.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
@@ -136,7 +116,6 @@ export default function Greetings() {
             resizeMode="cover"
             source={require("../../videos/coffee.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
@@ -161,8 +140,26 @@ export default function Greetings() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Themes.colors.background,
     flex: 1,
+    backgroundColor: Themes.colors.background,
+  },
+
+  videos: {
+    height: Dimensions.get("window").height - 230,
+    justifyContent: "center",
+    alignItems: "center",
+    color: Themes.colors.white,
+  },
+
+  overlay: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 60,
+    bottom: 0,
+    paddingHorizontal: 15,
+    paddingTop: 5,
+    backgroundColor: Themes.colors.white,
   },
 
   description: {
@@ -170,22 +167,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  overlay: {
-    backgroundColor: "#FFFFFF",
-    height: 60,
-    flexDirection: "row",
-    bottom: 0,
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    paddingTop: 5,
-    alignItems: "center",
-    backgroundColor: "white",
-  },
   overlayText: {
-    color: "black",
-    fontSize: 20,
     paddingRight: 10,
+    fontSize: 20,
     fontWeight: "bold",
+    color: Themes.colors.black,
+  },
+
+  link: {
+    backgroundColor: Themes.colors.black,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: "50%",
+    backgroundColor: Themes.colors.blue,
   },
 
   category_txt: {
@@ -193,19 +187,5 @@ const styles = StyleSheet.create({
     color: "white",
   },
 
-  link: {
-    backgroundColor: "black",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: "50%",
-    backgroundColor: Themes.colors.blue,
-  },
-
   video: { flex: 1 },
-  videos: {
-    height: Dimensions.get("window").height - 230,
-    justifyContent: "center",
-    alignItems: "center",
-    color: "white",
-  },
 });

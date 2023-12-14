@@ -1,20 +1,12 @@
-import {
-  FlatList,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Pressable,
-} from "react-native";
+// Same code as 'Drinks' but with different links. See Drinks for inline comments
+
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import { colors } from "../../assets/Themes/colors";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
-import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
-import { Video, ResizeMode } from "expo-av";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Video } from "expo-av";
 import { Themes } from "../../assets/Themes";
 import * as React from "react";
-import VideoView from "./VideoView";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
@@ -25,10 +17,10 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 export default function Greetings() {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
+  const [id, setId] = useState("ios-heart-outline");
 
   const router = useRouter();
   const params = useLocalSearchParams();
-
   let WindowHeight =
     Dimensions.get("window").height -
     useBottomTabBarHeight() -
@@ -52,7 +44,7 @@ export default function Greetings() {
 
   // const video = React.useRef(null);
   // const [status, setStatus] = React.useState({});
-  const [id, setId] = useState("ios-heart-outline");
+
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
       setId("ios-heart");

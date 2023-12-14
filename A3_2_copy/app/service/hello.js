@@ -1,10 +1,9 @@
+// structure is identical to "baseball"
+
 import { useState } from "react";
 import * as React from "react";
 import { useRouter } from "expo-router";
 import {
-  Button,
-  FlatList,
-  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -15,14 +14,9 @@ import {
   Dimensions,
 } from "react-native";
 import { Themes } from "../../assets/Themes";
-// import { router, Link } from "expo-router";
-// import "expo-router/entry";
-
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colors } from "../../assets/Themes/colors";
-import { Octicons } from "@expo/vector-icons";
-import { Video, ResizeMode } from "expo-av";
-import { Link, Tabs } from "expo-router";
+import { Video } from "expo-av";
+import { Link } from "expo-router";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function searchBySign() {
@@ -63,7 +57,6 @@ export default function searchBySign() {
         resizeMode="cover"
         source={require("../../videos/hello.mov")}
         useNativeControls
-        // resizeMode={ResizeMode.CONTAIN}
         isLooping
         shouldPlay="false"
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Themes.colors.white,
     height: 60,
     flexDirection: "row",
     bottom: 0,
@@ -114,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlayText: {
-    color: "black",
+    color: Themes.colors.black,
     fontSize: 20,
     paddingRight: 10,
     fontWeight: "bold",
@@ -122,7 +115,7 @@ const styles = StyleSheet.create({
 
   category_txt: {
     fontSize: 20,
-    color: "white",
+    color: Themes.colors.white,
   },
 
   link: {
@@ -136,7 +129,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height - 140,
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+    color: Themes.colors.white,
   },
   definition_container: {
     flex: 1,

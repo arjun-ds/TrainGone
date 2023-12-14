@@ -1,53 +1,51 @@
+{
+  /*
+This is the layout for the navigation of searching by sign. It begins in the home section of the
+tab bar and goes through the navigation pages of looking for words through signs and terminates
+in the entry for a word
+*/
+}
+
 import { Stack } from "expo-router/stack";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-// import { useNavigation } from "expo-router";
-import { Navigation } from "react-native-navigation";
 import { useNavigation } from "expo-router/src/useNavigation";
-// import { StackActions } from "@react-navigation/native";
 
 export default function Layout() {
   const navigation = useNavigation();
   return (
     <Stack backBehavior="history">
+      // first navigation page
       <Stack.Screen
         name="searchBySign"
         options={{
           headerShown: true,
           title: "Search by Sign",
-          // headerBackTitle: "Back",
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
           ),
         }}
       />
-      {/* <Stack.Screen
-        name="searchResults" //comment this screen out?
-        options={{
-          headerShown: true,
-          title: "Search Results",
-          headerBackTitle: "Back",
-        }}
-      /> */}
+      //Each subsequent stack screen has the same structure //In some of them we
+      make the back button display "Back" because the other word was too long
       <Stack.Screen
         name="coffee"
         options={{
           headerShown: true,
           title: "Coffee",
-          // headerBackTitle: "Back",
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -59,13 +57,12 @@ export default function Layout() {
         options={{
           headerShown: true,
           title: "Milk",
-          // headerBackTitle: "Back",
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -83,7 +80,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -101,7 +98,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -119,7 +116,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -137,7 +134,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -155,7 +152,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -173,7 +170,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
@@ -191,7 +188,7 @@ export default function Layout() {
               <AntDesign
                 name="left"
                 size={25}
-                color="black"
+                color={Themes.colors.black}
                 style={{ paddingLeft: 20 }}
               />
             </TouchableOpacity>
