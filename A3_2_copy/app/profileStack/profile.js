@@ -2,67 +2,43 @@ import { useState } from "react";
 import * as React from "react";
 
 import {
-  Button,
-  FlatList,
   Image,
-  ImageBackground,
   Pressable,
   ScrollView,
   StyleSheet,
   SafeAreaView,
-  StatusBar,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { Themes } from "../../assets/Themes";
-// import { router, Link } from "expo-router";
 import "expo-router/entry";
-import { Stack } from "expo-router/stack";
 import { Link } from "expo-router";
 
-import videoInfiniteScroll from "../feed/videoInfiniteScroll";
-
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import * as MediaLibrary from "expo-media-library";
-import { Video } from "expo-av";
-
 import * as VideoThumbnails from "expo-video-thumbnails";
-
 import { useNavigation } from "expo-router";
-
-// const album = await MediaLibrary.getAlbumAsync(albumName);
 
 export default function profile() {
   const [page, setPage] = useState(0);
   const [bgcolor, setBgcolor] = useState("#3498db");
   const [bgcolor2, setBgcolor2] = useState(Themes.colors.lightGrey);
-
-  const [videoAssets, setVideoAssets] = useState();
-  const [thumbnail, setThumbnail] = useState();
-
-  const [albumExists, setAlbumExists] = useState(false);
-  // const [album, setAlbum] = useState();
   const [videoList, setVideoList] = useState([]);
   const [videosUpdated, setVideosUpdated] = useState(false);
-
-  const [finalURI, setFinalURI] = useState();
+  const [numDefinitions, setNumDefinitions] = useState(6);
 
   const navigation = useNavigation();
 
   React.useEffect(() => {
     //Checks if TrainGone Media Album Exists On Phone
-    //If not, the page will conditionally render hard-coded image examples of what the profile page might look like
+    //If not, hard-coded examples images are conditionally rendered to show what the profile page could look like
     async function checkAlbumExists() {
       const album = await MediaLibrary.getAlbumAsync("TrainGone");
       if (album) {
         console.log("ALBUM EXISTS");
-        setAlbumExists(true);
         getVideo();
-        // setAlbum(album);
       }
     }
 
@@ -75,25 +51,19 @@ export default function profile() {
     //Gets Videos From TrainGone Media Album
     async function getVideo() {
       const album = await MediaLibrary.getAlbumAsync("TrainGone");
-      // console.log("ALBUM: " + album);
-      console.log("TEST");
 
       // https://stackoverflow.com/questions/74793812/react-dynamically-added-components-not-rendered
       let assets = await MediaLibrary.getAssetsAsync({
         album: album,
         mediaType: "video",
       });
-      console.log(JSON.stringify(assets, null, 2));
-      console.log("LENGTH: " + assets.assets.length);
-      // console.log(JSON.stringify(videoAssets, null, 2));
 
       let videoList2 = [...videoList];
 
+      //Iterate over all videos in TrainGone album
       for (let i = 0; i < assets.assets.length; i++) {
-        console.log("VIDEO LIST: " + videoList);
-
         if (i + 2 < assets.assets.length) {
-          //Generates Thumbnail For Video -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
+          //Generate Thumbnails For Videos -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
           const thumbURI = await VideoThumbnails.getThumbnailAsync(
             generateAssetURI(assets.assets[i].uri),
             {
@@ -113,6 +83,7 @@ export default function profile() {
             }
           );
 
+          //Push row of three clickable images (clicking on them links to the profileVideoView page, which then loads the specified video)
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
@@ -121,11 +92,8 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
-                      title: "Title",
                     },
                   }}
                 >
@@ -141,8 +109,6 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i + 1].id,
                       uri: generateAssetURI(assets.assets[i + 1].uri),
                     },
@@ -160,8 +126,6 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i + 2].id,
                       uri: generateAssetURI(assets.assets[i + 2].uri),
                     },
@@ -179,6 +143,7 @@ export default function profile() {
           );
           i += 2;
         } else if (i + 1 < assets.assets.length) {
+          //Generate Thumbnails For Videos -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
           const thumbURI = await VideoThumbnails.getThumbnailAsync(
             generateAssetURI(assets.assets[i].uri),
             {
@@ -191,6 +156,8 @@ export default function profile() {
               time: 15,
             }
           );
+
+          //Push row of two clickable images (clicking on them links to the profileVideoView page, which then loads the specified video)
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
@@ -199,8 +166,6 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
                     },
@@ -218,8 +183,6 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i + 1].id,
                       uri: generateAssetURI(assets.assets[i + 1].uri),
                     },
@@ -238,12 +201,14 @@ export default function profile() {
           );
           i++;
         } else {
+          //Generate Thumbnail For Video -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
           const thumbURI = await VideoThumbnails.getThumbnailAsync(
             generateAssetURI(assets.assets[i].uri),
             {
               time: 15,
             }
           );
+          //Push row containing one clickable image (clicking on it links to the profileVideoView page, which then loads the specified video)
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
@@ -252,8 +217,6 @@ export default function profile() {
                   href={{
                     pathname: "profileStack/profileVideoView",
                     params: {
-                      // songTitle: title, // for debug purposes
-                      // pageTitle: "Preview song",
                       id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
                     },
@@ -275,44 +238,46 @@ export default function profile() {
       }
       setVideoList(videoList2);
       setVideosUpdated(true); //updates videosUpdated for conditional rendering
+      setNumDefinitions(assets.assets.length); // Sets number of definitions to the number of videos in TrainGone album
     }
 
     checkAlbumExists();
-    // if (albumExists) getVideo();
   }, videosUpdated);
 
   let contentDisplayed = null;
 
   if (page == 0) {
+    // Display "Definitions" content
     contentDisplayed = (
       <>
         {!videosUpdated ? (
+          // TrainGone album is empty => Display hard-coded image previews instead
           <>
             <View style={styles.videos_container}>
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video1.png")}
               />
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video2.png")}
               />
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video3.png")}
               />
             </View>
             <View style={styles.videos_container}>
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video4.png")}
               />
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video5.png")}
               />
               <Image
-                style={styles.video_button}
+                style={[styles.video_button, { opacity: 0.5 }]}
                 source={require("../../assets/Images/created-video6.png")}
               />
             </View>
@@ -323,19 +288,20 @@ export default function profile() {
       </>
     );
   } else {
+    // Display "Dictionary" content
     contentDisplayed = (
       <>
         <View style={styles.videos_container}>
           <Image
-            style={styles.video_button}
+            style={[styles.video_button, { opacity: 0.5 }]}
             source={require("../../assets/Images/liked-video1.png")}
           />
           <Image
-            style={styles.video_button}
+            style={[styles.video_button, { opacity: 0.5 }]}
             source={require("../../assets/Images/liked-video2.png")}
           />
           <Image
-            style={styles.video_button}
+            style={[styles.video_button, { opacity: 0.5 }]}
             source={require("../../assets/Images/liked-video3.png")}
           />
         </View>
@@ -345,7 +311,6 @@ export default function profile() {
 
   return (
     <>
-      {/* <Stack.Screen /> */}
       <SafeAreaView>
         <ScrollView>
           <View style={styles.container}>
@@ -370,7 +335,7 @@ export default function profile() {
             </View>
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>6</Text>
+                <Text style={styles.statNumber}>{numDefinitions}</Text>
                 <Text style={styles.statLabel}>Definitions</Text>
               </View>
               <View style={styles.statItem}>
@@ -421,6 +386,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  header_info: {
+    paddingLeft: 15,
+    gap: 10,
+  },
   profileImage: {
     width: 80,
     height: 80,
@@ -446,6 +415,9 @@ const styles = StyleSheet.create({
   statLabel: {
     color: "#888",
   },
+  following: {
+    fontWeight: "bold",
+  },
   followButton: {
     backgroundColor: "#3498db",
     padding: 10,
@@ -455,10 +427,6 @@ const styles = StyleSheet.create({
   followButtonText: {
     color: "#fff",
     fontWeight: "bold",
-  },
-  header_info: {
-    paddingLeft: 15,
-    gap: 10,
   },
   user_status_container: {
     flexDirection: "row",
@@ -474,15 +442,6 @@ const styles = StyleSheet.create({
     color: Themes.colors.blue,
     fontWeight: "bold",
   },
-  following_container: {
-    backgroundColor: Themes.colors.figmaPurple,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: "10%",
-  },
-  following: {
-    fontWeight: "bold",
-  },
 
   buttons: {
     flexDirection: "row",
@@ -494,14 +453,9 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingTop: 0,
   },
-
   video_button: {
     flex: 1,
-    // flexDirection: "row",
-    // backgroundColor: Themes.colors.lightGrey,
     height: 175,
-    // width: 125,
-
     marginTop: 10,
     marginHorizontal: 5,
     borderRadius: 10,

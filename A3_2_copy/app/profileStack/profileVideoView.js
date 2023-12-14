@@ -412,8 +412,6 @@ export default function profileVideoView() {
     }
   };
 
-  // console.log("PROFILEVIDEOVIEW: ID: " + params.id);
-
   return (
     <>
       {!videoDetailsReady ? (
@@ -465,7 +463,6 @@ export default function profileVideoView() {
               resizeMode="cover"
               source={{ uri: params.uri }}
               useNativeControls
-              // resizeMode={ResizeMode.CONTAIN}
               isLooping
               shouldPlay="false"
               onPlaybackStatusUpdate={(status) => setStatus(() => status)}
