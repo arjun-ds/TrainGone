@@ -264,6 +264,16 @@ export default function createVideo() {
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
+
+    // console.log("IS PRSESED BEFORE: " + data.handshape[index].isPressed);
+
+    let dataCopy = data;
+    dataCopy.handshape[index].isPressed = newButtonStates[index].isPressed;
+
+    setData(dataCopy);
+
+    // data.handshape[index].isPressed = newButtonStates[index].isPressed;
+    // console.log("IS PRSESED AFTER: " + data.handshape[index].isPressed);
     setHandshapeButtonStates(newButtonStates);
   };
 
@@ -271,28 +281,56 @@ export default function createVideo() {
     const newHandshape2ButtonStates = [...handshape2ButtonStates];
     newHandshape2ButtonStates[index].isPressed =
       !newHandshape2ButtonStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.handshape2[index].isPressed =
+      newHandshape2ButtonStates[index].isPressed;
+    setData(dataCopy);
+
     setHandshape2ButtonStates(newHandshape2ButtonStates);
   };
 
   const handlePO1Press = (index) => {
     const newPO1ButtonStates = [...po1ButtonStates];
     newPO1ButtonStates[index].isPressed = !newPO1ButtonStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.palmOrientation[index].isPressed =
+      newPO1ButtonStates[index].isPressed;
+    setData(dataCopy);
+
     setPO1ButtonStates(newPO1ButtonStates);
   };
   const handlePO2Press = (index) => {
     const newPO2ButtonStates = [...po2ButtonStates];
     newPO2ButtonStates[index].isPressed = !newPO2ButtonStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.palmOrientation2[index].isPressed =
+      newPO2ButtonStates[index].isPressed;
+    setData(dataCopy);
+
     setPO2ButtonStates(newPO2ButtonStates);
   };
   const handleNounAVButtonPress = (index) => {
     const newNounAVButtonStates = [...nounAVButtonStates];
     newNounAVButtonStates[index].isPressed =
       !newNounAVButtonStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.nounAV[index].isPressed = newNounAVButtonStates[index].isPressed;
+    setData(dataCopy);
+
     setNounAVButtonStates(newNounAVButtonStates);
   };
   const handleBodyPosPress = (index) => {
     const newBodyPosStates = [...bodyPosStates];
     newBodyPosStates[index].isPressed = !newBodyPosStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.bodyLocation[index].isPressed = newBodyPosStates[index].isPressed;
+    setData(dataCopy);
+
     if (newBodyPosStates[index].color) {
       newBodyPosStates[index].color = null;
     } else {
@@ -307,6 +345,12 @@ export default function createVideo() {
     setIndexes(index);
     newPalmMovementStates[index].isPressed =
       !newPalmMovementStates[index].isPressed;
+
+    let dataCopy = data;
+    dataCopy.palmMovement[index].isPressed =
+      newPalmMovementStates[index].isPressed;
+    setData(dataCopy);
+
     if (!newPalmMovementStates[index].isPressed) {
       newPalmMovementStates[index].color = "black";
       newPalmMovementStates[index].backgroundColor = colors.extraLightGrey;
@@ -326,6 +370,60 @@ export default function createVideo() {
   //     navigation.push("/service/searchResults3");
   //   }
   // };
+
+  const [data, setData] = useState({
+    Word: "",
+    Definition: "",
+    nounAV: [{ isPressed: false }, { isPressed: false }, { isPressed: false }],
+    categories: {
+      Movies: false,
+      Adventure: false,
+      Sports: false,
+      Weather: false,
+      Food: false,
+      Drinks: false,
+      Greetings: false,
+    },
+    handshape: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+    handshape2: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+    palmOrientation: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+    palmOrientation2: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+    bodyLocation: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+    palmMovement: [
+      { isPressed: false },
+      { isPressed: false },
+      { isPressed: false },
+    ],
+  });
+
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -396,6 +494,23 @@ export default function createVideo() {
     //     setVideo(undefined);
     //   });
     // };
+
+    // console.log("NOW PRESSED: " + data.handshape[0].isPressed);
+    // console.log("NOW PRESSED: " + data.handshape2[0].isPressed);
+    // console.log("NOW PRESSED: " + data.palmOrientation[0].isPressed);
+    // console.log("NOW PRESSED: " + data.palmOrientation2[0].isPressed);
+    // console.log("NOW PRESSED: " + data.bodyLocation[0].isPressed);
+    // console.log("NOW PRESSED: " + data.palmMovement[0].isPressed);
+    // console.log("NOW PRESSED: " + data.nounAV[0].isPressed);
+    // console.log("NOW WORD: " + data.Definition);
+
+    // console.log("NOW MOVIES: " + data.categories.Movies);
+    // console.log("NOW ADVENTURE: " + data.categories.Adventure);
+    // console.log("NOW SPORTS: " + data.categories.Sports);
+    // console.log("NOW WEATHER: " + data.categories.Weather);
+    // console.log("NOW FOOD: " + data.categories.Food);
+    // console.log("NOW DRINKS: " + data.categories.Drinks);
+    // console.log("NOW GREETINGS: " + data.categories.Greetings);
 
     let saveVideo = async () => {
       //Checks Media Library Permissions
@@ -597,7 +712,7 @@ export default function createVideo() {
                   <TouchableOpacity onPress={() => continueToUpload()}>
                     <AntDesign
                       name="left"
-                      size={35}
+                      size={25}
                       color="black"
                       style={{ paddingLeft: 20 }}
                     />
@@ -652,6 +767,11 @@ export default function createVideo() {
                       numberOfLines={4}
                       // maxLength={40}
                       onChangeText={(text) => onChangeWordText(text)}
+                      onEndEditing={(text) => {
+                        let dataCopy = data;
+                        dataCopy.Word = wordValue;
+                        setData(dataCopy);
+                      }}
                       value={wordValue}
                       placeholder="Word"
                       style={{ padding: 10, width: "100%", height: "100%" }}
@@ -673,6 +793,11 @@ export default function createVideo() {
                       numberOfLines={4}
                       // maxLength={40}
                       onChangeText={(text) => onChangeDefinitionText(text)}
+                      onEndEditing={(text) => {
+                        let dataCopy = data;
+                        dataCopy.Definition = definitionValue;
+                        setData(dataCopy);
+                      }}
                       value={definitionValue}
                       placeholder="Definition"
                       style={{ padding: 10, width: "100%", height: "100%" }}
@@ -752,9 +877,12 @@ export default function createVideo() {
                 keyboardShouldPersistTaps="handled"
               >
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC1 ? setIsPressedC1(false) : setIsPressedC1(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Movies = !isPressedC1;
+                    setData(data);
+                    isPressedC1 ? setIsPressedC1(false) : setIsPressedC1(true);
+                  }}
                 >
                   <View
                     style={{
@@ -772,9 +900,12 @@ export default function createVideo() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC2 ? setIsPressedC2(false) : setIsPressedC2(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Adventure = !isPressedC2;
+                    setData(data);
+                    isPressedC2 ? setIsPressedC2(false) : setIsPressedC2(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialIcons
@@ -786,9 +917,12 @@ export default function createVideo() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC3 ? setIsPressedC3(false) : setIsPressedC3(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Sports = !isPressedC3;
+                    setData(data);
+                    isPressedC3 ? setIsPressedC3(false) : setIsPressedC3(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialIcons
@@ -800,23 +934,29 @@ export default function createVideo() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC4 ? setIsPressedC4(false) : setIsPressedC4(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Weather = !isPressedC4;
+                    setData(data);
+                    isPressedC4 ? setIsPressedC4(false) : setIsPressedC4(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialCommunityIcons
                       name="apple-icloud"
                       size={44}
-                      color={isPressedC4 ? colors.lightGrey : colors.grey}
+                      color={isPressedC4 ? colors.darkGrey : colors.grey}
                     />
                     <Text style={styles.item.txt}>Weather</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC5 ? setIsPressedC5(false) : setIsPressedC5(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Food = !isPressedC5;
+                    setData(data);
+                    isPressedC5 ? setIsPressedC5(false) : setIsPressedC5(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialCommunityIcons
@@ -828,9 +968,12 @@ export default function createVideo() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC6 ? setIsPressedC6(false) : setIsPressedC6(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Drinks = !isPressedC6;
+                    setData(data);
+                    isPressedC6 ? setIsPressedC6(false) : setIsPressedC6(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialCommunityIcons
@@ -842,15 +985,18 @@ export default function createVideo() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() =>
-                    isPressedC7 ? setIsPressedC7(false) : setIsPressedC7(true)
-                  }
+                  onPress={() => {
+                    let dataCopy = data;
+                    dataCopy.categories.Greetings = !isPressedC7;
+                    setData(data);
+                    isPressedC7 ? setIsPressedC7(false) : setIsPressedC7(true);
+                  }}
                 >
                   <View style={styles.item}>
                     <MaterialCommunityIcons
                       name="human-greeting"
                       size={44}
-                      color={isPressedC7 ? colors.lightGrey : colors.grey}
+                      color={isPressedC7 ? colors.black : colors.grey}
                     />
                     <Text style={styles.item.txt}>Greetings</Text>
                   </View>
@@ -865,6 +1011,34 @@ export default function createVideo() {
                     <TouchableOpacity
                       key={index}
                       onPress={() => handlePress(index)}
+                      activeOpacity={1}
+                    >
+                      <View style={styles.handshape}>
+                        <Image
+                          style={styles.handshape_image}
+                          source={button.image}
+                        />
+                        <View
+                          style={[
+                            styles.captionContainer,
+                            button.isPressed
+                              ? { backgroundColor: colors.grey }
+                              : null,
+                          ]}
+                        >
+                          <Text style={styles.captionText}>{button.label}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+              <View style={[styles.grouping_container, { paddingTop: 0 }]}>
+                <View style={[styles.handshape_container, { paddingTop: 0 }]}>
+                  {handshape2ButtonStates.map((button, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handleHandshape2Press(index)}
                       activeOpacity={1}
                     >
                       <View style={styles.handshape}>
@@ -931,7 +1105,7 @@ export default function createVideo() {
                           style={[
                             styles.po2_captionContainer,
                             button.isPressed
-                              ? { backgroundColor: "colors.grey" }
+                              ? { backgroundColor: colors.grey }
                               : null,
                           ]}
                           bottom={button.pos}
@@ -1291,7 +1465,7 @@ const styles = StyleSheet.create({
   handshape_image: {
     flex: 1,
     // flexDirection: "row",
-    backgroundColor: Themes.colors.lightGrey,
+    // backgroundColor: Themes.colors.lightGrey,
     height: 140,
     // width: 80,
     //marginTop: 5,

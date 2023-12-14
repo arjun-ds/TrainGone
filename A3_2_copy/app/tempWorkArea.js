@@ -39,20 +39,50 @@ export default function Page() {
   const [token, setToken] = useState(1);
   const [searchText, setSearchText] = useState("");
 
+  const initialDataLayout = {
+    Word: "",
+    Definition: "",
+    nounAV: { Noun: false, Adjective: false, Verb: false },
+    categories: {
+      Movies: false,
+      Adventure: false,
+      Sports: false,
+      Weather: false,
+      Food: false,
+      Drinks: false,
+      Greetings: false,
+    },
+    handshape: [{ pressed: false }, { pressed: false }, { pressed: false }],
+    // handshape: { A: false, B: false, C: false, D: false },
+    handshape2: { S: false, Open5: false, W6: false },
+    palmOrientation: {
+      Out: false,
+      In: false,
+      Down: false,
+      Up: false,
+      fNonDom: false,
+      fDom: false,
+      fEachOther: false,
+    },
+    bodyLocation: {
+      Pos0: false,
+      Pos1: false,
+      Pos2: false,
+      Pos3: false,
+      Pos4: false,
+      Pos5: false,
+      Pos6: false,
+      Pos7: false,
+      Pos8: false,
+    },
+    palmMovement: { right: false, left: false, switch: false },
+  };
+
   const storeData = async (value) => {
     try {
-      const jsonValue = JSON.stringify({
-        Word: "",
-        Definition: "",
-        nounAV: "",
-        categories: "",
-        handshape: "",
-        palmOrientation: "",
-        bodyLocation: "",
-        palmMovement: "",
-      });
-      console.log("JSONVAL: " + JSON.parse(jsonValue).x);
-      await AsyncStorage.setItem("my-key", jsonValue);
+      const jsonValue = JSON.stringify(initialDataLayout);
+      console.log("STORE JSONVAL: " + JSON.parse(jsonValue).bodyLocation.Pos8);
+      await AsyncStorage.setItem("videoID", jsonValue);
     } catch (e) {
       // saving error
     }
@@ -60,8 +90,8 @@ export default function Page() {
 
   const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("my-key");
-      console.log("READ JSONVAL: " + JSON.parse(jsonValue).x);
+      const jsonValue = await AsyncStorage.getItem("videoID");
+      console.log("READ JSONVAL: " + JSON.parse(jsonValue).bodyLocation.Pos8);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
       // error reading value
@@ -80,8 +110,8 @@ export default function Page() {
       </Pressable>
       <Pressable
         onPress={() => {
-          console.log("Read: ");
-          console.log("READING: " + getData());
+          console.log("READ: ");
+          getData();
         }}
       >
         <Text style={{ marginTop: 250, marginLeft: 250 }}>Read</Text>

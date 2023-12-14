@@ -19,6 +19,7 @@ export const colors = {
   orange: "#F37335",
   extraLightGrey: "#ededed",
   beige: "#FEF5C3",
+  darkGrey: "#747880",
 };
 
 export const shadow = {
