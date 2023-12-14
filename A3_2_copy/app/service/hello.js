@@ -87,7 +87,6 @@ export default function searchBySign() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Themes.colors.background,
     flex: 1,
   },
 
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    backgroundColor: Themes.colors.white,
+    backgroundColor: "white",
     height: 60,
     flexDirection: "row",
     bottom: 0,
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlayText: {
-    color: Themes.colors.black,
+    color: "black",
     fontSize: 20,
     paddingRight: 10,
     fontWeight: "bold",
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
 
   category_txt: {
     fontSize: 20,
-    color: Themes.colors.white,
+    color: "white",
   },
 
   link: {
@@ -123,13 +122,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
-    backgroundColor: Themes.colors.blue,
+    backgroundColor: "blue",
   },
   videos: {
     height: Dimensions.get("window").height - 140,
     justifyContent: "center",
     alignItems: "center",
-    color: Themes.colors.white,
+    color: "white",
   },
   definition_container: {
     flex: 1,

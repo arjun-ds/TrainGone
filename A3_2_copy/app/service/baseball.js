@@ -9,7 +9,6 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import { Themes } from "../../assets/Themes";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Video } from "expo-av";
 import { Link } from "expo-router";
@@ -22,22 +21,7 @@ export default function searchBySign() {
   const [status, setStatus] = React.useState({});
   let WindowHeight = Dimensions.get("window").height - useBottomTabBarHeight();
 
-  //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-  const defaultScreenRatio =
-    Dimensions.get("window").width / Dimensions.get("window").height;
-
-  // Use the screenDefaultRatio to render the video before the video is loaded
-  const [videoRatio, setVideoRatio] = useState(defaultScreenRatio);
-
-  // Update the videoRatio right after we know the video natural size
-  const updateVideoRatioOnDisplay = (videoDetails) => {
-    const { width, height } = videoDetails.naturalSize;
-    const newVideoRatio = width / height;
-
-    setVideoRatio(newVideoRatio);
-  };
-
-  //changes heart button to full or outline when pressed
+  // State variables for heart/like icon
   const [id, setId] = useState("ios-heart-outline");
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
@@ -49,18 +33,19 @@ export default function searchBySign() {
 
   return (
     <ScrollView>
-      <Video
-        style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+      <Video // All video components based on code from // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+        style={styles.videos}
         resizeMode="cover"
         source={require("../../videos/baseball.mov")}
         useNativeControls
         isLooping
         shouldPlay="false"
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+        onReadyForDisplay={() => null}
       />
-      // components for the bottom part (name, category, definition)
-      <View style={styles.overlay}>
+      <View
+        style={styles.overlay} // components for the bottom part (name, category, definition)
+      >
         <View style={styles.description}>
           <Text style={styles.overlayText}>Baseball</Text>
           <View style={styles.link}>
@@ -89,7 +74,7 @@ export default function searchBySign() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Themes.colors.background,
+    // backgroundColor: Themes.colors.background,
     flex: 1,
   },
 
@@ -99,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    backgroundColor: Themes.colors.white,
+    backgroundColor: "white",
     height: 60,
     flexDirection: "row",
     bottom: 0,
@@ -109,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlayText: {
-    color: Themes.colors.black,
+    color: "black",
     fontSize: 20,
     paddingRight: 10,
     fontWeight: "bold",
@@ -117,7 +102,7 @@ const styles = StyleSheet.create({
 
   category_txt: {
     fontSize: 20,
-    color: Themes.colors.white,
+    color: "white",
   },
 
   link: {
@@ -125,13 +110,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
-    backgroundColor: Themes.colors.blue,
+    backgroundColor: "blue",
   },
   videos: {
     height: Dimensions.get("window").height - 140,
     justifyContent: "center",
     alignItems: "center",
-    color: Themes.colors.white,
+    color: "white",
   },
   definition_container: {
     flex: 1,
