@@ -32,7 +32,6 @@ export default function HomeLayout() {
           ),
         }}
       />
-
       <Tabs.Screen
         name="feed"
         options={{

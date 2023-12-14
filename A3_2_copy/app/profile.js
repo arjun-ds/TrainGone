@@ -141,26 +141,29 @@ export default function profile() {
         console.log("VIDEO LIST: " + videoList);
 
         if (i + 2 < assets.assets.length) {
-          // console.log("First URI: " + assets.assets[0].uri);
-          console.log(
-            "First ASSETURI: " + generateAssetURI(assets.assets[0].uri)
+          const thumbURI = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i].uri),
+            {
+              time: 15,
+            }
           );
-          // await generateThumbnail(generateAssetURI(assets.assets[0].uri));
-
-          phURI = assets.assets[0].uri;
-          assetURI = `assets-library://asset/asset.mp4?id=${phURI.slice(
-            5,
-            41
-          )}&ext=mp4`;
-          setFinalURI(String(assetURI));
-          await generateThumbnail();
-          // await generateThumbnail(JSON.stringify(assets.assets[0].uri);
-          console.log("first thumbnail" + thumbnail);
+          const thumbURI2 = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i + 1].uri),
+            {
+              time: 15,
+            }
+          );
+          const thumbURI3 = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i + 2].uri),
+            {
+              time: 15,
+            }
+          );
 
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Video
+                {/* <Video
                   style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                   resizeMode="cover"
                   source={{
@@ -201,16 +204,42 @@ export default function profile() {
                   // shouldPlay
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                /> */}
+                {/* <Link href={{ pathname: "/profileVideoView" }}> */}
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI.uri }}
+                />
+                {/* </Link> */}
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI2.uri }}
+                />
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI3.uri }}
                 />
               </View>
             </View>
           );
           i += 2;
         } else if (i + 1 < assets.assets.length) {
+          const thumbURI = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i].uri),
+            {
+              time: 15,
+            }
+          );
+          const thumbURI2 = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i + 1].uri),
+            {
+              time: 15,
+            }
+          );
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Video
+                {/* <Video
                   style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                   resizeMode="cover"
                   source={{
@@ -223,7 +252,7 @@ export default function profile() {
                   // shouldPlay
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                />{" "}
+                />
                 <Video
                   style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                   resizeMode="cover"
@@ -237,17 +266,31 @@ export default function profile() {
                   // shouldPlay
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                /> */}
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI.uri }}
                 />
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI2.uri }}
+                />
+                <View style={styles.video_individual} />
               </View>
-              <View style={styles.video_individual} />
             </View>
           );
           i++;
         } else {
+          const thumbURI = await VideoThumbnails.getThumbnailAsync(
+            generateAssetURI(assets.assets[i].uri),
+            {
+              time: 15,
+            }
+          );
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                <Video
+                {/* <Video
                   style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                   resizeMode="cover"
                   source={{
@@ -260,6 +303,10 @@ export default function profile() {
                   // shouldPlay
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+                /> */}
+                <Image
+                  style={styles.video_individual}
+                  source={{ uri: thumbURI.uri }}
                 />
                 <View style={styles.video_individual} />
                 <View style={styles.video_individual} />
@@ -279,7 +326,7 @@ export default function profile() {
 
     checkAlbumExists();
     // if (albumExists) getVideo();
-  }, videoList);
+  }, videosUpdated);
 
   let contentDisplayed = null;
 
@@ -360,66 +407,68 @@ export default function profile() {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Image
-              source={require("../assets/Images/profile-pic.png")}
-              style={styles.profileImage}
-            />
-            <View style={styles.header_info}>
-              <Text style={styles.username}>Dria Lee</Text>
-              <View style={styles.user_status_container}>
-                <View style={styles.experience_container}>
-                  <Ionicons
-                    name="trophy-sharp"
-                    size={24}
-                    color={Themes.colors.blue}
-                  />
-                  <Text style={styles.experience_txt}>ASL Learner</Text>
+    <>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Image
+                source={require("../assets/Images/profile-pic.png")}
+                style={styles.profileImage}
+              />
+              <View style={styles.header_info}>
+                <Text style={styles.username}>Dria Lee</Text>
+                <View style={styles.user_status_container}>
+                  <View style={styles.experience_container}>
+                    <Ionicons
+                      name="trophy-sharp"
+                      size={24}
+                      color={Themes.colors.blue}
+                    />
+                    <Text style={styles.experience_txt}>ASL Learner</Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>6</Text>
-              <Text style={styles.statLabel}>Definitions</Text>
+            <View style={styles.statsContainer}>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>6</Text>
+                <Text style={styles.statLabel}>Definitions</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>1.5k</Text>
+                <Text style={styles.statLabel}>Followers</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>200</Text>
+                <Text style={styles.statLabel}>Following</Text>
+              </View>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>1.5k</Text>
-              <Text style={styles.statLabel}>Followers</Text>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={styles.followButton}
+                backgroundColor={bgcolor}
+                onPress={() => {
+                  setPage(0);
+                }}
+              >
+                <Text style={styles.followButtonText}>Definitions</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.followButton}
+                backgroundColor={bgcolor2}
+                onPress={() => {
+                  setPage(1);
+                }}
+              >
+                <Text style={styles.followButtonText}>Dictionary</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statNumber}>200</Text>
-              <Text style={styles.statLabel}>Following</Text>
-            </View>
+            {contentDisplayed}
           </View>
-          <View style={styles.buttons}>
-            <TouchableOpacity
-              style={styles.followButton}
-              backgroundColor={bgcolor}
-              onPress={() => {
-                setPage(0);
-              }}
-            >
-              <Text style={styles.followButtonText}>Definitions</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.followButton}
-              backgroundColor={bgcolor2}
-              onPress={() => {
-                setPage(1);
-              }}
-            >
-              <Text style={styles.followButtonText}>Dictionary</Text>
-            </TouchableOpacity>
-          </View>
-          {contentDisplayed}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
 
