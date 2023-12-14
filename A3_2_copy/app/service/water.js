@@ -39,6 +39,7 @@ export default function searchBySign() {
     setVideoRatio(newVideoRatio);
   };
 
+  // State variables for heart/like icon
   const [id, setId] = useState("ios-heart-outline");
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
@@ -50,15 +51,15 @@ export default function searchBySign() {
 
   return (
     <ScrollView>
-      <Video
-        style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+      <Video // based on code from // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+        style={styles.videos}
         resizeMode="cover"
         source={require("../../videos/water.mov")}
         useNativeControls
         isLooping
         shouldPlay="false"
         onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+        onReadyForDisplay={() => null}
       />
 
       <View style={styles.overlay}>
@@ -89,6 +90,7 @@ export default function searchBySign() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Themes.colors.background,
     flex: 1,
   },
 
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    backgroundColor: "white",
+    backgroundColor: Themes.colors.white,
     height: 60,
     flexDirection: "row",
     bottom: 0,
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlayText: {
-    color: "black",
+    color: Themes.colors.black,
     fontSize: 20,
     paddingRight: 10,
     fontWeight: "bold",
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
 
   category_txt: {
     fontSize: 20,
-    color: "white",
+    color: Themes.colors.white,
   },
 
   link: {
@@ -124,13 +126,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: "50%",
-    backgroundColor: "blue",
+    backgroundColor: Themes.colors.blue,
   },
   videos: {
     height: Dimensions.get("window").height - 140,
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+    color: Themes.colors.white,
   },
   definition_container: {
     flex: 1,
