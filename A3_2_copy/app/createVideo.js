@@ -1,5 +1,3 @@
-//utilizing code from https://github.com/chelseafarley/ExpoVideoRecordingTutorials/blob/main/App.js
-// and https://www.youtube.com/watch?v=9EoKurp6V0I
 import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
@@ -69,6 +67,7 @@ export default function createVideo() {
 
   const [indexes, setIndexes] = useState(0);
 
+  //Begin "Button" States (Used to determine which ASL/sign "buttons" are selected for the given video)
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -249,8 +248,10 @@ export default function createVideo() {
       backgroundColor: colors.extraLightGrey,
     },
   ]);
+  //END Button States
 
-  // GPT asisted handle press.
+  //Begin assistant functions for handling button presses (based on GPT code)
+  // Functions ALSO save to data state variable (to be stored with AsyncStorage later)
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
@@ -344,7 +345,9 @@ export default function createVideo() {
     }
     setPalmMovementStates(newPalmMovementStates);
   };
+  // End button assistant functions
 
+  //video data state variable
   const [data, setData] = useState({
     Word: "",
     Definition: "",
@@ -398,22 +401,34 @@ export default function createVideo() {
     ],
   });
 
+  // Get Device Permissions
   useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const microphonePermission =
-        await Camera.requestMicrophonePermissionsAsync();
-      const mediaLibraryPermission = await MediaLibrary.usePermissions();
-      const galleryStatus =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+    async function getPermissions() {
+      try {
+        const cameraPermission = await Camera.requestCameraPermissionsAsync();
+        const microphonePermission =
+          await Camera.requestMicrophonePermissionsAsync();
+        const mediaLibraryPermission = MediaLibrary.usePermissions();
+        const galleryStatus =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-      setHasCameraPermission(cameraPermission.status === "granted");
-      setHasMicrophonePermission(microphonePermission.status === "granted");
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
-      setHasGalleryPermission(galleryStatus.status === "granted");
-    })();
+        setHasCameraPermission(cameraPermission.status === "granted");
+        setHasMicrophonePermission(microphonePermission.status === "granted");
+        setHasMediaLibraryPermission(
+          mediaLibraryPermission.status === "granted"
+        );
+        setHasGalleryPermission(galleryStatus.status === "granted");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPermissions();
   }, []);
 
+  //Camera related code utilizes code from https://github.com/chelseafarley/ExpoVideoRecordingTutorials/blob/main/App.js
+  // and https://www.youtube.com/watch?v=9EoKurp6V0I
+
+  // Function to begin recording with camera
   let recordVideo = () => {
     setIsRecording(true);
     let options = {
@@ -428,6 +443,7 @@ export default function createVideo() {
     });
   };
 
+  // Video picker code
   const pickVideo = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
@@ -438,6 +454,8 @@ export default function createVideo() {
     if (!result.canceled) {
       stopRecording();
       setVideo(result.assets[0]);
+
+      //Generates thumbnail based on selected video
       const thumbURI = await VideoThumbnails.getThumbnailAsync(
         result.assets[0].uri,
         {
@@ -448,12 +466,14 @@ export default function createVideo() {
     }
   };
 
+  //Function to stop recording
   let stopRecording = () => {
     setIsRecording(false);
     cameraRef.current.stopRecording();
   };
 
   if (video) {
+    //Function to save the recorded or selected video
     let saveVideo = async () => {
       //Checks Media Library Permissions
       const status = (await MediaLibrary.getPermissionsAsync())
@@ -479,6 +499,7 @@ export default function createVideo() {
           ]
         );
       } else {
+        //If there are no permission issues, continue the saving process
         const cachedAsset = await MediaLibrary.createAssetAsync(video.uri); // https://stackoverflow.com/questions/61132921/expo-medialibrary-createalbumasync-is-creating-multiple-album-with-same-name
         const albumName = "TrainGone";
         const album = await MediaLibrary.getAlbumAsync(albumName);
@@ -490,13 +511,12 @@ export default function createVideo() {
             album,
             false
           ).then(() => {
-            navigation.navigate("profileStack");
-            // router.push("/app/profileStack/profile");
+            navigation.navigate("profileStack"); // Once saved, navigate to profile page
           });
         } else {
           const asset = await MediaLibrary.createAssetAsync(video.uri);
           await MediaLibrary.createAlbumAsync(albumName, asset).then(() => {
-            navigation.navigate("profileStack");
+            navigation.navigate("profileStack"); // Once saved, navigate to profile page
           });
         }
 
@@ -505,16 +525,19 @@ export default function createVideo() {
           const jsonValue = JSON.stringify(data);
           await AsyncStorage.setItem(cachedAsset.id, jsonValue);
         } catch (e) {
-          // saving error
+          console.log(e);
         }
       }
     };
 
+    // Function handles transition to view with video editing / posting options
+    // Called after the user has viewed the video they recorded / selected
     let continueToUpload = async () => {
       if (isSaved) setIsSaved(false);
       else setIsSaved(true);
 
       const thumbURI = await VideoThumbnails.getThumbnailAsync(video.uri, {
+        // generates thumbnail based on selected video
         time: 15,
       });
       setThumbnailURI(thumbURI.uri);
@@ -523,6 +546,11 @@ export default function createVideo() {
     return (
       <SafeAreaView style={styles.container}>
         {!isSaved ? (
+          // Code executed when recorded / selected video has NOT been saved
+          // Current screen displays a video view where the user can see the video they recorded / selected
+          // The user can then choose to advance (with the Continue to Upload button) or return to the camera (with the Discard Video) button
+
+          // Buttons overlayed on Video View are hard-coded / non-functional
           <>
             <Tabs.Screen
               options={{
@@ -595,9 +623,10 @@ export default function createVideo() {
               title="Continue to Upload"
               onPress={() => continueToUpload()}
             />
-            <Button title="Discard" onPress={() => setVideo(undefined)} />
+            <Button title="Discard Video" onPress={() => setVideo(undefined)} />
           </>
         ) : (
+          // Once the user decides to save their video / continue the upload process, render view where the user can add details to their video (e.g. categories, description, etc.) before they upload it
           <View style={styles.editVideoContainer}>
             <Tabs.Screen
               options={{
@@ -656,7 +685,7 @@ export default function createVideo() {
                       borderRadius: 15,
                     }}
                   >
-                    <TextInput
+                    <TextInput // Text input for video Word
                       editable
                       multiline
                       numberOfLines={4}
@@ -681,7 +710,7 @@ export default function createVideo() {
                       borderRadius: 15,
                     }}
                   >
-                    <TextInput
+                    <TextInput // Text input for video Description
                       editable
                       multiline
                       numberOfLines={4}
@@ -1058,124 +1087,126 @@ export default function createVideo() {
   }
 
   return (
+    //Camera screen
     <>
       <Tabs.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
-        {!image ? (
-          <Camera
-            style={styles.camera}
-            type={type}
-            ref={cameraRef}
-            flashMode={Camera.Constants.FlashMode.auto}
-          >
-            {!isRecording ? (
-              <>
-                <View
-                  style={{
-                    position: "absolute",
-                    top: 70,
-                    left: 30,
-                  }}
-                >
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name="ios-close" size={35} color="grey" />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    position: "absolute",
-                    top: 60,
-                    left: WindowWidth - 75,
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    alignContent: "space-between",
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      setType(
-                        type === CameraType.front
-                          ? CameraType.back
-                          : CameraType.front
-                      );
-                    }}
-                  >
-                    <MaterialIcons
-                      name="flip-camera-android"
-                      size={45}
-                      color="grey"
-                      style={{ paddingVertical: 10 }}
-                    />
-                  </TouchableOpacity>
-                  <Ionicons
-                    name="ios-flash-off"
-                    size={45}
-                    color="grey"
-                    style={{ paddingVertical: 10 }}
-                  />
-                  <FontAwesome
-                    name="magic"
-                    size={45}
-                    color="grey"
-                    style={{ paddingVertical: 10 }}
-                  />
-                </View>
-              </>
-            ) : (
-              <></>
-            )}
-            <View
-              style={{
-                justifyContent: "space-between",
-                paddingHorizontal: 30,
-              }}
-            >
-              <TouchableOpacity
-                onPress={isRecording ? stopRecording : recordVideo}
+        <Camera
+          style={styles.camera}
+          type={type}
+          ref={cameraRef}
+          flashMode={Camera.Constants.FlashMode.auto}
+        >
+          {!isRecording ? (
+            //If the device is not recording, conditionally renders some additional buttons (e.g. close and flip camera)
+            // Two buttons (flashlight and magic/editing) are currently hard-coded / non-functional
+            <>
+              <View
                 style={{
                   position: "absolute",
-                  top: WindowHeight - 180,
-                  left: WindowWidth / 2 - 40,
+                  top: 70,
+                  left: 30,
                 }}
               >
-                {isRecording ? (
-                  <Ionicons name="stop-circle-outline" size={80} color="red" />
-                ) : (
-                  <Fontisto name="record" size={80} color="white" />
-                )}
-              </TouchableOpacity>
-              {!isRecording ? (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons name="ios-close" size={35} color="grey" />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 60,
+                  left: WindowWidth - 75,
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignContent: "space-between",
+                }}
+              >
                 <TouchableOpacity
-                  onPress={() => pickVideo()}
-                  style={{
-                    position: "absolute",
-                    top: WindowHeight - 175,
-                    left: WindowWidth - 95,
+                  onPress={() => {
+                    setType(
+                      type === CameraType.front
+                        ? CameraType.back
+                        : CameraType.front
+                    );
                   }}
                 >
                   <MaterialIcons
-                    name="photo-size-select-actual"
-                    size={60}
-                    color="white"
+                    name="flip-camera-android"
+                    size={45}
+                    color="grey"
+                    style={{ paddingVertical: 10 }}
                   />
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 12,
-                      textAlign: "center",
-                    }}
-                  >
-                    Upload
-                  </Text>
                 </TouchableOpacity>
+                <Ionicons // non-functional
+                  name="ios-flash-off"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
+                />
+                <FontAwesome // non-functional
+                  name="magic"
+                  size={45}
+                  color="grey"
+                  style={{ paddingVertical: 10 }}
+                />
+              </View>
+            </>
+          ) : (
+            //These buttons are not displayed when the camera is recording
+            <></>
+          )}
+          <View // View containing recording button
+            style={{
+              justifyContent: "space-between",
+              paddingHorizontal: 30,
+            }}
+          >
+            <TouchableOpacity
+              onPress={isRecording ? stopRecording : recordVideo}
+              style={{
+                position: "absolute",
+                top: WindowHeight - 180,
+                left: WindowWidth / 2 - 40,
+              }}
+            >
+              {isRecording ? (
+                <Ionicons name="stop-circle-outline" size={80} color="red" />
               ) : (
-                <></>
+                <Fontisto name="record" size={80} color="white" />
               )}
-            </View>
-          </Camera>
-        ) : (
-          <></>
-        )}
+            </TouchableOpacity>
+            {!isRecording ? (
+              // When the device is not recording, the user is given the option to pick a video from their media library instead
+              <TouchableOpacity
+                onPress={() => pickVideo()}
+                style={{
+                  position: "absolute",
+                  top: WindowHeight - 175,
+                  left: WindowWidth - 95,
+                }}
+              >
+                <MaterialIcons
+                  name="photo-size-select-actual"
+                  size={60}
+                  color="white"
+                />
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 12,
+                    textAlign: "center",
+                  }}
+                >
+                  Upload
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              // The option to pick a video from the media library is not rendered while the user is recording
+              <></>
+            )}
+          </View>
+        </Camera>
       </View>
     </>
   );
