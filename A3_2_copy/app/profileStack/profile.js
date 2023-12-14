@@ -305,7 +305,7 @@ export default function profile() {
                     source={{ uri: thumbURI2.uri }}
                   />
                 </Pressable>
-                <View style={styles.video_individual} />
+                <View style={styles.video_button} />
               </View>
             </View>
           );
@@ -343,8 +343,8 @@ export default function profile() {
                     source={{ uri: thumbURI.uri }}
                   />
                 </Pressable>
-                <View style={styles.video_individual} />
-                <View style={styles.video_individual} />
+                <View style={styles.video_button} />
+                <View style={styles.video_button} />
               </View>
             </View>
           );
