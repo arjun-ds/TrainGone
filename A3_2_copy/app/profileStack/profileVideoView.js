@@ -307,7 +307,7 @@ export default function profileVideoView() {
       let keyString = String(catListKeys[i]);
       if (videoDetails.categories[keyString] == true) {
         categoryList2.push(
-          <View style={styles.link}>
+          <View key={i} style={styles.link}>
             <Text style={styles.category_txt}>{keyString}</Text>
           </View>
         );
@@ -327,7 +327,9 @@ export default function profileVideoView() {
         else if (i == 1) word = "adjective";
         else word = "verb";
         nounAV2.push(
-          <Text style={{ paddingVertical: 10, paddingRight: 10 }}>{word}</Text>
+          <Text key={i} style={{ paddingVertical: 10, paddingRight: 10 }}>
+            {word}
+          </Text>
         );
       }
     }
@@ -347,7 +349,6 @@ export default function profileVideoView() {
     for (let i = 0; i < videoDetails.handshape.length; i++) {
       // Handshape (First set)
       if (videoDetails.handshape[i].isPressed) {
-        console.log("BUTTON PRESSED");
         aslHelperFunction(handshapeButtonStates, setHandshapeButtonStates, i);
       }
     }
@@ -584,7 +585,7 @@ export default function profileVideoView() {
                 style={styles.full_body_img}
                 source={require("../../assets/Images/body-outline-3.png")}
               />
-              <View style={styles.bodyPos_container}>
+              <View>
                 {bodyPosStates.map((button, index) => (
                   <View
                     key={index}

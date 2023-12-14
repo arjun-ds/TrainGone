@@ -19,7 +19,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 import * as MediaLibrary from "expo-media-library";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import { useNavigation } from "expo-router";
 
 export default function profile() {
   const [page, setPage] = useState(0);
@@ -29,15 +28,12 @@ export default function profile() {
   const [videosUpdated, setVideosUpdated] = useState(false);
   const [numDefinitions, setNumDefinitions] = useState(6);
 
-  const navigation = useNavigation();
-
   React.useEffect(() => {
     //Checks if TrainGone Media Album Exists On Phone
     //If not, hard-coded examples images are conditionally rendered to show what the profile page could look like
     async function checkAlbumExists() {
       const album = await MediaLibrary.getAlbumAsync("TrainGone");
       if (album) {
-        console.log("ALBUM EXISTS");
         getVideo();
       }
     }

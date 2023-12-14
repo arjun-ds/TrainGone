@@ -11,40 +11,29 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
-  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
   Linking,
   Alert,
 } from "react-native";
-import Constants from "expo-constants";
 import { Camera, CameraType, VideoQuality } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import Button from "../assets/Button";
-import { shareAsync } from "expo-sharing";
 import { Video } from "expo-av";
 import * as ImagePicker from "expo-image-picker";
 
 import { Fontisto } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { Link, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import CategoryList from "../assets/Images/Components/categoryList";
 
 import { useNavigation } from "expo-router";
-import { Themes } from "../assets/Themes";
 import { colors } from "../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-
-import { Button as RNEButton, Overlay } from "react-native-elements";
-import { FAB } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -260,20 +249,16 @@ export default function createVideo() {
       backgroundColor: colors.extraLightGrey,
     },
   ]);
+
   // GPT asisted handle press.
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
 
-    // console.log("IS PRSESED BEFORE: " + data.handshape[index].isPressed);
-
     let dataCopy = data;
     dataCopy.handshape[index].isPressed = newButtonStates[index].isPressed;
-
     setData(dataCopy);
 
-    // data.handshape[index].isPressed = newButtonStates[index].isPressed;
-    // console.log("IS PRSESED AFTER: " + data.handshape[index].isPressed);
     setHandshapeButtonStates(newButtonStates);
   };
 
@@ -338,7 +323,6 @@ export default function createVideo() {
     }
     setBodyPosStates(newBodyPosStates);
   };
-  // () => navigation.push("service/searchResults");
 
   const handlePalmMovementPress = (index) => {
     const newPalmMovementStates = [...palmMovementStates];
@@ -360,16 +344,6 @@ export default function createVideo() {
     }
     setPalmMovementStates(newPalmMovementStates);
   };
-
-  // const handleSearch = () => {
-  //   if (indexes === 0) {
-  //     navigation.push("/service/searchResults");
-  //   } else if (indexes === 1) {
-  //     navigation.push("/service/searchResults2");
-  //   } else if (indexes === 2) {
-  //     navigation.push("/service/searchResults3");
-  //   }
-  // };
 
   const [data, setData] = useState({
     Word: "",
@@ -440,14 +414,6 @@ export default function createVideo() {
     })();
   }, []);
 
-  // if (
-  //   hasCameraPermission === undefined ||
-  //   hasMicrophonePermission === undefined
-  // ) {
-  //   return <Text>Requestion permissions...</Text>;
-  // } else if (!hasCameraPermission) {
-  //   return <Text>Permission for camera not granted.</Text>;
-  // }
   let recordVideo = () => {
     setIsRecording(true);
     let options = {
@@ -469,7 +435,6 @@ export default function createVideo() {
       aspect: [1, 1],
       quality: 1,
     });
-    console.log("pick video result" + result.assets[0].uri);
     if (!result.canceled) {
       stopRecording();
       setVideo(result.assets[0]);
@@ -489,29 +454,6 @@ export default function createVideo() {
   };
 
   if (video) {
-    // let shareVideo = () => {
-    //   shareAsync(video.uri).then(() => {
-    //     setVideo(undefined);
-    //   });
-    // };
-
-    // console.log("NOW PRESSED: " + data.handshape[0].isPressed);
-    // console.log("NOW PRESSED: " + data.handshape2[0].isPressed);
-    // console.log("NOW PRESSED: " + data.palmOrientation[0].isPressed);
-    // console.log("NOW PRESSED: " + data.palmOrientation2[0].isPressed);
-    // console.log("NOW PRESSED: " + data.bodyLocation[0].isPressed);
-    // console.log("NOW PRESSED: " + data.palmMovement[0].isPressed);
-    // console.log("NOW PRESSED: " + data.nounAV[0].isPressed);
-    // console.log("NOW WORD: " + data.Definition);
-
-    // console.log("NOW MOVIES: " + data.categories.Movies);
-    // console.log("NOW ADVENTURE: " + data.categories.Adventure);
-    // console.log("NOW SPORTS: " + data.categories.Sports);
-    // console.log("NOW WEATHER: " + data.categories.Weather);
-    // console.log("NOW FOOD: " + data.categories.Food);
-    // console.log("NOW DRINKS: " + data.categories.Drinks);
-    // console.log("NOW GREETINGS: " + data.categories.Greetings);
-
     let saveVideo = async () => {
       //Checks Media Library Permissions
       const status = (await MediaLibrary.getPermissionsAsync())
@@ -538,8 +480,6 @@ export default function createVideo() {
         );
       } else {
         const cachedAsset = await MediaLibrary.createAssetAsync(video.uri); // https://stackoverflow.com/questions/61132921/expo-medialibrary-createalbumasync-is-creating-multiple-album-with-same-name
-        console.log("VIDEO URI: " + video.uri);
-        console.log("CACHED ASSET: " + cachedAsset.uri);
         const albumName = "TrainGone";
         const album = await MediaLibrary.getAlbumAsync(albumName);
 
@@ -563,10 +503,6 @@ export default function createVideo() {
         //Store Video Data Using AsyncStorage
         try {
           const jsonValue = JSON.stringify(data);
-          // console.log(
-          //   "STORE JSONVAL: " + JSON.parse(jsonValue).bodyLocation.Pos8
-          // );
-          console.log("VIDEO ID: " + cachedAsset.id);
           await AsyncStorage.setItem(cachedAsset.id, jsonValue);
         } catch (e) {
           // saving error
@@ -593,33 +529,6 @@ export default function createVideo() {
                 headerShown: false,
               }}
             />
-            {/* <FAB
-              icon="plus"
-              style={{ position: "absolute", top: 50, left: 30, zIndex: 2 }}
-              onPress={() => console.log("Pressed")}
-            /> */}
-            {/* <Overlay
-              isVisible={true}
-              onBackdropPress={null}
-              backdropStyle={{
-                height: 15,
-                width: 15,
-                backgroundColor: "black",
-                // position: "absolute",
-                // top: 25,
-                // left: 30,
-                // zIndex: 2,
-              }}
-              overlayStyle={{
-                position: "absolute",
-                top: 50,
-                left: 30,
-                backgroundColor: "black",
-                // zIndex: 2,`
-              }}
-            >
-              <Text> HELLO </Text>
-            </Overlay> */}
             <Video
               style={styles.video}
               source={{ uri: video.uri }}
@@ -627,7 +536,6 @@ export default function createVideo() {
               resizeMode="cover"
               isLooping
               shouldPlay
-              // zIndex={3}
             >
               <View
                 style={{
@@ -680,39 +588,13 @@ export default function createVideo() {
                   color="grey"
                   style={{ paddingVertical: 10 }}
                 />
-                {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
               </View>
-              {/* <View
-            style={{
-              position: "absolute",
-              top: WindowHeight - 180,
-              left: WindowWidth / 2 - 40,
-              zIndex: 2,
-            }}
-          >
-            <TouchableOpacity
-              onPress={isRecording ? stopRecording : recordVideo}
-            >
-              <Ionicons
-                name="ios-checkmark-circle-sharp"
-                size={80}
-                color="grey"
-              />
-            </TouchableOpacity>
-          </View> */}
             </Video>
-            {/* <Button title="Share" onPress={shareVideo} /> */}
-            {/* {hasMediaLibraryPermission ? ( */}
 
             <Button
               title="Continue to Upload"
               onPress={() => continueToUpload()}
             />
-            {/* ) : ( */}
-
-            {/* <Button title="Save" onPress={navigation.navigate("editVideo")} /> */}
-            <></>
-            {/* )} */}
             <Button title="Discard" onPress={() => setVideo(undefined)} />
           </>
         ) : (
@@ -736,11 +618,11 @@ export default function createVideo() {
                     <Text
                       style={{
                         color: "blue",
-                        paddingRight: 20,
+                        paddingRight: 17,
                         fontSize: 20,
                       }}
                     >
-                      Share
+                      Upload
                     </Text>
                   </TouchableOpacity>
                 ),
@@ -778,7 +660,6 @@ export default function createVideo() {
                       editable
                       multiline
                       numberOfLines={4}
-                      // maxLength={40}
                       onChangeText={(text) => onChangeWordText(text)}
                       onEndEditing={(text) => {
                         let dataCopy = data;
@@ -804,7 +685,6 @@ export default function createVideo() {
                       editable
                       multiline
                       numberOfLines={4}
-                      // maxLength={40}
                       onChangeText={(text) => onChangeDefinitionText(text)}
                       onEndEditing={(text) => {
                         let dataCopy = data;
@@ -848,7 +728,6 @@ export default function createVideo() {
                           bottom={button.pos}
                         >
                           <Text
-                            // adjustsFontSizeToFit
                             style={styles.nounAV_captionText}
                             numberOfLines={1}
                           >
@@ -859,15 +738,6 @@ export default function createVideo() {
                     </TouchableOpacity>
                   ))}
                 </View>
-                {/* <TouchableOpacity style={styles.nounAVButton}>
-                <Text style={styles.nounAVText}>Noun</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.nounAVButton}>
-                <Text style={styles.nounAVText}>Adjective</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.nounAVButton}>
-                <Text style={styles.nounAVText}>Word</Text>
-              </TouchableOpacity> */}
               </View>
             </TouchableWithoutFeedback>
 
@@ -880,8 +750,6 @@ export default function createVideo() {
                     marginTop: 5,
                     paddingHorizontal: 20,
                     paddingVertical: 10,
-                    // borderWidth: 1,
-                    // borderColor: "black",
                     borderRadius: 10,
                   },
                   { maxHeight: 100 },
@@ -909,7 +777,7 @@ export default function createVideo() {
                       size={40}
                       color={isPressedC1 ? colors.trainGoneBlue : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Movies</Text>
+                    <Text>Movies</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -926,7 +794,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC2 ? colors.spotify : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Adventure</Text>
+                    <Text>Adventure</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -943,7 +811,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC3 ? colors.orange : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Sports</Text>
+                    <Text>Sports</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -960,7 +828,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC4 ? colors.darkGrey : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Weather</Text>
+                    <Text>Weather</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -977,7 +845,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC5 ? colors.spotify : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Food</Text>
+                    <Text>Food</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -994,7 +862,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC6 ? colors.blue : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Drinks</Text>
+                    <Text>Drinks</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -1011,7 +879,7 @@ export default function createVideo() {
                       size={44}
                       color={isPressedC7 ? colors.black : colors.grey}
                     />
-                    <Text style={styles.item.txt}>Greetings</Text>
+                    <Text>Greetings</Text>
                   </View>
                 </TouchableOpacity>
               </ScrollView>
@@ -1141,7 +1009,7 @@ export default function createVideo() {
                   style={styles.full_body_img}
                   source={require("../assets/Images/body-outline-3.png")}
                 />
-                <View style={styles.bodyPos_container}>
+                <View>
                   {bodyPosStates.map((button, index) => (
                     <TouchableOpacity
                       key={index}
@@ -1199,40 +1067,7 @@ export default function createVideo() {
             type={type}
             ref={cameraRef}
             flashMode={Camera.Constants.FlashMode.auto}
-            // resolution={VideoQuality["720p"]}
-            // maxFileSize={}
           >
-            {/* <View
-              style={{
-                position: "absolute",
-                top: 70,
-                left: 30,
-              }}
-            >
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name="ios-close" size={35} color="grey" />
-              </TouchableOpacity> */}
-            {/* <Button
-              title=""
-              icon="retweet"
-              onPress={() => {
-                setType(
-                  type === CameraType.back ? CameraType.front : CameraType.back
-                );
-              }}
-            />
-            <Button
-              onPress={() =>
-                setFlash(
-                  flash === Camera.Constants.FlashMode.off
-                    ? Camera.Constants.FlashMode.torch
-                    : Camera.Constants.FlashMode.off
-                )
-              }
-              icon="flash"
-              color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
-            /> */}
-            {/* </View> */}
             {!isRecording ? (
               <>
                 <View
@@ -1254,8 +1089,6 @@ export default function createVideo() {
                     flexDirection: "column",
                     justifyContent: "space-between",
                     alignContent: "space-between",
-                    // flex: 1,
-                    // backgroundColor: "white",
                   }}
                 >
                   <TouchableOpacity
@@ -1286,7 +1119,6 @@ export default function createVideo() {
                     color="grey"
                     style={{ paddingVertical: 10 }}
                   />
-                  {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
                 </View>
               </>
             ) : (
@@ -1294,7 +1126,6 @@ export default function createVideo() {
             )}
             <View
               style={{
-                // flexDirection: "row",
                 justifyContent: "space-between",
                 paddingHorizontal: 30,
               }}
@@ -1343,29 +1174,7 @@ export default function createVideo() {
             </View>
           </Camera>
         ) : (
-          <>
-            {/* <Image source={{ uri: image }} style={styles.camera} />
-          <View style={styles.controls}>
-            {image ? (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 50,
-                }}
-              >
-                <Button
-                  title="Re-take"
-                  onPress={() => setImage(null)}
-                  icon="retweet"
-                />
-                <Button title="Save" onPress={savePicture} icon="check" />
-              </View>
-            ) : (
-              <View></View>
-            )}
-          </View> */}
-          </>
+          <></>
         )}
       </View>
     </>
@@ -1376,28 +1185,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#000",
-    // padding: 8,
     height: Dimensions.get("window").height,
   },
   editVideoContainer: {
     flex: 1,
-    // justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: "white",
-    // padding: 8,
     height: Dimensions.get("window").height,
-  },
-  controls: {
-    flex: 0.5,
-  },
-  button: {
-    height: 40,
-    borderRadius: 6,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   video: {
     flex: 1,
@@ -1405,38 +1199,16 @@ const styles = StyleSheet.create({
     zIndex: 2,
     height: Dimensions.get("window").height,
   },
-  text: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#E9730F",
-    marginLeft: 10,
-  },
-  iconButton: {
-    margin: 8,
-    backfaceVisibility: false,
-  },
   camera: {
     flex: 5,
     borderRadius: 20,
-  },
-  topControls: {
-    flex: 1,
   },
   thumbnailRow: { flexDirection: "row", height: 200 },
   thumbnailPlaceholder: {
     width: 120,
     marginVertical: 15,
     marginLeft: 30,
-    // backgroundColor: "black",
     borderRadius: 15,
-  },
-  nounAVrow: {
-    height: 100,
-    // backgroundColor: "green",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    // flex: 1,
   },
   category_container: {
     marginVertical: 10,
@@ -1455,19 +1227,9 @@ const styles = StyleSheet.create({
   },
 
   grouping_txt: {
-    //paddingLeft: 10,
-    //marginLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
     color: "black",
-  },
-
-  handshape_container: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 15,
   },
 
   po_container: {
@@ -1479,38 +1241,25 @@ const styles = StyleSheet.create({
     paddingBottom: 35,
   },
 
-  po2_container: {
+  handshape_container: {
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     alignItems: "center",
     paddingTop: 15,
-    paddingBottom: 35,
   },
 
   handshape_image: {
     flex: 1,
-    // flexDirection: "row",
-    // backgroundColor: Themes.colors.lightGrey,
     height: 140,
-    // width: 80,
-    //marginTop: 5,
-    //marginHorizontal: 5,
     borderRadius: 10,
-    //marginLeft: 5,
   },
 
   handshape: {
-    // flex: 1,
     flexDirection: "row",
-    // backgroundColor: Themes.colors.orange,
-    // height: 140,
     width: 90,
-    //marginHorizontal: 5,
-    //padding: 0,
     justifyContent: "center",
     alignItems: "flex-end",
-    // borderRadius: 10,
   },
   captionContainer: {
     position: "absolute",
@@ -1520,27 +1269,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  po2_captionContainer: {
-    //width: "100%",
-    position: "absolute",
-    backgroundColor: colors.extraLightGrey,
-    borderRadius: 50,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  nounAV_captionContainer: {
-    //width: "100%",
-    // position: "absolute",
-    backgroundColor: colors.extraLightGrey,
-    borderRadius: 50,
-    width: 100,
-    paddingVertical: 15,
-  },
   captionText: {
     color: colors.black,
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  po2_container: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    paddingTop: 15,
+    paddingBottom: 35,
+  },
+  po2_captionContainer: {
+    position: "absolute",
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   po2_captionText: {
     color: colors.black,
@@ -1548,9 +1296,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  nounAVrow: {
+    height: 100,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nounAV_captionContainer: {
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    width: 100,
+    paddingVertical: 15,
+  },
   nounAV_captionText: {
     color: colors.black,
-    // adjustsFontSizeToFit: true,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -1575,47 +1334,15 @@ const styles = StyleSheet.create({
   },
 
   iconBox: {
-    // backgroundColor: colors.extraLightGrey,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: 60,
     borderRadius: 10,
   },
-  search_button: {
-    backgroundColor: Themes.colors.blue,
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    alignSelf: "center",
-    width: "80%",
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    shadowOffset: { width: -1, height: 3 },
-  },
-  search_button_txt: {
-    color: Themes.colors.white,
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-  },
   item: {
     flexDirection: "column",
     marginRight: 20,
     alignItems: "center",
-  },
-  itemText: {
-    marginTop: 0,
-    fontSize: 16,
-  },
-
-  linkContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  itemText: {
-    marginTop: 0,
-    fontSize: 16,
   },
 });
