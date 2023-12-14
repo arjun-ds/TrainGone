@@ -60,9 +60,11 @@ export default function profileVideoView() {
     }
   };
 
+  console.log("PROFILEVIDEOVIEW: URI: " + params.uri);
+
   return (
     <>
-      <Stack.Screen options={{ title: "Video Title" }} />
+      <Stack.Screen options={{ title: params.title }} />
       <ScrollView>
         <Video
           style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist

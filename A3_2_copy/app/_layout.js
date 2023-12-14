@@ -78,6 +78,11 @@ export default function HomeLayout() {
         name="editVideo"
         options={{ tabBarStyle: { display: "none" } }}
       /> */}
+      <Tabs.Screen
+        // Name of the route to hide.
+        name="tempWorkArea"
+        options={{}}
+      />
     </Tabs>
   );
 }

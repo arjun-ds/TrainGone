@@ -53,53 +53,7 @@ export default function profile() {
 
   const navigation = useNavigation();
 
-  const generateThumbnail = async () => {
-    // console.log("GENTHUMB URI PARAM: " + videoURI);
-    // console.log("GENTHUMB ph BEFORE: " + phURI);
-    // phURI = JSON.stringify(phURI);
-    // console.log("GENTHUMB ph AFTER: " + phURI);
-    // let uri2 = String(assetURI);
-    // console.log(uri2);
-    // phURI = "ph://00240F9F-A0EA-436C-A89A-20068E9188C6";
-    // assetURI = `assets-library://asset/asset.mp4?id=${phURI.slice(
-    //   5,
-    //   41
-    // )}&ext=mp4`;
-
-    // console.log(assetURI);
-
-    try {
-      const { uri } = await VideoThumbnails.getThumbnailAsync(finalURI, {
-        time: 1500,
-      });
-      console.log("GENTHUMB OUTPUT URI: " + uri);
-      setThumbnail(uri);
-    } catch (e) {
-      console.warn("GENTHUMB ERROR: " + e);
-    }
-  };
-
-  //Converts iOS PHAsset Videos to Usable Video Files -- From https://stackoverflow.com/questions/70835286/how-to-fetch-videos-from-mobile-gallery-and-display-them-using-react-native-vide
-  const generateAssetURI = (phURI) => {
-    const uriId = phURI.split("/")[2];
-    return `assets-library://asset/asset.mp4?id=${uriId}&ext=mp4`;
-  };
-
   React.useEffect(() => {
-    //Generates Thumbnail For Video -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
-    // const generateThumbnail = async (videoURI) => {
-    //   console.log("GENTHUMB URI PARAM: " + videoURI);
-    //   try {
-    //     const { uri } = await VideoThumbnails.getThumbnailAsync(videoURI, {
-    //       time: 1500,
-    //     });
-    //     console.log("GENTHUMB OUTPUT URI: " + uri);
-    //     setThumbnail(uri);
-    //   } catch (e) {
-    //     console.warn(e);
-    //   }
-    // };
-
     //Checks if TrainGone Media Album Exists On Phone
     //If not, the page will conditionally render hard-coded image examples of what the profile page might look like
     async function checkAlbumExists() {
@@ -112,26 +66,20 @@ export default function profile() {
       }
     }
 
-    // //Converts iOS PHAsset Videos to Usable Video Files -- From https://stackoverflow.com/questions/70835286/how-to-fetch-videos-from-mobile-gallery-and-display-them-using-react-native-vide
-    // const generateAssetURI = (phURI) => {
-    //   const uriId = phURI.split("/")[2];
-    //   return `assets-library://asset/asset.mp4?id=${uriId}&ext=mp4`;
-    // };
+    //Converts iOS PHAsset Videos to Usable Video Files -- From https://stackoverflow.com/questions/70835286/how-to-fetch-videos-from-mobile-gallery-and-display-them-using-react-native-vide
+    const generateAssetURI = (phURI) => {
+      const uriId = phURI.split("/")[2];
+      return `assets-library://asset/asset.mp4?id=${uriId}&ext=mp4`;
+    };
 
     //Gets Videos From TrainGone Media Album
     async function getVideo() {
-      // console.log(phURI);
-      // const phURI = "ph://00240F9F-A0EA-436C-A89A-20068E9188C6"; // https://stackoverflow.com/questions/70835286/how-to-fetch-videos-from-mobile-gallery-and-display-them-using-react-native-vide
-      // const uriId = phURI.split("/")[2];
-      // const assetURI = `assets-library://asset/asset.mp4?id=${uriId}&ext=mp4`;
-
-      // generateThumbnail(assetURI);
       const album = await MediaLibrary.getAlbumAsync("TrainGone");
       // console.log("ALBUM: " + album);
       console.log("TEST");
 
+      // https://stackoverflow.com/questions/74793812/react-dynamically-added-components-not-rendered
       let assets = await MediaLibrary.getAssetsAsync({
-        // https://stackoverflow.com/questions/74793812/react-dynamically-added-components-not-rendered
         album: album,
         mediaType: "video",
       });
@@ -145,6 +93,7 @@ export default function profile() {
         console.log("VIDEO LIST: " + videoList);
 
         if (i + 2 < assets.assets.length) {
+          //Generates Thumbnail For Video -- From https://docs.expo.dev/versions/latest/sdk/video-thumbnails/
           const thumbURI = await VideoThumbnails.getThumbnailAsync(
             generateAssetURI(assets.assets[i].uri),
             {
@@ -167,51 +116,6 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                {/* <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                />
-                <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i + 1].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                />
-                <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i + 2].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                /> */}
-                {/* <TouchableOpacity
-                  onPress={navigation.navigate("profileVideoView")}
-                > */}
                 <Link
                   asChild
                   href={{
@@ -220,6 +124,7 @@ export default function profile() {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
                       uri: generateAssetURI(assets.assets[i].uri),
+                      title: "Title",
                     },
                   }}
                 >
@@ -286,34 +191,6 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                {/* <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                />
-                <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i + 1].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                /> */}
                 <Link
                   asChild
                   href={{
@@ -365,20 +242,6 @@ export default function profile() {
           videoList2.push(
             <View key={i}>
               <View style={styles.videos_container}>
-                {/* <Video
-                  style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                  resizeMode="cover"
-                  source={{
-                    // uri: null,
-                    uri: generateAssetURI(assets.assets[i].uri),
-                  }}
-                  useNativeControls
-                  // resizeMode={ResizeMode.CONTAIN}
-                  isLooping
-                  // shouldPlay
-                  onPlaybackStatusUpdate={null}
-                  onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-                /> */}
                 <Link
                   asChild
                   href={{
@@ -406,11 +269,6 @@ export default function profile() {
       }
       setVideoList(videoList2);
       setVideosUpdated(true); //updates videosUpdated for conditional rendering
-
-      // setVideoAssets(assets);
-      // console.log(JSON.stringify(assets, null, 2));
-      // console.log(assets.assets.length);
-      // console.log(JSON.stringify(videoAssets, null, 2));
     }
 
     checkAlbumExists();
@@ -426,51 +284,35 @@ export default function profile() {
           <>
             <View style={styles.videos_container}>
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video1.png")}
               />
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video2.png")}
               />
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video3.png")}
               />
             </View>
             <View style={styles.videos_container}>
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video4.png")}
               />
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video5.png")}
               />
               <Image
-                style={styles.video_individual}
+                style={styles.video_button}
                 source={require("../../assets/Images/created-video6.png")}
               />
             </View>
           </>
         ) : (
-          <>
-            {videoList}
-            {/* <Video
-            style={styles.video_individual} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-            resizeMode="cover"
-            source={{
-              // uri: null,
-              uri: assetURI,
-            }}
-            useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
-            isLooping
-            // shouldPlay
-            onPlaybackStatusUpdate={null}
-            onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-          /> */}
-          </>
+          <>{videoList}</>
         )}
       </>
     );
@@ -479,15 +321,15 @@ export default function profile() {
       <>
         <View style={styles.videos_container}>
           <Image
-            style={styles.video_individual}
+            style={styles.video_button}
             source={require("../../assets/Images/liked-video1.png")}
           />
           <Image
-            style={styles.video_individual}
+            style={styles.video_button}
             source={require("../../assets/Images/liked-video2.png")}
           />
           <Image
-            style={styles.video_individual}
+            style={styles.video_button}
             source={require("../../assets/Images/liked-video3.png")}
           />
         </View>

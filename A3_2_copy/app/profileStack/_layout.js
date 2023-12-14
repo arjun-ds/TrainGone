@@ -18,6 +18,7 @@ export default function Layout() {
         name="profileVideoView"
         options={{
           headerShown: true,
+          title: "Video Title",
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate("profile")}>
               <AntDesign

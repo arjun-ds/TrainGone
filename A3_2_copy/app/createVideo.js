@@ -46,6 +46,8 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Button as RNEButton, Overlay } from "react-native-elements";
 import { FAB } from "react-native-paper";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function createVideo() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -53,7 +55,6 @@ export default function createVideo() {
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.torch);
   const cameraRef = useRef(null);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-  const [thumbnail, setThumbnail] = useState(null);
 
   const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -69,22 +70,13 @@ export default function createVideo() {
   const [isPressedC6, setIsPressedC6] = useState(false);
   const [isPressedC7, setIsPressedC7] = useState(false);
 
+  const [thumbnailURI, setThumbnailURI] = useState("");
+
   let WindowHeight = Dimensions.get("window").height;
   let WindowWidth = Dimensions.get("window").width;
 
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
-
-  const generateThumbnail = async (source) => {
-    try {
-      const { uri } = await VideoThumbnails.getThumbnailAsync(source, {
-        time: 15000,
-      });
-      setThumbnail(uri);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
 
   const [indexes, setIndexes] = useState(0);
 
@@ -383,12 +375,13 @@ export default function createVideo() {
     if (!result.canceled) {
       stopRecording();
       setVideo(result.assets[0]);
-      const { uri } = await VideoThumbnails.getThumbnailAsync(
-        decodeURI(result.assets[0].uri)
+      const thumbURI = await VideoThumbnails.getThumbnailAsync(
+        result.assets[0].uri,
+        {
+          time: 15,
+        }
       );
-      setThumbnail(thumbURI);
-      console.log("thumb: " + thumbnail + " thumb : " + thumbURI);
-      // setIsRecording(false);
+      setThumbnailURI(thumbURI.uri);
     }
   };
 
@@ -405,9 +398,11 @@ export default function createVideo() {
     // };
 
     let saveVideo = async () => {
+      //Checks Media Library Permissions
       const status = (await MediaLibrary.getPermissionsAsync())
         .accessPrivileges;
       if (status !== "all") {
+        //If missing permissions, send an alert that links to device's settings page
         Alert.alert(
           "Missing Permissions",
           "Access To All Photos Required To Upload A Video",
@@ -428,7 +423,8 @@ export default function createVideo() {
         );
       } else {
         const cachedAsset = await MediaLibrary.createAssetAsync(video.uri); // https://stackoverflow.com/questions/61132921/expo-medialibrary-createalbumasync-is-creating-multiple-album-with-same-name
-
+        console.log("VIDEO URI: " + video.uri);
+        console.log("CACHED ASSET: " + cachedAsset.uri);
         const albumName = "TrainGone";
         const album = await MediaLibrary.getAlbumAsync(albumName);
 
@@ -438,20 +434,26 @@ export default function createVideo() {
             album,
             false
           ).then(() => {
-            navigation.navigate("profile");
+            navigation.navigate("profileStack");
+            // router.push("/app/profileStack/profile");
           });
         } else {
           const asset = await MediaLibrary.createAssetAsync(video.uri);
           await MediaLibrary.createAlbumAsync(albumName, asset).then(() => {
-            navigation.navigate("profile");
+            navigation.navigate("profileStack");
           });
         }
       }
     };
 
-    let continueToUpload = () => {
+    let continueToUpload = async () => {
       if (isSaved) setIsSaved(false);
       else setIsSaved(true);
+
+      const thumbURI = await VideoThumbnails.getThumbnailAsync(video.uri, {
+        time: 15,
+      });
+      setThumbnailURI(thumbURI.uri);
     };
 
     return (
@@ -621,7 +623,12 @@ export default function createVideo() {
               accessible={false}
             >
               <View style={styles.thumbnailRow}>
-                <View style={styles.thumbnailPlaceholder} />
+                <View style={styles.thumbnailPlaceholder}>
+                  <Image
+                    style={{ flex: 1, borderRadius: 10 }}
+                    source={{ uri: thumbnailURI }}
+                  />
+                </View>
                 <View
                   style={{
                     flexDirection: "column",
@@ -1220,7 +1227,7 @@ const styles = StyleSheet.create({
     width: 120,
     marginVertical: 15,
     marginLeft: 30,
-    backgroundColor: "black",
+    // backgroundColor: "black",
     borderRadius: 15,
   },
   nounAVrow: {
@@ -1343,7 +1350,7 @@ const styles = StyleSheet.create({
   },
   nounAV_captionText: {
     color: colors.black,
-    adjustsFontSizeToFit: true,
+    // adjustsFontSizeToFit: true,
     fontWeight: "bold",
     textAlign: "center",
   },
