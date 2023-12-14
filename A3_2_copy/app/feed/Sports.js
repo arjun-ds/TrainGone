@@ -64,13 +64,6 @@ export default function Greetings() {
         }}
       />
       <View style={styles.container}>
-        {/* <FlatList
-                  data={videos}
-                  renderItem={({ item, index }) => (
-                    <VideoView videoName={item.videoName} />
-                  )}
-                  keyExtractor={(item) => item.id}
-                /> */}
         <ScrollView
           disableIntervalMomentum={true}
           snapToInterval={WindowHeight}

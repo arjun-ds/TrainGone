@@ -29,7 +29,6 @@ export default function Layout() {
           headerShown: true,
         }}
       />
-      <Stack.Screen name="VideoView" options={{ headerShown: true }} />
       <Stack.Screen
         name="videoInfiniteScroll"
         options={{ headerShown: false }}

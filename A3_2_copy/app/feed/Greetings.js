@@ -14,7 +14,6 @@ import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
 import { Video, ResizeMode } from "expo-av";
 import { Themes } from "../../assets/Themes";
 import * as React from "react";
-import VideoView from "./VideoView";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
@@ -71,13 +70,6 @@ export default function Greetings() {
         }}
       />
       <View style={styles.container}>
-        {/* <FlatList
-                data={videos}
-                renderItem={({ item, index }) => (
-                  <VideoView videoName={item.videoName} />
-                )}
-                keyExtractor={(item) => item.id}
-              /> */}
         <ScrollView
           disableIntervalMomentum={true}
           snapToInterval={WindowHeight}
