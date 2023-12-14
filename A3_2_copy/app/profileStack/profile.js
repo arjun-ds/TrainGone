@@ -238,7 +238,7 @@ export default function profile() {
     }
 
     checkAlbumExists();
-  }, videosUpdated);
+  }, []);
 
   let contentDisplayed = null;
 
