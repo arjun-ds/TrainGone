@@ -10,9 +10,8 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  SafeAreaView,
-  StatusBar,
   Text,
+  TouchableOpacity,
   View,
   TextInput,
   TouchableWithoutFeedback,
@@ -96,13 +95,18 @@ export default function Page() {
           <View style={styles.popular_container}>
             <View style={styles.top}>
               <Text style={styles.category_txt}>Popular Now</Text>
-              <Feather name="arrow-right-circle" size={30} color="black" />
+              <Feather
+                name="arrow-right-circle"
+                size={30}
+                color={Themes.colors.lightGrey}
+              />
             </View>
-            <View style={styles.videos_container}>
+            <TouchableOpacity style={styles.videos_container} disabled={true}>
               <Image
                 style={styles.video_individual}
                 source={require("../assets/Images/popular-video1.png")}
               />
+
               <Image
                 style={styles.video_individual}
                 source={require("../assets/Images/popular-video2.png")}
@@ -111,14 +115,18 @@ export default function Page() {
                 style={styles.video_individual}
                 source={require("../assets/Images/popular-video3.png")}
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.popular_container}>
             <View style={styles.top}>
               <Text style={styles.category_txt}>Recently Watched</Text>
-              <Feather name="arrow-right-circle" size={30} color="black" />
+              <Feather
+                name="arrow-right-circle"
+                size={30}
+                color={Themes.colors.lightGrey}
+              />
             </View>
-            <View style={styles.videos_container}>
+            <TouchableOpacity style={styles.videos_container} disabled={true}>
               <Image
                 style={styles.video_individual}
                 source={require("../assets/Images/liked-video3.png")}
@@ -131,7 +139,7 @@ export default function Page() {
                 style={styles.video_individual}
                 source={require("../assets/Images/liked-video1.png")}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -225,6 +233,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     padding: 10,
+    opacity: 0.5,
   },
 
   video_individual: {
