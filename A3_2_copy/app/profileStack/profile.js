@@ -212,33 +212,60 @@ export default function profile() {
                 {/* <TouchableOpacity
                   onPress={navigation.navigate("profileVideoView")}
                 > */}
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI.uri }}
-                  />
-                </Pressable>
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI.uri }}
+                    />
+                  </Pressable>
+                </Link>
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i + 1].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI2.uri }}
-                  />
-                </Pressable>
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI2.uri }}
+                    />
+                  </Pressable>
+                </Link>
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i + 2].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI3.uri }}
-                  />
-                </Pressable>
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI3.uri }}
+                    />
+                  </Pressable>
+                </Link>
               </View>
             </View>
           );
@@ -287,24 +314,42 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 /> */}
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI.uri }}
-                  />
-                </Pressable>
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI.uri }}
+                    />
+                  </Pressable>
+                </Link>
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i + 1].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI2.uri }}
-                  />
-                </Pressable>
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI2.uri }}
+                    />
+                  </Pressable>
+                </Link>
                 <View style={styles.video_button} />
               </View>
             </View>
@@ -334,15 +379,24 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 /> */}
-                <Pressable
-                  style={styles.video_button}
-                  onPress={() => navigation.navigate("profileVideoView")}
+                <Link
+                  asChild
+                  href={{
+                    pathname: "profileStack/profileVideoView",
+                    params: {
+                      // songTitle: title, // for debug purposes
+                      // pageTitle: "Preview song",
+                      uri: generateAssetURI(assets.assets[i].uri),
+                    },
+                  }}
                 >
-                  <Image
-                    style={styles.video_individual}
-                    source={{ uri: thumbURI.uri }}
-                  />
-                </Pressable>
+                  <Pressable style={styles.video_button}>
+                    <Image
+                      style={styles.video_individual}
+                      source={{ uri: thumbURI.uri }}
+                    />
+                  </Pressable>
+                </Link>
                 <View style={styles.video_button} />
                 <View style={styles.video_button} />
               </View>

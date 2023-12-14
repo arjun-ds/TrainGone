@@ -67,7 +67,7 @@ export default function profileVideoView() {
         <Video
           style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
           resizeMode="cover"
-          source={require("../../videos/water.mov")}
+          source={{ uri: params.uri }}
           useNativeControls
           // resizeMode={ResizeMode.CONTAIN}
           isLooping
