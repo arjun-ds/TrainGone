@@ -1,21 +1,10 @@
-import {
-  FlatList,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { colors } from "../../assets/Themes/colors";
 import { Stack } from "expo-router/stack";
-import { Link } from "expo-router";
-import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
-import { Video, ResizeMode } from "expo-av";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Video } from "expo-av";
 import { Themes } from "../../assets/Themes";
 import * as React from "react";
-import VideoView from "../feed/VideoView";
 import { ScrollView } from "react-native-gesture-handler";
 import { Dimensions } from "react-native";
 import { useState } from "react";
@@ -26,11 +15,16 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Octicons } from "@expo/vector-icons";
 
+//Displays user-created dictionary entries
 export default function profileVideoView() {
+  const router = useRouter();
+  const params = useLocalSearchParams();
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
 
   const [videoDetailsReady, setVideoDetailsReady] = useState(false);
+
+  //video data state variable
   const [videoDetails, setVideoDetails] = useState({
     Word: "",
     Definition: "",
@@ -83,6 +77,8 @@ export default function profileVideoView() {
       { isPressed: false },
     ],
   });
+
+  //Begin "Button" States (Used to determine which ASL/sign "buttons" are selected for the given video)
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -263,43 +259,47 @@ export default function profileVideoView() {
       backgroundColor: colors.extraLightGrey,
     },
   ]);
+  //END Button States
 
-  const router = useRouter();
-  const params = useLocalSearchParams();
   let WindowHeight =
     Dimensions.get("window").height -
     useBottomTabBarHeight() -
     getStatusBarHeight();
 
   //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+  //Code helps resize video upon load
   const defaultScreenRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
 
   // Use the screenDefaultRatio to render the video before the video is loaded
   const [videoRatio, setVideoRatio] = useState(defaultScreenRatio);
 
-  // Update the videoRatio right after we know the video natural size
-  const updateVideoRatioOnDisplay = async (videoDetails) => {
-    const { width, height } = videoDetails.naturalSize;
-    const newVideoRatio = width / height;
-    setVideoRatio(newVideoRatio); //END CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-
+  //Retrieve video-related data from Async Storage using the given video's ID
+  const loadVideo = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(params.id);
-      // console.log("READ JSONVAL: " + JSON.parse(jsonValue).nounAV[0].isPressed);
-      // console.log("READ JSONVAL: " + JSON.parse(jsonValue).nounAV[1].isPressed);
       setVideoDetails(jsonValue != null ? JSON.parse(jsonValue) : null);
       setVideoDetailsReady(true);
+    } catch (e) {
+      // error reading value
+      console.log(e);
+    }
+  };
 
+  //Visually update page to reflect video-related data (e.g. categories)
+  const loadVideoDetails = async () => {
+    try {
       await getCategories();
       await getNounAV();
       await getASLData();
     } catch (e) {
-      // error reading value
+      console.log(e);
     }
   };
 
   const [categoryList, setCategoryList] = useState([]);
+
+  //Function to retrive category data associated with given video
   const getCategories = async () => {
     let categoryList2 = [];
     catListKeys = Object.keys(videoDetails.categories);
@@ -317,6 +317,7 @@ export default function profileVideoView() {
   };
 
   const [nounAV, setNounAV] = useState([]);
+  //Function to retrieve whether the provided dictionary entry is for a noun, adjective, verb, or some combination of the three
   const getNounAV = async () => {
     let nounAV2 = [];
     for (let i = 0; i < videoDetails.nounAV.length; i++) {
@@ -333,35 +334,43 @@ export default function profileVideoView() {
     setNounAV(nounAV2);
   };
 
+  //Helper function for getASLData function below
+  //Modifies state variables by creating a copy
   function aslHelperFunction(buttonStates, setButtonStates, i) {
     const newButtonStates = [...buttonStates];
     newButtonStates[i].isPressed = !newButtonStates[i].isPressed;
     setButtonStates(newButtonStates);
   }
 
+  //Function to retrieve the ASL / sign data for a video (e.g. palm movement)
   const getASLData = async () => {
     for (let i = 0; i < videoDetails.handshape.length; i++) {
+      // Handshape (First set)
       if (videoDetails.handshape[i].isPressed) {
         console.log("BUTTON PRESSED");
         aslHelperFunction(handshapeButtonStates, setHandshapeButtonStates, i);
       }
     }
     for (let i = 0; i < videoDetails.handshape2.length; i++) {
+      // Handshape (Second Set)
       if (videoDetails.handshape2[i].isPressed) {
         aslHelperFunction(handshape2ButtonStates, setHandshape2ButtonStates, i);
       }
     }
     for (let i = 0; i < videoDetails.palmOrientation; i++) {
+      // Palm Orientation (1st Set)
       if (videoDetails.palmOrientation[i].isPressed) {
         aslHelperFunction(po1ButtonStates, setPO1ButtonStates, i);
       }
     }
     for (let i = 0; i < videoDetails.palmOrientation2.length; i++) {
+      // Palm Orientation (Second Set)
       if (videoDetails.palmOrientation2[i].isPressed) {
         aslHelperFunction(po2ButtonStates, setPO2ButtonStates, i);
       }
     }
     for (let i = 0; i < videoDetails.bodyLocation.length; i++) {
+      // Body Location
       if (videoDetails.bodyLocation[i].isPressed) {
         const newBodyPosStates = [...bodyPosStates];
         newBodyPosStates[i].isPressed = !newBodyPosStates[i].isPressed;
@@ -374,8 +383,8 @@ export default function profileVideoView() {
       }
     }
     for (let i = 0; i < videoDetails.palmMovement.length; i++) {
+      // Palm Movement
       if (videoDetails.palmMovement[i].isPressed) {
-        // aslHelperFunction(palmMovementStates, setPalmMovementStates, i);
         const newPalmMovementStates = [...palmMovementStates];
         newPalmMovementStates[i].isPressed =
           !newPalmMovementStates[i].isPressed;
@@ -393,8 +402,7 @@ export default function profileVideoView() {
     }
   };
 
-  // const video = React.useRef(null);
-  // const [status, setStatus] = React.useState({});
+  //Code to manage state of heart/like icon
   const [id, setId] = useState("ios-heart-outline");
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
@@ -404,34 +412,32 @@ export default function profileVideoView() {
     }
   };
 
-  console.log("PROFILEVIDEOVIEW: ID: " + params.id);
+  // console.log("PROFILEVIDEOVIEW: ID: " + params.id);
 
   return (
     <>
       {!videoDetailsReady ? (
+        //Conditional Rendering
+        //While the selected video is loading, displays a hard-coded dictionary definition for the word "Water"
         <>
-          <Stack.Screen options={{ title: "Water" }} />
+          <Stack.Screen options={{ title: "Video Example" }} />
           <ScrollView>
-            <Video
-              style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            <Video //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+              style={styles.videos}
               resizeMode="cover"
               source={require("../../videos/water.mov")}
-              // source={{ uri: params.uri }}
               useNativeControls
-              // resizeMode={ResizeMode.CONTAIN}
               isLooping
               shouldPlay="false"
               onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-              onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+              onLoad={loadVideo}
             />
 
             <View style={styles.overlay}>
               <View style={styles.description}>
                 <Text style={styles.overlayText}>Water</Text>
                 <View style={styles.link}>
-                  <Link href={{ pathname: "feed/Drinks" }}>
-                    <Text style={styles.category_txt}>Drinks</Text>
-                  </Link>
+                  <Text style={styles.category_txt}>Drinks</Text>
                 </View>
               </View>
               <Pressable onPress={adjustHeart}>
@@ -450,11 +456,12 @@ export default function profileVideoView() {
           </ScrollView>
         </>
       ) : (
+        //Once selected video has loaded, display it as a dictionary entry
         <>
           <Stack.Screen options={{ title: videoDetails.Word }} />
           <ScrollView>
-            <Video
-              style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            <Video // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+              style={styles.videos}
               resizeMode="cover"
               source={{ uri: params.uri }}
               useNativeControls
@@ -462,7 +469,7 @@ export default function profileVideoView() {
               isLooping
               shouldPlay="false"
               onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-              onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+              onLoad={loadVideoDetails}
             />
 
             <View style={styles.overlay}>
@@ -619,11 +626,6 @@ export default function profileVideoView() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Themes.colors.background,
-    flex: 1,
-  },
-
   description: {
     flexDirection: "row",
     alignItems: "center",
@@ -645,12 +647,20 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     fontWeight: "bold",
   },
-
-  category_txt: {
-    fontSize: 20,
+  videos: {
+    height: Dimensions.get("window").height - 140,
+    justifyContent: "center",
+    alignItems: "center",
     color: "white",
   },
-
+  category_txt: {
+    fontSize: 17,
+    color: "white",
+  },
+  linkContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   link: {
     backgroundColor: "black",
     paddingHorizontal: 10,
@@ -658,12 +668,6 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
     backgroundColor: Themes.colors.blue,
     marginRight: 5,
-  },
-  videos: {
-    height: Dimensions.get("window").height - 140,
-    justifyContent: "center",
-    alignItems: "center",
-    color: "white",
   },
   definition_container: {
     flex: 1,
@@ -674,67 +678,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-  part_speech: {
-    padding: 10,
-  },
   definition_txt: {
     padding: 10,
   },
-  button: {
-    height: 40,
-    borderRadius: 6,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  video: {
-    flex: 1,
-    alignSelf: "stretch",
-    zIndex: 2,
-    height: Dimensions.get("window").height,
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#E9730F",
-    marginLeft: 10,
-  },
-  iconButton: {
-    margin: 8,
-    backfaceVisibility: false,
-  },
-  camera: {
-    flex: 5,
-    borderRadius: 20,
-  },
-  topControls: {
-    flex: 1,
-  },
-  thumbnailRow: { flexDirection: "row", height: 200 },
-  thumbnailPlaceholder: {
-    width: 120,
-    marginVertical: 15,
-    marginLeft: 30,
-    // backgroundColor: "black",
-    borderRadius: 15,
-  },
-  nounAVrow: {
-    height: 100,
-    // backgroundColor: "green",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    // flex: 1,
-  },
-  category_container: {
-    marginVertical: 10,
-    paddingHorizontal: 15,
-  },
-
-  category_txt: {
-    paddingLeft: 10,
-    fontSize: 20,
-    fontWeight: "bold",
+  part_speech: {
+    padding: 10,
   },
   grouping_container: {
     width: "100%",
@@ -743,8 +691,6 @@ const styles = StyleSheet.create({
   },
 
   grouping_txt: {
-    //paddingLeft: 10,
-    //marginLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
     color: "black",
@@ -757,7 +703,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 15,
   },
+  handshape_image: {
+    flex: 1,
+    height: 140,
+    borderRadius: 10,
+  },
 
+  handshape: {
+    flexDirection: "row",
+    width: 90,
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
   po_container: {
     flexDirection: "row",
     width: "100%",
@@ -775,30 +732,18 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 35,
   },
-
-  handshape_image: {
-    flex: 1,
-    // flexDirection: "row",
-    // backgroundColor: Themes.colors.lightGrey,
-    height: 140,
-    // width: 80,
-    //marginTop: 5,
-    //marginHorizontal: 5,
-    borderRadius: 10,
-    //marginLeft: 5,
+  po2_captionContainer: {
+    position: "absolute",
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
-
-  handshape: {
-    // flex: 1,
-    flexDirection: "row",
-    // backgroundColor: Themes.colors.orange,
-    // height: 140,
-    width: 90,
-    //marginHorizontal: 5,
-    //padding: 0,
-    justifyContent: "center",
-    alignItems: "flex-end",
-    // borderRadius: 10,
+  po2_captionText: {
+    color: colors.black,
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   captionContainer: {
     position: "absolute",
@@ -808,40 +753,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  po2_captionContainer: {
-    //width: "100%",
-    position: "absolute",
-    backgroundColor: colors.extraLightGrey,
-    borderRadius: 50,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  nounAV_captionContainer: {
-    //width: "100%",
-    // position: "absolute",
-    backgroundColor: colors.extraLightGrey,
-    borderRadius: 50,
-    width: 100,
-    paddingVertical: 15,
-  },
   captionText: {
     color: colors.black,
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
-  po2_captionText: {
-    color: colors.black,
-    fontSize: 13,
-    fontWeight: "bold",
-    textAlign: "center",
+  nounAV_captionContainer: {
+    backgroundColor: colors.extraLightGrey,
+    borderRadius: 50,
+    width: 100,
+    paddingVertical: 15,
   },
-  nounAV_captionText: {
-    color: colors.black,
-    // adjustsFontSizeToFit: true,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+
   full_body_img: {
     flex: 1,
     resizeMode: "contain",
@@ -863,47 +787,10 @@ const styles = StyleSheet.create({
   },
 
   iconBox: {
-    // backgroundColor: colors.extraLightGrey,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: 60,
     borderRadius: 10,
-  },
-  search_button: {
-    backgroundColor: Themes.colors.blue,
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    alignSelf: "center",
-    width: "80%",
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOpacity: 0.4,
-    shadowRadius: 5,
-    shadowOffset: { width: -1, height: 3 },
-  },
-  search_button_txt: {
-    color: Themes.colors.white,
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-  },
-  item: {
-    flexDirection: "column",
-    marginRight: 20,
-    alignItems: "center",
-  },
-  itemText: {
-    marginTop: 0,
-    fontSize: 16,
-  },
-
-  linkContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  itemText: {
-    marginTop: 0,
-    fontSize: 16,
   },
 });
