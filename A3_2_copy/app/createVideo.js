@@ -1109,7 +1109,7 @@ export default function createVideo() {
                 }}
               >
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                  <Ionicons name="ios-close" size={35} color="grey" />
+                  <Ionicons name="ios-close" size={35} color="black" />
                 </TouchableOpacity>
               </View>
               <View
@@ -1134,7 +1134,7 @@ export default function createVideo() {
                   <MaterialIcons
                     name="flip-camera-android"
                     size={45}
-                    color="grey"
+                    color="black"
                     style={{ paddingVertical: 10 }}
                   />
                 </TouchableOpacity>
