@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "expo-video-thumbnails": "^7.6.0"
+  }
+}
