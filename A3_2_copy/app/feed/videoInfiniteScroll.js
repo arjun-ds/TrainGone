@@ -1,53 +1,26 @@
-import {
-  FlatList,
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Pressable,
-  Dimensions,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
 import { colors } from "../../assets/Themes/colors";
 import { Stack } from "expo-router/stack";
-import { Link, Tabs } from "expo-router";
-import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
-import { Video, ResizeMode } from "expo-av";
+import { Link } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Video } from "expo-av";
 import { Themes } from "../../assets/Themes";
 import * as React from "react";
-import VideoView from "./VideoView";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import HomeLayout from "../_layout";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
+// Page displays a hard-coded list of Videos & related data components
+// Our initial intention was to dynamically load and display videos through a FlatList -- We were unable to do so due to time and resource constraints
 export default function videoInfiniteScroll() {
-  const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
 
   const router = useRouter();
   const params = useLocalSearchParams();
   let WindowHeight = Dimensions.get("window").height - useBottomTabBarHeight();
 
-  //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-  const defaultScreenRatio =
-    Dimensions.get("window").width / Dimensions.get("window").height;
-
-  // Use the screenDefaultRatio to render the video before the video is loaded
-  const [videoRatio, setVideoRatio] = useState(defaultScreenRatio);
-
-  // Update the videoRatio right after we know the video natural size
-  const updateVideoRatioOnDisplay = (videoDetails) => {
-    const { width, height } = videoDetails.naturalSize;
-    const newVideoRatio = width / height;
-
-    setVideoRatio(newVideoRatio);
-  };
-  //END CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-
-  // const video = React.useRef(null);
-  // const [status, setStatus] = React.useState({});
+  // State variables for heart/like icon
   const [id, setId] = useState("ios-heart-outline");
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
@@ -68,28 +41,19 @@ export default function videoInfiniteScroll() {
         }}
       />
       <View style={styles.container}>
-        {/* <FlatList
-          data={videos}
-          renderItem={({ item, index }) => (
-            <VideoView videoName={item.videoName} />
-          )}
-          keyExtractor={(item) => item.id}
-        /> */}
         <ScrollView
           disableIntervalMomentum={true}
           snapToInterval={WindowHeight}
           decelerationRate={0.9}
         >
-          <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+          <Video // All video components based on code from // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/hello.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -106,15 +70,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/goodtoseeyou.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -131,15 +93,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/whatsup.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -156,15 +116,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/milk.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -181,15 +139,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/water.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -206,15 +162,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/baseball.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -231,15 +185,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/football.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
@@ -256,15 +208,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/coffee.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -280,15 +230,13 @@ export default function videoInfiniteScroll() {
             </Pressable>
           </View>
           <Video
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/soccer.mov")}
             useNativeControls
-            // resizeMode={ResizeMode.CONTAIN}
             isLooping
-            // shouldPlay
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
 
           <View style={styles.overlay}>
