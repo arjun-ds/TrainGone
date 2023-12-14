@@ -24,23 +24,7 @@ export default function Greetings() {
     useBottomTabBarHeight() -
     getStatusBarHeight();
 
-  //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-  const defaultScreenRatio =
-    Dimensions.get("window").width / Dimensions.get("window").height;
-
-  // Use the screenDefaultRatio to render the video before the video is loaded
-  const [videoRatio, setVideoRatio] = useState(defaultScreenRatio);
-
-  // Update the videoRatio right after we know the video natural size
-  const updateVideoRatioOnDisplay = (videoDetails) => {
-    const { width, height } = videoDetails.naturalSize;
-    const newVideoRatio = width / height;
-
-    setVideoRatio(newVideoRatio);
-  };
-  //END CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-
-  // when the heart button is clicked, it fills up or becomes an outline
+  // State variables for heart/like icon
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
       setId("ios-heart");
@@ -65,9 +49,9 @@ export default function Greetings() {
           snapToInterval={WindowHeight}
           decelerationRate={0.9}
         >
-          <Video
+          <Video // All video components based on code from // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/milk.mov")}
             useNativeControls
@@ -75,7 +59,7 @@ export default function Greetings() {
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -90,14 +74,14 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/water.mov")}
             useNativeControls
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -112,14 +96,14 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/coffee.mov")}
             useNativeControls
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -186,6 +170,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
-
-  video: { flex: 1 },
 });

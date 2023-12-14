@@ -26,25 +26,7 @@ export default function Greetings() {
     useBottomTabBarHeight() -
     getStatusBarHeight();
 
-  //BEGIN CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-  const defaultScreenRatio =
-    Dimensions.get("window").width / Dimensions.get("window").height;
-
-  // Use the screenDefaultRatio to render the video before the video is loaded
-  const [videoRatio, setVideoRatio] = useState(defaultScreenRatio);
-
-  // Update the videoRatio right after we know the video natural size
-  const updateVideoRatioOnDisplay = (videoDetails) => {
-    const { width, height } = videoDetails.naturalSize;
-    const newVideoRatio = width / height;
-
-    setVideoRatio(newVideoRatio);
-  };
-  //END CODE FROM https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
-
-  // const video = React.useRef(null);
-  // const [status, setStatus] = React.useState({});
-
+  // State variables for heart/like icon
   const adjustHeart = () => {
     if (id == "ios-heart-outline") {
       setId("ios-heart");
@@ -69,9 +51,9 @@ export default function Greetings() {
           snapToInterval={WindowHeight}
           decelerationRate={0.9}
         >
-          <Video
+          <Video // All video components based on code from // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/baseball.mov")}
             useNativeControls
@@ -79,7 +61,7 @@ export default function Greetings() {
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -94,7 +76,7 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/football.mov")}
             useNativeControls
@@ -102,7 +84,7 @@ export default function Greetings() {
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
@@ -117,7 +99,7 @@ export default function Greetings() {
           </View>
           <Video
             ref={video}
-            style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            style={styles.videos}
             resizeMode="cover"
             source={require("../../videos/soccer.mov")}
             useNativeControls
@@ -125,7 +107,7 @@ export default function Greetings() {
             isLooping
             shouldPlay="false"
             onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-            onReadyForDisplay={updateVideoRatioOnDisplay} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
+            onReadyForDisplay={() => null}
           />
           <View style={styles.overlay}>
             <View style={styles.description}>
