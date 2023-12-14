@@ -233,7 +233,7 @@ export default function profile() {
         }
       }
       setVideoList(videoList2);
-      setVideosUpdated(true); //updates videosUpdated for conditional rendering
+      if (assets.assets.length > 0) setVideosUpdated(true); //updates videosUpdated for conditional rendering IF album is not empty
       setNumDefinitions(assets.assets.length); // Sets number of definitions to the number of videos in TrainGone album
     }
 
@@ -247,7 +247,7 @@ export default function profile() {
     contentDisplayed = (
       <>
         {!videosUpdated ? (
-          // TrainGone album is empty => Display hard-coded image previews instead
+          // TrainGone album does not exist OR empty => Display hard-coded image previews instead
           <>
             <View style={styles.videos_container}>
               <Image
