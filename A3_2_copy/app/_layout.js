@@ -55,13 +55,14 @@ export default function HomeLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profileStack"
         // component={CameraScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="person" size={size} color={color} />
           ),
+          href: "profileStack/profile",
         }}
       />
       <Tabs.Screen

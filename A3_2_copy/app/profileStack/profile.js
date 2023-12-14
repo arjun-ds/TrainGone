@@ -15,13 +15,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Themes } from "../assets/Themes";
+import { Themes } from "../../assets/Themes";
 // import { router, Link } from "expo-router";
 import "expo-router/entry";
 import { Stack } from "expo-router/stack";
 import { Link } from "expo-router";
 
-import videoInfiniteScroll from "./feed/videoInfiniteScroll";
+import videoInfiniteScroll from "../feed/videoInfiniteScroll";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -31,6 +31,8 @@ import * as MediaLibrary from "expo-media-library";
 import { Video } from "expo-av";
 
 import * as VideoThumbnails from "expo-video-thumbnails";
+
+import { useNavigation } from "expo-router";
 
 // const album = await MediaLibrary.getAlbumAsync(albumName);
 
@@ -48,6 +50,8 @@ export default function profile() {
   const [videosUpdated, setVideosUpdated] = useState(false);
 
   const [finalURI, setFinalURI] = useState();
+
+  const navigation = useNavigation();
 
   const generateThumbnail = async () => {
     // console.log("GENTHUMB URI PARAM: " + videoURI);
@@ -205,20 +209,36 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 /> */}
-                {/* <Link href={{ pathname: "/profileVideoView" }}> */}
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI.uri }}
-                />
-                {/* </Link> */}
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI2.uri }}
-                />
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI3.uri }}
-                />
+                {/* <TouchableOpacity
+                  onPress={navigation.navigate("profileVideoView")}
+                > */}
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI.uri }}
+                  />
+                </Pressable>
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI2.uri }}
+                  />
+                </Pressable>
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI3.uri }}
+                  />
+                </Pressable>
               </View>
             </View>
           );
@@ -267,14 +287,24 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 /> */}
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI.uri }}
-                />
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI2.uri }}
-                />
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI.uri }}
+                  />
+                </Pressable>
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI2.uri }}
+                  />
+                </Pressable>
                 <View style={styles.video_individual} />
               </View>
             </View>
@@ -304,10 +334,15 @@ export default function profile() {
                   onPlaybackStatusUpdate={null}
                   onReadyForDisplay={null} //https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
                 /> */}
-                <Image
-                  style={styles.video_individual}
-                  source={{ uri: thumbURI.uri }}
-                />
+                <Pressable
+                  style={styles.video_button}
+                  onPress={() => navigation.navigate("profileVideoView")}
+                >
+                  <Image
+                    style={styles.video_individual}
+                    source={{ uri: thumbURI.uri }}
+                  />
+                </Pressable>
                 <View style={styles.video_individual} />
                 <View style={styles.video_individual} />
               </View>
@@ -338,29 +373,29 @@ export default function profile() {
             <View style={styles.videos_container}>
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video1.png")}
+                source={require("../../assets/Images/created-video1.png")}
               />
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video2.png")}
+                source={require("../../assets/Images/created-video2.png")}
               />
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video3.png")}
+                source={require("../../assets/Images/created-video3.png")}
               />
             </View>
             <View style={styles.videos_container}>
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video4.png")}
+                source={require("../../assets/Images/created-video4.png")}
               />
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video5.png")}
+                source={require("../../assets/Images/created-video5.png")}
               />
               <Image
                 style={styles.video_individual}
-                source={require("../assets/Images/created-video6.png")}
+                source={require("../../assets/Images/created-video6.png")}
               />
             </View>
           </>
@@ -391,15 +426,15 @@ export default function profile() {
         <View style={styles.videos_container}>
           <Image
             style={styles.video_individual}
-            source={require("../assets/Images/liked-video1.png")}
+            source={require("../../assets/Images/liked-video1.png")}
           />
           <Image
             style={styles.video_individual}
-            source={require("../assets/Images/liked-video2.png")}
+            source={require("../../assets/Images/liked-video2.png")}
           />
           <Image
             style={styles.video_individual}
-            source={require("../assets/Images/liked-video3.png")}
+            source={require("../../assets/Images/liked-video3.png")}
           />
         </View>
       </>
@@ -408,12 +443,13 @@ export default function profile() {
 
   return (
     <>
+      {/* <Stack.Screen /> */}
       <SafeAreaView>
         <ScrollView>
           <View style={styles.container}>
             <View style={styles.header}>
               <Image
-                source={require("../assets/Images/profile-pic.png")}
+                source={require("../../assets/Images/profile-pic.png")}
                 style={styles.profileImage}
               />
               <View style={styles.header_info}>
@@ -557,7 +593,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
 
-  video_individual: {
+  video_button: {
     flex: 1,
     // flexDirection: "row",
     // backgroundColor: Themes.colors.lightGrey,
@@ -566,6 +602,10 @@ const styles = StyleSheet.create({
 
     marginTop: 10,
     marginHorizontal: 5,
+    borderRadius: 10,
+  },
+  video_individual: {
+    flex: 1,
     borderRadius: 10,
   },
 });
