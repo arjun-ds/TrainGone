@@ -37,12 +37,19 @@ export default function Page() {
   const [searchText, setSearchText] = useState("");
 
   const searchWord = (value) => {
-    if (value == "Coffee" || value === "coffee") {
+    let lowerCase = value.toLowerCase();
+    let query = lowerCase.replace(/[^a-zA-Z0-9]/g, "");
+    const url = "service/" + query;
+    navigation.push(url);
+    {
+      /*if (value == "Coffee" || value === "coffee") {
       navigation.push("service/coffee");
     } else if (value === "Water" || value === "water") {
       navigation.push("service/water");
     } else if (value === "Milk" || value === "milk") {
       navigation.push("service/milk");
+    }
+  */
     }
   };
 

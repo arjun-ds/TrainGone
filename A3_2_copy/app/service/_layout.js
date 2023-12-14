@@ -90,6 +90,114 @@ export default function Layout() {
           ),
         }}
       />
+      <Stack.Screen
+        name="baseball"
+        options={{
+          headerShown: true,
+          title: "Baseball",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="football"
+        options={{
+          headerShown: true,
+          title: "Football",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="goodtoseeyou"
+        options={{
+          headerShown: true,
+          title: "Good to see you",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="hello"
+        options={{
+          headerShown: true,
+          title: "Hello",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="soccer"
+        options={{
+          headerShown: true,
+          title: "Soccer",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="whatsup"
+        options={{
+          headerShown: true,
+          title: "What's up",
+          headerBackTitle: "Back",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <AntDesign
+                name="left"
+                size={25}
+                color="black"
+                style={{ paddingLeft: 20 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </Stack>
   );
 }

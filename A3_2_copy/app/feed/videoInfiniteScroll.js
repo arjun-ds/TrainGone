@@ -108,7 +108,7 @@ export default function videoInfiniteScroll() {
           <Video
             style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="cover"
-            source={require("../../videos/good_to_see_you.mov")}
+            source={require("../../videos/goodtoseeyou.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
             isLooping
@@ -133,7 +133,7 @@ export default function videoInfiniteScroll() {
           <Video
             style={styles.videos} // https://stackoverflow.com/questions/72851324/how-to-make-expo-av-video-to-take-needed-inside-a-flatlist
             resizeMode="cover"
-            source={require("../../videos/what's_up.mov")}
+            source={require("../../videos/whatsup.mov")}
             useNativeControls
             // resizeMode={ResizeMode.CONTAIN}
             isLooping
