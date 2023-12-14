@@ -478,7 +478,7 @@ export default function createVideo() {
       //Checks Media Library Permissions
       const status = (await MediaLibrary.getPermissionsAsync())
         .accessPrivileges;
-      if (status !== "all") {
+      if (status == "limited" || status == "none") {
         //If missing permissions, send an alert that links to device's settings page
         Alert.alert(
           "Missing Permissions",

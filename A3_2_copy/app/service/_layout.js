@@ -15,8 +15,8 @@ export default function Layout() {
   const navigation = useNavigation();
   return (
     <Stack backBehavior="history">
-      // first navigation page
       <Stack.Screen
+        // first navigation page
         name="searchBySign"
         options={{
           headerShown: true,
@@ -33,9 +33,8 @@ export default function Layout() {
           ),
         }}
       />
-      //Each subsequent stack screen has the same structure //In some of them we
-      make the back button display "Back" because the other word was too long
       <Stack.Screen
+        //Each subsequent stack screen has the same structure
         name="coffee"
         options={{
           headerShown: true,
