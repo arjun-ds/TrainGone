@@ -3,22 +3,15 @@ import * as React from "react";
 import { Stack, useRouter } from "expo-router";
 
 import {
-  Button,
-  FlatList,
   Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import { Themes } from "../../assets/Themes";
-// import { router, Link } from "expo-router";
-// import "expo-router/entry";
 
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../../assets/Themes/colors";
 import { Octicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -28,6 +21,7 @@ export default function searchBySign() {
   const navigation = useRouter();
   const [indexes, setIndexes] = useState(0);
 
+  //Begin "Button" States (Used to determine which ASL/sign "buttons" are selected)
   const [handshapeButtonStates, setHandshapeButtonStates] = useState([
     {
       isPressed: false,
@@ -196,8 +190,9 @@ export default function searchBySign() {
       backgroundColor: colors.extraLightGrey,
     },
   ]);
+  //END Button States
 
-  // GPT asisted handle press.
+  //Begin assistant functions for handling button presses (based on GPT code)
   const handlePress = (index) => {
     const newButtonStates = [...handshapeButtonStates];
     newButtonStates[index].isPressed = !newButtonStates[index].isPressed;
@@ -247,7 +242,9 @@ export default function searchBySign() {
     }
     setPalmMovementStates(newPalmMovementStates);
   };
+  //End assistant functions
 
+  //Function for handling search
   const handleSearch = () => {
     if (
       handshapeButtonStates[2].isPressed &&
@@ -448,7 +445,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    //backgroundColor: "pink",
     backgroundColor: "white",
     paddingTop: 20,
     paddingBottom: 45,
@@ -461,8 +457,6 @@ const styles = StyleSheet.create({
   },
 
   grouping_txt: {
-    //paddingLeft: 10,
-    //marginLeft: 10,
     fontSize: 17,
     fontWeight: "bold",
     color: "black",
@@ -503,28 +497,16 @@ const styles = StyleSheet.create({
 
   handshape_image: {
     flex: 1,
-    // flexDirection: "row",
-    //backgroundColor: Themes.colors.lightGrey,
     height: 140,
-    // width: 80,
-    //marginTop: 5,
-    //marginHorizontal: 5,
     borderRadius: 10,
-    //marginLeft: 5,
     marginBottom: 10,
   },
 
   handshape: {
-    // flex: 1,
     flexDirection: "row",
-    // backgroundColor: Themes.colors.orange,
-    // height: 140,
     width: 90,
-    //marginHorizontal: 5,
-    //padding: 0,
     justifyContent: "center",
     alignItems: "flex-end",
-    // borderRadius: 10,
   },
   captionContainer: {
     position: "absolute",
@@ -535,7 +517,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   po2_captionContainer: {
-    //width: "100%",
     position: "absolute",
     backgroundColor: colors.extraLightGrey,
     borderRadius: 50,
