@@ -123,6 +123,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
                       title: "Title",
                     },
@@ -142,6 +143,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i + 1].id,
                       uri: generateAssetURI(assets.assets[i + 1].uri),
                     },
                   }}
@@ -160,6 +162,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i + 2].id,
                       uri: generateAssetURI(assets.assets[i + 2].uri),
                     },
                   }}
@@ -198,6 +201,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
                     },
                   }}
@@ -216,6 +220,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i + 1].id,
                       uri: generateAssetURI(assets.assets[i + 1].uri),
                     },
                   }}
@@ -249,6 +254,7 @@ export default function profile() {
                     params: {
                       // songTitle: title, // for debug purposes
                       // pageTitle: "Preview song",
+                      id: assets.assets[i].id,
                       uri: generateAssetURI(assets.assets[i].uri),
                     },
                   }}

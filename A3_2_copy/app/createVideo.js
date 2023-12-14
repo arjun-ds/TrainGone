@@ -543,6 +543,7 @@ export default function createVideo() {
         const albumName = "TrainGone";
         const album = await MediaLibrary.getAlbumAsync(albumName);
 
+        //Save Video to Device's Local Storage (Stored in TrainGone Album)
         if (album) {
           await MediaLibrary.addAssetsToAlbumAsync(
             [cachedAsset],
@@ -557,6 +558,18 @@ export default function createVideo() {
           await MediaLibrary.createAlbumAsync(albumName, asset).then(() => {
             navigation.navigate("profileStack");
           });
+        }
+
+        //Store Video Data Using AsyncStorage
+        try {
+          const jsonValue = JSON.stringify(data);
+          // console.log(
+          //   "STORE JSONVAL: " + JSON.parse(jsonValue).bodyLocation.Pos8
+          // );
+          console.log("VIDEO ID: " + cachedAsset.id);
+          await AsyncStorage.setItem(cachedAsset.id, jsonValue);
+        } catch (e) {
+          // saving error
         }
       }
     };
@@ -1189,7 +1202,7 @@ export default function createVideo() {
             // resolution={VideoQuality["720p"]}
             // maxFileSize={}
           >
-            <View
+            {/* <View
               style={{
                 position: "absolute",
                 top: 70,
@@ -1198,8 +1211,8 @@ export default function createVideo() {
             >
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Ionicons name="ios-close" size={35} color="grey" />
-              </TouchableOpacity>
-              {/* <Button
+              </TouchableOpacity> */}
+            {/* <Button
               title=""
               icon="retweet"
               onPress={() => {
@@ -1219,50 +1232,63 @@ export default function createVideo() {
               icon="flash"
               color={flash === Camera.Constants.FlashMode.off ? "gray" : "#fff"}
             /> */}
-            </View>
+            {/* </View> */}
             {!isRecording ? (
-              <View
-                style={{
-                  position: "absolute",
-                  top: 60,
-                  left: WindowWidth - 75,
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignContent: "space-between",
-                  // flex: 1,
-                  // backgroundColor: "white",
-                }}
-              >
-                <TouchableOpacity
-                  onPress={() => {
-                    setType(
-                      type === CameraType.front
-                        ? CameraType.back
-                        : CameraType.front
-                    );
+              <>
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 70,
+                    left: 30,
                   }}
                 >
-                  <MaterialIcons
-                    name="flip-camera-android"
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name="ios-close" size={35} color="grey" />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 60,
+                    left: WindowWidth - 75,
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    alignContent: "space-between",
+                    // flex: 1,
+                    // backgroundColor: "white",
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      setType(
+                        type === CameraType.front
+                          ? CameraType.back
+                          : CameraType.front
+                      );
+                    }}
+                  >
+                    <MaterialIcons
+                      name="flip-camera-android"
+                      size={45}
+                      color="grey"
+                      style={{ paddingVertical: 10 }}
+                    />
+                  </TouchableOpacity>
+                  <Ionicons
+                    name="ios-flash-off"
                     size={45}
                     color="grey"
                     style={{ paddingVertical: 10 }}
                   />
-                </TouchableOpacity>
-                <Ionicons
-                  name="ios-flash-off"
-                  size={45}
-                  color="grey"
-                  style={{ paddingVertical: 10 }}
-                />
-                <FontAwesome
-                  name="magic"
-                  size={45}
-                  color="grey"
-                  style={{ paddingVertical: 10 }}
-                />
-                {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
-              </View>
+                  <FontAwesome
+                    name="magic"
+                    size={45}
+                    color="grey"
+                    style={{ paddingVertical: 10 }}
+                  />
+                  {/* <FontAwesome5 name="magic" size={45} color="grey" /> */}
+                </View>
+              </>
             ) : (
               <></>
             )}
