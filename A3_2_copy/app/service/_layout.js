@@ -10,6 +10,7 @@ import { Stack } from "expo-router/stack";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "expo-router/src/useNavigation";
+import { Themes } from "../../assets/Themes";
 
 export default function Layout() {
   const navigation = useNavigation();
